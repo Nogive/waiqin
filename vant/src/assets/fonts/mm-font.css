@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'mm-font';
+  src: url('../../assets/fonts/iconfont.ttf') format('truetype');;
+}
+.van-icon{
+  font-family: 'vant-icon', 'mm-font' !important;
+}
+.van-icon-waiqinqiandao:before { content: "\e676"; }
+
+.van-icon-kaoqin:before { content: "\e62b"; }
+
+.van-icon-port-lcsp:before { content: "\e769"; }
+
+.van-icon-waiqinb:before { content: "\e6ad"; }
+
+.van-icon-xiehuibao:before { content: "\e6f8"; }
+
+.van-icon-siyouyun:before { content: "\e606"; }
+
+.van-icon-tongzhi:before { content: "\e600"; }
+
+.van-icon-ditu:before { content: "\e760"; }
+
+.van-icon-gongzuotai:before { content: "\e68c"; }
+
+.van-icon-sun:before { content: "\e601"; }

@@ -1,0 +1,60 @@
+@charset "UTF-8";
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+.logo{
+  width: 50%;
+}
+body{
+  background: rgb(240,239,244);
+}
+p{
+  margin: 6px 0px;
+  font-size: 0.8rem;
+}
+/* 颜色 */
+.red{
+  color:rgb(244,71,63);
+}
+.bg-red{
+  background-color: rgb(244,71,63);
+}
+.yellow{
+  color:rgb(255,171,40);
+}
+.bg-yellow{
+  background-color: rgb(255,171,40);
+}
+.orange{
+  color:rgb(251,128,68);
+}
+.bg-orange{
+  background-color: rgb(251,128,68);
+}
+.green{
+  color:rgb(0,175,136)
+}
+.bg-green{
+  background-color: rgb(0,175,136)
+}
+.blue{
+  color:#38f
+}
+.bg-blue{
+  background-color: #38f
+}
+.qian-gley{
+  color:rgb(244,244,244);
+}
+.bg-qian-gley{
+  background-color:rgb(244,244,244);
+}
+.grey{
+  color:rgb(197,197,197);
+}
+.bg-grey{
+  background-color:rgb(197,197,197);
+}
