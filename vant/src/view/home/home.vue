@@ -10,8 +10,8 @@
       <van-panel class="padd15">
         <van-row class="panel-body" gutter="30">
           <van-col span="6">
-            <span>0</span>
-            <p>出勤人数</p>
+            <span>{{count}}</span>
+            <p @click="increment">出勤人数</p>
           </van-col>
           <van-col span="6">
             <span>0</span>
