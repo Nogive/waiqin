@@ -1,6 +1,6 @@
 <template>
   <div class="login-box">
-    <img src="../../assets/logo.jpg" class="logo">
+    <img src="../../assets/images/logo.jpg" class="logo">
     <p>欢迎登录！</p>
     <van-cell-group>
       <van-field
@@ -26,7 +26,7 @@
         @click="passwordError=false"
       />
     </van-cell-group>
-    <van-button class="loginBtn" @click='logIn'>登录</van-button>
+    <van-button class="large-btn" @click='logIn'>登录</van-button>
   </div>
 </template>
 
@@ -42,11 +42,5 @@ h1, h2 {
   height: -webkit-fill-available;
   background: white;
   padding-top: 6rem;
-}
-.loginBtn{
-  margin-top: 2rem;
-  width: 80%;
-  background: #39a9ed;
-  color: white;
 }
 </style>

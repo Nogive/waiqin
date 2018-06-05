@@ -11,7 +11,9 @@ import {
   TabbarItem,
   Icon,
   Panel,
-  Toast
+  Toast,
+  Tab,
+  Tabs
 } from "vant";
 
 Vue.use(Button);
@@ -23,3 +25,4 @@ Vue.use(Tabbar).use(TabbarItem);
 Vue.use(Icon);
 Vue.use(Panel);
 Vue.use(Toast);
+Vue.use(Tab).use(Tabs);

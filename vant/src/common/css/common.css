@@ -15,6 +15,14 @@ p{
   margin: 6px 0px;
   font-size: 0.8rem;
 }
+h1,h2,h3,h4{
+  margin: 6px 0px;;
+}
+.clearfix:after{
+  content:'';
+  clear:both;
+  display: table;
+}
 /* 颜色 */
 .red{
   color:rgb(244,71,63);
@@ -57,4 +65,13 @@ p{
 }
 .bg-grey{
   background-color:rgb(197,197,197);
+}
+/* 大按钮 */
+.large-btn{
+  display: block;
+  margin: 0 auto;
+  margin-top: 2rem;
+  width: 80%;
+  background: #39a9ed;
+  color: white;
 }

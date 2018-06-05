@@ -4,6 +4,7 @@ import Home from "../view/home/Home.vue";
 import Login from "../view/login/Login.vue";
 import { Toast } from "vant";
 import attendenceClockin from "../view/attendence/clockin/Clockin.vue";
+import attendenceClockDetail from "../view/attendence/clockin/ClockDetail.vue";
 
 Vue.use(Router);
 
@@ -19,9 +20,14 @@ const routes = [
     component: Login
   },
   {
-    path: "/clockin",
+    path: "/clockin", //打卡
     name: "clockin",
     component: attendenceClockin
+  },
+  {
+    path: "/clockDetail", //打卡详情
+    name: "clockDetail",
+    component: attendenceClockDetail
   }
 ];
 const router = new Router({
