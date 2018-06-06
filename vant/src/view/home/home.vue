@@ -38,7 +38,7 @@
       <van-panel>
         <van-row class="panel-body" gutter="30">
           <van-col span="6">
-            <router-link to="/clockin" class="red">
+            <router-link to="/clockHome" class="red">
               <van-icon name="kaoqin"></van-icon>
               <p>考勤</p>
             </router-link>

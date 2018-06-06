@@ -13,7 +13,11 @@ import {
   Panel,
   Toast,
   Tab,
-  Tabs
+  Tabs,
+  Loading,
+  Popup,
+  Checkbox,
+  CheckboxGroup
 } from "vant";
 
 Vue.use(Button);
@@ -26,3 +30,6 @@ Vue.use(Icon);
 Vue.use(Panel);
 Vue.use(Toast);
 Vue.use(Tab).use(Tabs);
+Vue.use(Loading);
+Vue.use(Popup);
+Vue.use(Checkbox).use(CheckboxGroup);

@@ -6,7 +6,7 @@
       left-text="返回"
       @click-left="reback"
     />
-    <div class="attendence-detail-box">
+    <div class="clock-detail-box">
       <van-row>
         <van-col span="6">打卡时间</van-col>
         <van-col span="18" class="red">17:23 pm</van-col>
@@ -34,7 +34,7 @@
               <a href="javascript:;" @click="takePhoto"></a>
             </van-col>
             <van-col span="6">
-              <img @click="photoPreview" src="../../../assets/images/cat.jpg" alt="">
+              <img @click="photoPreview(testUrl)" :src="testUrl" alt="">
             </van-col>
             <van-col span="6">
               <img src="../../../assets/images/cat1.jpg" alt="">
@@ -50,6 +50,13 @@
       </van-row>
     </div>
     <van-button class="large-btn" size="large">确认打卡</van-button>
+
+    <van-popup v-model="showPhoto" class="modal-box">
+      <van-icon name="delete" @click="deletePhoto"></van-icon>
+      <img :src="currentUrl" alt="">
+    </van-popup>
+
+
   </div>
 </template>
 <script>
@@ -59,29 +66,33 @@ export default {
   name:'attendenceDetail',
   data(){
     return {
+      testUrl:'https://avatars1.githubusercontent.com/u/24405319?s=460&v=4',
       tabIndex:0,
-      message:''
+      message:'',
+      showPhoto:false,
+      currentUrl:''
     }
   },
   methods:{
     reback(){
-      router.push('/clockin');
+      router.push('/clockHome');
     },
     takePhoto(){
       Toast('打开摄像头');
     },
-    photoPreview(){
-      ImagePreview([
-        '../../../assets/images/cat.jpg',
-        '../../../assets/images/cat1.jpg'
-      ],1);
+    photoPreview(url){
+      this.currentUrl=url;
+      this.showPhoto=true;
+    },
+    deletePhoto(){
+      this.showPhoto=false;
     }
   }
 }
 </script>
 
 <style scoped>
-  .attendence-detail-box{
+  .clock-detail-box{
     margin-top: 0.7rem;
     background-color: white;
     padding: 0rem 0.7rem 0.7rem;
@@ -122,5 +133,19 @@ export default {
   .photo-box>div{
     height: 55px;
     margin-bottom: 1rem;
+  }
+  .van-popup{
+    width: 100%;
+    background: transparent;
+  }
+  .van-popup .van-icon{
+    font-size: 1.5rem;
+    color: #38f;
+    position: absolute;
+    right: 0.5rem;
+    top:0.5rem;
+  }
+  .modal-box img{
+    width: 100%;
   }
 </style>

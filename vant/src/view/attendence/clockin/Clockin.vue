@@ -1,66 +1,87 @@
 <template>
-  <div>
+  <div class="attendence-box">
     <van-nav-bar
       title="打卡"
       left-arrow
       left-text="返回"
       @click-left="reback"
-    />
-    <div class="attendence-box">
-      <van-tabs v-model="tabIndex">
-        <van-tab title="上下班">
-          <div class="work-box">
-            <van-row class="work-body" gutter="20">
-              <van-col span="4" class="work-icon">
-                <van-icon name="gotowork"></van-icon>
+    >
+      <van-icon name="more-o" slot="right" />
+    </van-nav-bar>
+    <van-tabs v-model="tabIndex">
+      <van-tab title="上下班">
+        <div class="work-box">
+          <van-row class="work-body" gutter="20">
+            <van-col span="4" class="work-icon">
+              <van-icon name="gotowork"></van-icon>
+            </van-col>
+            <van-col span="20" class="work-r">
+              <van-col span="16">
+                <h4>上班</h4>
+                <p>09:00</p>
               </van-col>
-              <van-col span="20" class="work-r">
-                <van-col span="16">
-                  <h4>上班</h4>
-                  <p>09:00</p>
-                </van-col>
-                <van-col span="8" class="work-btn">
-                  <p class="sign-in" v-show="show">
-                    <van-icon name="sun"></van-icon>已签到 22:27
-                  </p>
-                  <van-button v-show="show1" size="small" type="danger" @click="goSign">签到</van-button>
-                </van-col>
+              <van-col span="8" class="work-btn">
+                <p class="sign-in" v-show="show">
+                  <van-icon name="sun"></van-icon>已签到 22:27
+                </p>
+                <van-button v-show="show1" size="small" type="danger" @click="goSign">签到</van-button>
               </van-col>
-            </van-row>
+            </van-col>
+          </van-row>
 
-            <van-row class="work-body disable-color" gutter="20">
-              <van-col span="4" class="work-icon">
-                <van-icon name="afterwork"></van-icon>
+          <van-row class="work-body disable-color" gutter="20">
+            <van-col span="4" class="work-icon">
+              <van-icon name="afterwork"></van-icon>
+            </van-col>
+            <van-col span="20" class="work-r">
+              <van-col span="16">
+                <h4>下班</h4>
+                <p>23:00</p>
               </van-col>
-              <van-col span="20" class="work-r">
-                <van-col span="16">
-                  <h4>下班</h4>
-                  <p>23:00</p>
-                </van-col>
-                <van-col span="8" class="work-btn">
-                  <p class="sign-in" v-show="show">
-                    <van-icon name="sun"></van-icon>已签到 22:27
-                  </p>
-                  <a  v-show="show" href="javascript:;" class="blue">更新</a>
-                  <van-button v-show="show1" size="small" class="before-start" disabled>未开始</van-button>
-                </van-col>
+              <van-col span="8" class="work-btn">
+                <p class="sign-in" v-show="show">
+                  <van-icon name="sun"></van-icon>已签到 22:27
+                </p>
+                <a  v-show="show" href="javascript:;" class="blue">更新</a>
+                <van-button v-show="show1" size="small" class="before-start" disabled>未开始</van-button>
               </van-col>
+            </van-col>
+          </van-row>
+        </div>
+      </van-tab>
+      <van-tab title="外出">
+        <div class="work-box out-box">
+          <van-row>
+            <van-col span="18">
+              <p class="out-title">外出记录</p>
+            </van-col>
+            <van-col span="6" class="text-right">
+              <router-link to="/clockDetail">
+                <van-button size="small" class="bg-blue">新增打卡</van-button>
+              </router-link>
+            </van-col>
+          </van-row>
+          <van-row v-show="outRecord" class="no-record grey">
+            <van-col offset="4" span="16">
+              <van-icon name="waiqinb"></van-icon>
+              <h2>今日无外出记录</h2>
+            </van-col>
+          </van-row>
+          <div class="record-box">
+            <van-row class="one-record">
+              <router-link to="/clockDetail">
+              <van-col span="18">
+                <p class="out-title">第1次打卡</p>
+              </van-col>
+              <van-col span="6" class="blue text-right padd5">13:35</van-col>
+              <van-col span="24" class="show-one-line">地点：上海市新华路128号</van-col>
+              <van-col span="24" class="show-one-line">备注：税务局办事</van-col>
+              </router-link>
             </van-row>
           </div>
-        </van-tab>
-        <van-tab title="外出">
-          <van-panel title="标题" desc="描述信息" status="状态">
-            <div>内容</div>
-          </van-panel>
-        </van-tab>
-      </van-tabs>
-    </div>
-
-    <van-tabbar v-model="menuIndex">
-      <van-tabbar-item icon="marker">打卡</van-tabbar-item>
-      <van-tabbar-item icon="tongji">统计</van-tabbar-item>
-      <van-tabbar-item icon="guize" >规则</van-tabbar-item>
-    </van-tabbar>
+        </div>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 <script>
@@ -72,7 +93,8 @@ export default {
       menuIndex:0,
       tabIndex:0,
       show:false,
-      show1:true
+      show1:true,
+      outRecord:false
     }
   },
   methods:{
@@ -148,6 +170,36 @@ export default {
 
   .disable-color .work-icon{
     background: #e5e5e5;
+  }
+
+
+  .out-box{
+    padding: 0.7rem;
+    padding-bottom: 10rem;
+  }
+  .out-title{
+    font-size: 1rem;
+  }
+  .no-record{
+    text-align: center;
+    padding:4rem 0 0;
+  }
+  .no-record .van-icon{
+    font-size: 4rem;
+  }
+  .no-record h2{
+    font-weight: normal;
+  }
+  .one-record{
+    border: 1px solid #a7a4a4;
+    padding: 0.3rem;
+    margin: 0.8rem 0;
+  }
+  .one-record .van-col-24{
+    margin-bottom: 0.5rem;
+  }
+  .padd5{
+    padding-top: 0.5rem;
   }
   
 </style>

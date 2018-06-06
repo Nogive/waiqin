@@ -18,10 +18,8 @@ p{
 h1,h2,h3,h4{
   margin: 6px 0px;;
 }
-.clearfix:after{
-  content:'';
-  clear:both;
-  display: table;
+a{
+  color: inherit;
 }
 /* 颜色 */
 .red{
@@ -29,30 +27,35 @@ h1,h2,h3,h4{
 }
 .bg-red{
   background-color: rgb(244,71,63);
+  color: white;
 }
 .yellow{
   color:rgb(255,171,40);
 }
 .bg-yellow{
   background-color: rgb(255,171,40);
+  color: white;
 }
 .orange{
   color:rgb(251,128,68);
 }
 .bg-orange{
   background-color: rgb(251,128,68);
+  color: white;
 }
 .green{
   color:rgb(0,175,136)
 }
 .bg-green{
-  background-color: rgb(0,175,136)
+  background-color: rgb(0,175,136);
+  color: white;
 }
 .blue{
-  color:#38f
+  color:#38f;
 }
 .bg-blue{
-  background-color: #38f
+  background-color: #38f;
+  color: white;
 }
 .qian-gley{
   color:rgb(244,244,244);
@@ -66,6 +69,15 @@ h1,h2,h3,h4{
 .bg-grey{
   background-color:rgb(197,197,197);
 }
+.text-right{
+  text-align: right;
+}
+/* 清除浮动 */
+.clearfix:after{
+  content:'';
+  clear:both;
+  display: table;
+}
 /* 大按钮 */
 .large-btn{
   display: block;
@@ -74,4 +86,10 @@ h1,h2,h3,h4{
   width: 80%;
   background: #39a9ed;
   color: white;
+}
+/* 单行显示 */
+.show-one-line{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
