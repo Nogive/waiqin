@@ -5,6 +5,9 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+*{
+  box-sizing: border-box;
+}
 .logo{
   width: 50%;
 }
@@ -71,6 +74,9 @@ a{
 }
 .text-right{
   text-align: right;
+}
+.text-center{
+  text-align: center;
 }
 /* 清除浮动 */
 .clearfix:after{

@@ -1,27 +1,27 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "../view/home/Home.vue";
-import Login from "../view/login/Login.vue";
+import Home from "@/view/home/Home.vue";
+import Login from "@/view/login/Login.vue";
 import { Toast } from "vant";
 Vue.use(Router);
 
 //考勤
-import clockHome from "../view/attendence/clockHome/ClockHome.vue";
+import clockHome from "@/view/attendence/clockHome/ClockHome.vue";
 
 //考勤-打卡
-import clockIn from "../view/attendence/clockIn/ClockIn.vue";
+import clockIn from "@/view/attendence/clockIn/ClockIn.vue";
 //打卡详情
-import clockDetail from "../view/attendence/clockIn/ClockDetail.vue";
+import clockDetail from "@/view/attendence/clockIn/ClockDetail.vue";
 
 //考勤-统计
-import clockCount from "../view/attendence/clockCount/ClockCount.vue";
+import clockCount from "@/view/attendence/clockCount/ClockCount.vue";
 
 //考勤-规则
-import clockRule from "../view/attendence/clockRule/ClockRule.vue";
+import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
 //新增、编辑规则
-import writeRule from "../view/attendence/clockRule/WriteRule.vue";
+import writeRule from "@/view/attendence/clockRule/WriteRule.vue";
 //设置打卡人员
-import setClockPerson from "../view/attendence/clockRule/SetClockPerson.vue";
+import setClockPerson from "@/view/attendence/clockRule/SetClockPerson.vue";
 
 const routes = [
   {

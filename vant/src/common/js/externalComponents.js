@@ -17,7 +17,8 @@ import {
   Loading,
   Popup,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  SwitchCell
 } from "vant";
 
 Vue.use(Button);
@@ -33,3 +34,4 @@ Vue.use(Tab).use(Tabs);
 Vue.use(Loading);
 Vue.use(Popup);
 Vue.use(Checkbox).use(CheckboxGroup);
+Vue.use(SwitchCell);
