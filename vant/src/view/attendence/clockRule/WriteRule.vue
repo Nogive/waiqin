@@ -14,7 +14,7 @@
       </van-cell-group>
       <van-cell-group>
         <van-cell title="打卡日期" is-link :value="checkedDate.toString()" @click="datePopup=true" />
-        <van-cell title="打卡时间" is-link value="09:00-12:00" />
+        <van-cell title="打卡时间" is-link value="09:00-12:00" @click="timePopup=true" />
       </van-cell-group>
       <van-cell-group>
         <van-cell title="打卡位置" is-link value="钦汇园" />
@@ -23,15 +23,15 @@
     </div>
 
     <!-- 规则名 -->
-    <van-popup v-model="rulePopup" position="right" :overlay="false">
+    <van-popup class="page-all" v-model="rulePopup" position="right" :overlay="false">
       <van-nav-bar
-      title="编辑名称"
-      left-arrow
-      left-text="返回"
-      right-text="确定"
-      @click-left="rulePopup=false"
-      @click-right="setName"
-    />
+        title="编辑名称"
+        left-arrow
+        left-text="返回"
+        right-text="确定"
+        @click-left="rulePopup=false"
+        @click-right="setName"
+      />
       <van-cell-group>
         <van-field 
         v-model="ruleName" 
@@ -45,45 +45,83 @@
     </van-popup>
 
     <!-- 打卡日期 -->
-    <van-popup v-model="datePopup" position="right" :overlay="false">
+    <van-popup class="page-all" v-model="datePopup" position="right" :overlay="false">
       <van-nav-bar
-      title="设置打卡日期"
-      left-arrow
-      left-text="返回"
-      right-text="确定"
-      @click-left="datePopup=false"
-      @click-right="datePopup=false"
-    />
-    <van-checkbox-group v-model="checkedDate">
+        title="设置打卡日期"
+        left-arrow
+        left-text="返回"
+        right-text="确定"
+        @click-left="datePopup=false"
+        @click-right="datePopup=false"
+      />
+      <van-checkbox-group v-model="checkedDate">
+        <van-cell-group>
+          <van-cell title="每周一">
+            <van-checkbox name="周一" />
+          </van-cell>
+          <van-cell title="每周二">
+            <van-checkbox name="周二" />
+          </van-cell>
+          <van-cell title="每周三">
+            <van-checkbox name="周三" />
+          </van-cell>
+          <van-cell title="每周四">
+            <van-checkbox name="周四" />
+          </van-cell>
+          <van-cell title="每周五">
+            <van-checkbox name="周五" />
+          </van-cell>
+          <van-cell title="每周六">
+            <van-checkbox name="周六" />
+          </van-cell>
+          <van-cell title="每周日">
+            <van-checkbox name="周日" />
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
       <van-cell-group>
-        <van-cell title="每周一">
-          <van-checkbox name="周一" />
-        </van-cell>
-        <van-cell title="每周二">
-          <van-checkbox name="周二" />
-        </van-cell>
-        <van-cell title="每周三">
-          <van-checkbox name="周三" />
-        </van-cell>
-        <van-cell title="每周四">
-          <van-checkbox name="周四" />
-        </van-cell>
-        <van-cell title="每周五">
-          <van-checkbox name="周五" />
-        </van-cell>
-        <van-cell title="每周六">
-          <van-checkbox name="周六" />
-        </van-cell>
-        <van-cell title="每周日">
-          <van-checkbox name="周日" />
-        </van-cell>
-      </van-cell-group>
-    </van-checkbox-group>
-    <van-cell-group>
-      <van-switch-cell v-model="checked" title="法定节假日不用打卡" />
-      <van-switch-cell v-model="checked" title="非工作日允许打卡" />
-    </van-cell-group> 
+        <van-switch-cell v-model="checked" title="法定节假日不用打卡" />
+        <van-switch-cell v-model="checked" title="非工作日允许打卡" />
+      </van-cell-group> 
     </van-popup>
+
+    <!-- 打卡时间 -->
+    <van-popup class="page-all" v-model="timePopup" position="right" :overlay="false">
+      <van-nav-bar
+        title="设置打卡时间"
+        left-arrow
+        left-text="返回"
+        right-text="确定"
+        @click-left="timePopup=false"
+        @click-right="timePopup=false"
+      />
+      <van-cell-group>
+        <van-cell title="一天内上下班次数" is-link :value="`${workNum}次`" @click="workTimesPopup=true" />
+      </van-cell-group> 
+      <van-cell-group>
+        <van-cell title="上班" is-link :value="beforeWork" @click="checkOnWorkTime('beforeWork')" />
+        <van-cell title="下班" is-link :value="afterWork" @click="checkOnWorkTime('afterWork')"  />
+      </van-cell-group> 
+    </van-popup>
+    <!-- 上下班次数 -->
+    <van-popup class="w60" v-model="workTimesPopup">
+      <van-cell-group>
+        <van-cell title="一天内上下班次数" />
+        <van-cell title="1次" @click="checkWorkTime(1)" />
+        <van-cell title="2次" @click="checkWorkTime(2)" />
+        <van-cell title="3次" @click="checkWorkTime(3)" />
+      </van-cell-group> 
+    </van-popup>
+    <!-- 选择时间 -->
+    <van-datetime-picker
+      v-show="showTimePanel"
+      v-model="currentTime"
+      type="time"
+      @confirm="showTimePanel=false"
+      @cancel="showTimePanel=false"
+      @change='pickerTime'
+    />
+
   </div>
 </template>
 <script>
@@ -97,7 +135,15 @@ export default {
       showError:false,
       datePopup:false,
       checkedDate:['周一','周五'],
-      checked:true
+      checked:true,
+      timePopup:false,
+      workNum:1,
+      workTimesPopup:false,
+      currentTime:'12:00',
+      showTimePanel:false,
+      beforeWork:'09:00',
+      afterWork:'18:00',
+      current:'',
     }
   },
   methods:{
@@ -110,6 +156,17 @@ export default {
       }else{
         this.rulePopup=false;
       }
+    },
+    checkWorkTime(n){
+      this.workNum=n;
+      this.workTimesPopup=false;
+    },
+    checkOnWorkTime(field){
+      this.current=field;
+      this.showTimePanel=true;
+    },
+    pickerTime(){
+      this[[this.current]]=this.currentTime;
     }
   }
 }
@@ -120,18 +177,28 @@ export default {
     margin-top: 0.7rem;
   }
 
-  .van-popup{
+  .page-all{
     width: 100%;
     height:100%;
     background: rgb(240,239,244); 
   }
-  .van-popup .van-cell-group{
+  .page-all .van-cell-group{
     margin-top: 0.7rem;
   }
+
   .van-switch-cell{
     border-bottom: 1px solid #e5e5e5;
   }
   .van-switch-cell:last-child{
     border-bottom: none;
   }
+
+  .w60{
+    width: 60%;
+  }
+
+  .van-picker{
+    z-index: 3000;
+  }
+
 </style>
