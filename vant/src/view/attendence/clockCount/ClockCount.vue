@@ -2,21 +2,17 @@
   <div>
     <div class="attendence-box">
       <van-nav-bar
-        title="统计"
+        title="考勤统计"
         left-arrow
         left-text="返回"
         @click-left="reback"
       />
-      <van-row>
-        <van-col span="18">
-          <p class="out-title">统计记录</p>
-        </van-col>
-        <van-col span="6" class="text-right">
-          <router-link to="/clockDetail">
-            <van-button size="small" class="bg-blue">新增打卡</van-button>
-          </router-link>
-        </van-col>
-      </van-row>
+      <van-cell-group>
+        <van-cell title="外出统计" is-link />
+      </van-cell-group>
+      <van-cell-group class="history-box">
+        <van-cell title="我的考勤历史 >" class="text-center blue" />
+      </van-cell-group>
     </div>
   </div>
 </template>
@@ -26,7 +22,6 @@ export default {
   name:'attendence',
   data(){
     return {
-      menuIndex:0,
     }
   },
   methods:{
@@ -38,6 +33,13 @@ export default {
 </script>
 
 <style scoped>
-  
+.van-cell-group{
+  margin-top: 0.7rem;
+}
+.history-box{
+  position: fixed;
+  bottom: 50px;
+  width: 100%;
+}
   
 </style>

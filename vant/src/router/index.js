@@ -22,6 +22,8 @@ import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
 import writeRule from "@/view/attendence/clockRule/WriteRule.vue";
 //设置打卡人员
 import setClockPerson from "@/view/attendence/clockRule/SetClockPerson.vue";
+//设置打卡地点
+import setClockPlace from "@/view/attendence/clockRule/SetClockPlace.vue";
 
 const routes = [
   {
@@ -68,6 +70,11 @@ const routes = [
     path: "/setClockPerson",
     name: "setClockPerson",
     component: setClockPerson
+  },
+  {
+    path: "/setClockPlace",
+    name: "setClockPlace",
+    component: setClockPlace
   }
 ];
 const router = new Router({

@@ -17,7 +17,7 @@
         <van-cell title="打卡时间" is-link value="09:00-12:00" @click="timePopup=true" />
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="打卡位置" is-link value="钦汇园" />
+        <van-cell title="打卡位置" is-link :value="address" @click="locationPopup=true" />
       </van-cell-group>
       <van-button size="large" class="large-btn">删除规则</van-button>
     </div>
@@ -121,6 +121,36 @@
       @cancel="showTimePanel=false"
       @change='pickerTime'
     />
+    <!-- 打卡位置——非无限制 -->
+    <van-popup class="page-all" v-model="locationPopup" position="right" :overlay="false">
+      <van-nav-bar
+        title="设置打卡位置"
+        left-arrow
+        left-text="返回"
+        @click-left="locationPopup=false"
+      />
+      <div class="rule-body">
+        <div class="one-rule">
+          <router-link to="/setClockPlace">
+            <van-row>
+              <van-col span="3">地点</van-col>
+              <van-col span="21">宾阳路60号临</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="3">地址</van-col>
+              <van-col span="21">上海市上海市徐汇区宾阳路60号临徐汇区宾阳路60号临</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="3">范围</van-col>
+              <van-col span="21">300米</van-col>
+            </van-row>
+          </router-link>
+        </div>
+      </div>
+      <van-cell-group> 
+        <van-cell title="添加位置" icon="add" class="blue" />
+      </van-cell-group>
+    </van-popup>
 
   </div>
 </template>
@@ -144,6 +174,8 @@ export default {
       beforeWork:'09:00',
       afterWork:'18:00',
       current:'',
+      address:'无限制',
+      locationPopup:false
     }
   },
   methods:{
@@ -201,4 +233,26 @@ export default {
     z-index: 3000;
   }
 
+  .rule-body{
+    margin: 0.7rem 0;
+    background-color: white;
+    border-top:1px solid #e5e5e5;
+    border-bottom:1px solid #e5e5e5;
+  }
+  .one-rule{
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .one-rule:last-child{
+    border-bottom: none;
+  }
+  .one-rule .van-row{
+    margin-top: 0.5rem;
+  }
+  .one-rule .van-row:first-child{
+    margin-top: 0;
+  }
+  .one-rule .van-row .van-col-3{
+    color: #777575;
+  }
 </style>

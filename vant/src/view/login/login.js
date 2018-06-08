@@ -32,7 +32,7 @@ export default {
     }
   }
 };
-const tempUrl = "http://218.78.187.216/api/v1/authentication";
+const tempUrl = "http://mjp.waiqin.co/api/v1/authentication";
 function requestLogin(params) {
   console.log(params);
   axios
