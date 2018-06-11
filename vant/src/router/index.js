@@ -15,6 +15,12 @@ import clockDetail from "@/view/attendence/clockIn/ClockDetail.vue";
 
 //考勤-统计
 import clockCount from "@/view/attendence/clockCount/ClockCount.vue";
+//我的考勤历史
+import clockHistory from "@/view/attendence/clockCount/ClockHistory.vue";
+//日——打卡记录
+import dailyRecord from "@/view/attendence/clockCount/DailyRecord.vue";
+//考勤月报表
+import monthlyRecord from "@/view/attendence/clockCount/MonthlyRecord.vue";
 
 //考勤-规则
 import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
@@ -75,6 +81,21 @@ const routes = [
     path: "/setClockPlace",
     name: "setClockPlace",
     component: setClockPlace
+  },
+  {
+    path: "/clockHistory",
+    name: "clockHistory",
+    component: clockHistory
+  },
+  {
+    path: "/dailyRecord",
+    name: "dailyRecord",
+    component: dailyRecord
+  },
+  {
+    path: "/monthlyRecord",
+    name: "monthlyRecord",
+    component: monthlyRecord
   }
 ];
 const router = new Router({
