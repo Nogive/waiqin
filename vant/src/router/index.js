@@ -17,10 +17,16 @@ import clockDetail from "@/view/attendence/clockIn/ClockDetail.vue";
 import clockCount from "@/view/attendence/clockCount/ClockCount.vue";
 //我的考勤历史
 import clockHistory from "@/view/attendence/clockCount/ClockHistory.vue";
-//日——打卡记录
+//打卡记录(日)
 import dailyRecord from "@/view/attendence/clockCount/DailyRecord.vue";
 //考勤月报表
 import monthlyRecord from "@/view/attendence/clockCount/MonthlyRecord.vue";
+//正常考勤
+import normalClock from "@/view/attendence/clockCount/NormalClock.vue";
+//考勤详情(部门)
+import clockDetailForDepart from "@/view/attendence/clockCount/ClockDetailForDepart.vue";
+//正常考勤人员
+import normalClockPerson from "@/view/attendence/clockCount/NormalClockPerson.vue";
 
 //考勤-规则
 import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
@@ -96,6 +102,21 @@ const routes = [
     path: "/monthlyRecord",
     name: "monthlyRecord",
     component: monthlyRecord
+  },
+  {
+    path: "/normalClock",
+    name: "normalClock",
+    component: normalClock
+  },
+  {
+    path: "/clockDetailForDepart",
+    name: "clockDetailForDepart",
+    component: clockDetailForDepart
+  },
+  {
+    path: "/normalClockPerson",
+    name: "normalClockPerson",
+    component: normalClockPerson
   }
 ];
 const router = new Router({

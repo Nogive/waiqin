@@ -12,24 +12,42 @@
       </div>
     </van-nav-bar>
     <van-checkbox-group v-model="result">
-      <van-row class="person-box">
-        <van-col class="w40">
-          <van-checkbox name="name1" />
-        </van-col>
-        <van-col class="w50">
-          <img :src="headImg" alt="">
-        </van-col>
-        <van-col class="van-cell-text wauto">张三</van-col>
-      </van-row>
-      <van-row class="person-box">
-        <van-col class="w40">
-          <van-checkbox name="name2" />
-        </van-col>
-        <van-col class="w50">
-          <img :src="headImg" alt="">
-        </van-col>
-        <van-col class="van-cell-text wauto">业务部</van-col>
-      </van-row>
+      <div @click="dropDepart">
+        <van-row class="person-box">
+          <van-col class="w40">
+            <van-checkbox name="name1" />
+          </van-col>
+          <van-col class="w50">
+            <img :src="headImg" alt="">
+          </van-col>
+          <van-col class="van-cell-text wauto">张三</van-col>
+        </van-row>
+      </div>
+
+      <div @click="dropDepart">
+        <van-row class="person-box">
+          <van-col class="w40">
+            <van-checkbox name="name2" />
+          </van-col>
+          <van-col class="w50">
+            <img :src="headImg" alt="">
+          </van-col>
+          <van-col class="van-cell-text wauto">李四</van-col>
+        </van-row>
+      </div>
+      <div @click="dropDepart">
+        <van-row class="person-box">
+          <van-col class="w40">
+            <van-checkbox name="name3" />
+          </van-col>
+          <van-col class="w50">
+            <span class="depart-img"></span>
+          </van-col>
+          <van-col class="van-cell-text wauto">业务部</van-col>
+        </van-row>
+      </div>
+      
+
       <p class="text-center">共 {{result.length}} 人</p>
     </van-checkbox-group>
     <van-row class="check-box" v-show="result.length>0">
@@ -71,7 +89,13 @@ export default {
     },
     testValue(){
       console.log(this.result);
-    }
+    },
+    dropDepart(e){
+      if(e.target.nodeName!="I"){
+        router.push('/setClockPerson');
+        console.log(1);
+      }
+    },
   }
 }
 </script>
@@ -80,6 +104,10 @@ export default {
   .set-person-box{
     background: white;
     height: -webkit-fill-available;
+  }
+  .van-nav-bar .van-icon{
+    font-size: 1.2rem;
+    margin-left: 1rem;
   }
   .person-box>div{
     height: 50px;
@@ -140,6 +168,12 @@ export default {
   }
   .check-box .w80{
     line-height: 50px;
+  }
+  .depart-img{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url('../../../assets/images/file.png') no-repeat 5px 5px,#f1f0f0;
   }
   
 </style>

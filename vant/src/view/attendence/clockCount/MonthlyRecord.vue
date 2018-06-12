@@ -10,7 +10,7 @@
       <div class="sum-box" @click="goCustom">
         <van-row class="re-header">
           <van-col class="w50">
-            <img src="../../../assets/images/cat1.jpg" alt="">
+            <img src="../../../assets/images/cat2.jpg" alt="">
           </van-col>
           <van-col class="wauto">
             <p class="re-name">张冬</p>
@@ -30,9 +30,9 @@
       </div>
       <van-cell-group>
         <van-cell title="迟到" value="3次" to="/dailyRecord"  is-link/>
-        <van-cell title="未签到" value="1次" to="/dailyRecord"  is-link/>
+        <van-cell title="未签到" value="1次" to="/normalClock"  is-link/>
         <van-cell title="早退" value="1次" to="/dailyRecord"  is-link/>
-        <van-cell title="未签退" value="1次" to="/dailyRecord"  is-link/>
+        <van-cell title="未签退" value="1次" to="/normalClock"  is-link/>
       </van-cell-group>
       <van-cell-group>
         <van-cell title="外出" value="1次" to="/dailyRecord"  is-link/>
@@ -53,7 +53,7 @@ export default {
       router.push('/clockHistory');
     },
     goCustom(){
-      alert(1);
+      router.push('/normalClock');
     }
   }
 }
@@ -106,7 +106,7 @@ export default {
   background: rgba(255,255,255,.5);
   position: absolute;
   top:18%;
-  right: 2.5rem;
+  right: 2rem;
 }
 .sum-detail b{
   font-size: 1.8rem;

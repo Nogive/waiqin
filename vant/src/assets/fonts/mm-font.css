@@ -7,36 +7,33 @@
 .van-icon{
   font-family: 'vant-icon', 'mm-font' !important;
 }
-.van-icon-waiqinqiandao:before { content: "\e676"; }
+.van-icon-ellipseVertical:before { content: "\e69e"; }
+.van-icon-noRecord:before { content: "\e629"; }
+.van-icon-itemDot:before { content: "\e604"; }
+.van-icon-itemLine:before { content: "\e646"; }
+.van-icon-noContent:before { content: "\e603"; }
+.van-icon-manageClound:before { content: "\e6ab"; }
+.van-icon-noFile:before { content: "\e659"; }
+.van-icon-clound:before { content: "\e61c"; }
 
-.van-icon-kaoqin:before { content: "\e62b"; }
+.van-icon-noImg:before { content: "\e66b"; }
+.van-icon-ruleDot:before { content: "\e655"; }
+.van-icon-file:before { content: "\e622"; }
+.van-icon-ellipseHerizon:before { content: "\e609"; }
+.van-icon-sun:before { content: "\e61e"; }
+.van-icon-moon:before { content: "\e62a"; }
+.van-icon-count:before { content: "\e602"; }
+.van-icon-position:before { content: "\e640"; }
 
-.van-icon-port-lcsp:before { content: "\e769"; }
+.van-icon-camera:before { content: "\e62e"; }
+.van-icon-ruleDash:before { content: "\e608"; }
+.van-icon-onlySun:before { content: "\e601"; }
+.van-icon-menu:before { content: "\e68c"; }
+.van-icon-track:before { content: "\e760"; }
+.van-icon-notice:before { content: "\e600"; }
+.van-icon-report:before { content: "\e6f8"; }
+.van-icon-package:before { content: "\e6ad"; }
 
-.van-icon-waiqinb:before { content: "\e6ad"; }
-
-.van-icon-xiehuibao:before { content: "\e6f8"; }
-
-.van-icon-siyouyun:before { content: "\e606"; }
-
-.van-icon-tongzhi:before { content: "\e600"; }
-
-.van-icon-ditu:before { content: "\e760"; }
-
-.van-icon-gongzuotai:before { content: "\e68c"; }
-
-.van-icon-sun:before { content: "\e601"; }
-
-.van-icon-tongji:before { content: "\e602"; }
-
-.van-icon-marker:before { content: "\e640"; }
-
-.van-icon-photo:before { content: "\e62e"; }
-
-.van-icon-guize:before { content: "\e608"; }
-
-.van-icon-photob:before { content: "\e639"; }
-
-.van-icon-gotowork:before { content: "\e61e"; }
-
-.van-icon-afterwork:before { content: "\e62a"; }
+.van-icon-approve:before { content: "\e769"; }
+.van-icon-clock:before { content: "\e62b"; }
+.van-icon-outClock:before { content: "\e676"; }

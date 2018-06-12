@@ -8,7 +8,7 @@
         @click-left="reback"
       />
       <van-cell-group>
-        <van-cell title="全部成员"  is-link/>
+        <van-cell title="全部成员" to="/clockDetailForDepart"  is-link/>
         <van-row class="count-panel">
           <van-col span="24">每天</van-col>
           <van-col span="24">

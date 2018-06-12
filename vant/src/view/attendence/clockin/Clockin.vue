@@ -6,14 +6,14 @@
       left-text="返回"
       @click-left="reback"
     >
-      <van-icon name="more-o" slot="right" />
+      <van-icon name="ellipseVertical" slot="right" />
     </van-nav-bar>
     <van-tabs v-model="tabIndex">
       <van-tab title="上下班">
         <div class="work-box">
           <van-row class="work-body" gutter="20">
             <van-col span="4" class="work-icon">
-              <van-icon name="gotowork"></van-icon>
+              <van-icon name="sun"></van-icon>
             </van-col>
             <van-col span="20" class="work-r">
               <van-col span="16">
@@ -22,7 +22,7 @@
               </van-col>
               <van-col span="8" class="work-btn">
                 <p class="sign-in" v-show="show">
-                  <van-icon name="sun"></van-icon>已签到 22:27
+                  <van-icon name="itemLine"></van-icon>已签到 22:27
                 </p>
                 <van-button v-show="show1" size="small" type="danger" @click="goSign">签到</van-button>
               </van-col>
@@ -31,7 +31,7 @@
 
           <van-row class="work-body disable-color" gutter="20">
             <van-col span="4" class="work-icon">
-              <van-icon name="afterwork"></van-icon>
+              <van-icon name="moon"></van-icon>
             </van-col>
             <van-col span="20" class="work-r">
               <van-col span="16">
@@ -40,7 +40,7 @@
               </van-col>
               <van-col span="8" class="work-btn">
                 <p class="sign-in" v-show="show">
-                  <van-icon name="sun"></van-icon>已签到 22:27
+                  <van-icon name="itemLine"></van-icon>已签到 22:27
                 </p>
                 <a  v-show="show" href="javascript:;" class="blue">更新</a>
                 <van-button v-show="show1" size="small" class="before-start" disabled>未开始</van-button>
@@ -63,7 +63,7 @@
           </van-row>
           <van-row v-show="outRecord" class="no-record grey">
             <van-col offset="4" span="16">
-              <van-icon name="waiqinb"></van-icon>
+              <van-icon name="noRecord"></van-icon>
               <h2>今日无外出记录</h2>
             </van-col>
           </van-row>

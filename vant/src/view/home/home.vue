@@ -29,7 +29,7 @@
         <div slot="header">
           <van-row>
             <van-col span="24" class="home-title">
-              <van-icon name="sun"></van-icon>下午好，管理员
+              <van-icon name="onlySun"></van-icon>下午好，管理员
             </van-col>
           </van-row>
         </div>
@@ -39,19 +39,19 @@
         <van-row class="panel-body" gutter="30">
           <van-col span="6">
             <router-link to="/clockHome" class="red">
-              <van-icon name="kaoqin"></van-icon>
+              <van-icon name="clock"></van-icon>
               <p>考勤</p>
             </router-link>
           </van-col>
           <van-col span="6">
             <router-link to="/404" class="red">
-              <van-icon name="waiqinqiandao"></van-icon>
+              <van-icon name="outClock"></van-icon>
               <p>外勤拜访</p>
             </router-link>
           </van-col>
           <van-col span="6">
             <router-link to="/404" class="grey">
-              <van-icon name="ditu"></van-icon>
+              <van-icon name="track"></van-icon>
               <p>外勤轨迹</p>
             </router-link>
           </van-col>
@@ -67,25 +67,25 @@
         <van-row class="panel-body" gutter="30">
           <van-col span="6">
             <router-link to="/404" class="yellow">
-              <van-icon name="tongzhi"></van-icon>
+              <van-icon name="notice"></van-icon>
               <p>通知</p>
             </router-link>
           </van-col>
           <van-col span="6">
             <router-link to="/404" class="orange" >
-              <van-icon name="port-lcsp"></van-icon>
+              <van-icon name="approve"></van-icon>
               <p>流程审批</p>
             </router-link>
           </van-col>
           <van-col span="6">
             <router-link to="/404" class="green">
-              <van-icon name="xiehuibao"></van-icon>
+              <van-icon name="report"></van-icon>
               <p>工作汇报</p>
             </router-link>
           </van-col>
           <van-col span="6">
             <router-link to="/404" class="blue">
-              <van-icon name="siyouyun"></van-icon>
+              <van-icon name="manageClound"></van-icon>
               <p>任务</p>
             </router-link>
           </van-col>
@@ -101,7 +101,7 @@
 
     <van-tabbar v-model="active">
       <van-tabbar-item icon="chat" info="5">消息</van-tabbar-item>
-      <van-tabbar-item icon="gongzuotai">工作台</van-tabbar-item>
+      <van-tabbar-item icon="menu">工作台</van-tabbar-item>
       <van-tabbar-item icon="contact" >我</van-tabbar-item>
     </van-tabbar>
   </div>
