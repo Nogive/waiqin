@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'mm-font';
-  src: url('../../assets/fonts/iconfont.ttf') format('truetype');;
+  src: url('./iconfont.ttf') format('truetype');;
 }
 .van-icon{
   font-family: 'vant-icon', 'mm-font' !important;
