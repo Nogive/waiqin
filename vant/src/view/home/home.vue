@@ -44,13 +44,13 @@
             </router-link>
           </van-col>
           <van-col span="6">
-            <router-link to="/404" class="red">
+            <router-link to="/comingSoon" class="red">
               <van-icon name="outClock"></van-icon>
               <p>外勤拜访</p>
             </router-link>
           </van-col>
           <van-col span="6">
-            <router-link to="/404" class="grey">
+            <router-link to="/comingSoon" class="grey">
               <van-icon name="track"></van-icon>
               <p>外勤轨迹</p>
             </router-link>
@@ -66,25 +66,25 @@
       <van-panel>
         <van-row class="panel-body" gutter="30">
           <van-col span="6">
-            <router-link to="/404" class="yellow">
+            <router-link to="/comingSoon" class="yellow">
               <van-icon name="notice"></van-icon>
               <p>通知</p>
             </router-link>
           </van-col>
           <van-col span="6">
-            <router-link to="/404" class="orange" >
+            <router-link to="/comingSoon" class="orange" >
               <van-icon name="approve"></van-icon>
               <p>流程审批</p>
             </router-link>
           </van-col>
           <van-col span="6">
-            <router-link to="/404" class="green">
+            <router-link to="/comingSoon" class="green">
               <van-icon name="report"></van-icon>
               <p>工作汇报</p>
             </router-link>
           </van-col>
           <van-col span="6">
-            <router-link to="/404" class="blue">
+            <router-link to="/comingSoon" class="blue">
               <van-icon name="manageClound"></van-icon>
               <p>任务</p>
             </router-link>

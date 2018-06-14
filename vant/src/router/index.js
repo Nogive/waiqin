@@ -124,7 +124,8 @@ const router = new Router({
   routes
 });
 router.beforeEach((to, from, next) => {
-  if (to.path == "/404") {
+  console.log(to);
+  if (to.path == "/comingSoon") {
     Toast("敬请期待！");
   } else {
     next();
