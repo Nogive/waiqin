@@ -11,39 +11,47 @@
     <van-tabs v-model="tabIndex">
       <van-tab title="上下班">
         <div class="work-box">
-          <van-row class="work-body" gutter="20">
-            <van-col span="4" class="work-icon">
-              <van-icon name="sun"></van-icon>
-            </van-col>
-            <van-col span="20" class="work-r">
+          <van-row class="work-body" :class="{'disable-color':!showOnWork}" gutter="20">
+            <a href="javascript:;" @click="detail('am')">
+              <van-col span="4" class="work-icon">
+                <van-icon name="sun"></van-icon>
+              </van-col>
+            </a>
+            <van-col span="20" class="work-r"> 
               <van-col span="16">
-                <h4>上班</h4>
-                <p>09:00</p>
+                <a href="javascript:;" @click="detail('am')">
+                  <h4>上班</h4>
+                  <p>09:00</p>
+                </a>
               </van-col>
               <van-col span="8" class="work-btn">
-                <p class="sign-in" v-show="show">
-                  <van-icon name="itemLine"></van-icon>已签到 22:27
+                <p class="sign-in" v-show="!showOnWork">
+                  <van-icon name="itemLine"></van-icon>已签到 {{punchTime}}
                 </p>
-                <van-button v-show="show1" size="small" type="danger" @click="goSign">签到</van-button>
+                <van-button v-show="showOnWork" size="small" type="danger" @click="goPunch">签到</van-button>
               </van-col>
             </van-col>
           </van-row>
 
-          <van-row class="work-body disable-color" gutter="20">
-            <van-col span="4" class="work-icon">
-              <van-icon name="moon"></van-icon>
-            </van-col>
+          <van-row class="work-body" :class="{'disable-color':showOnWork}" gutter="20">
+            <a href="javascript:;" @click="detail('pm')">
+              <van-col span="4" class="work-icon">
+                <van-icon name="moon"></van-icon>
+              </van-col>
+            </a>
             <van-col span="20" class="work-r">
               <van-col span="16">
-                <h4>下班</h4>
-                <p>23:00</p>
+                <a href="javascript:;" @click="detail('pm')">
+                  <h4>下班</h4>
+                  <p>23:00</p>
+                </a>
               </van-col>
               <van-col span="8" class="work-btn">
-                <p class="sign-in" v-show="show">
-                  <van-icon name="itemLine"></van-icon>已签到 22:27
+                <p class="sign-in" v-show="!showAfterWork">
+                  <van-icon name="itemLine"></van-icon>已签退 {{punchOutTime}}
                 </p>
-                <a  v-show="show" href="javascript:;" class="blue">更新</a>
-                <van-button v-show="show1" size="small" class="before-start" disabled>未开始</van-button>
+                <a  v-show="!showAfterWork" href="javascript:;" class="blue">更新</a>
+                <van-button v-show="showAfterWork" size="small" type="danger" class="before-start" :disabled="disable" >{{punchOutBtnText}}</van-button>
               </van-col>
             </van-col>
           </van-row>
@@ -84,29 +92,7 @@
     </van-tabs>
   </div>
 </template>
-<script>
-import router from '../../../router'
-export default {
-  name:'attendence',
-  data(){
-    return {
-      menuIndex:0,
-      tabIndex:0,
-      show:false,
-      show1:true,
-      outRecord:false
-    }
-  },
-  methods:{
-    reback(){
-      router.push('/');
-    },
-    goSign(){
-      router.push('/clockDetail');
-    }
-  }
-}
-</script>
+<script src="./js/clockIn.js"></script>
 
 <style scoped>
   .work-box{

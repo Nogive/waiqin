@@ -99,3 +99,18 @@ a{
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.loading-box{
+  text-align: center;
+  display: inline-block;
+  color: white;
+  background: rgba(0,0,0,.6);
+  border-radius: 5px;
+  position: fixed;
+  top: calc(50% - 45px);;
+  left: calc(50% - 75px);
+  width: 150px;
+  height: 90px;
+}
+.loading-box .van-loading{
+  margin: 15px auto 0;
+}

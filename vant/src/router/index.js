@@ -54,6 +54,7 @@ const routes = [
     children: [
       {
         path: "/",
+        name: "clockIn",
         component: clockIn
       },
       {
@@ -124,7 +125,6 @@ const router = new Router({
   routes
 });
 router.beforeEach((to, from, next) => {
-  console.log(to);
   if (to.path == "/comingSoon") {
     Toast("敬请期待！");
   } else {

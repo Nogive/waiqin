@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-      title="打卡详情"
+      :title="pageTitle"
       left-arrow
       left-text="返回"
       @click-left="reback"
@@ -9,14 +9,14 @@
     <div class="clock-detail-box">
       <van-row>
         <van-col span="6">打卡时间</van-col>
-        <van-col span="18" class="red">17:23 pm</van-col>
+        <van-col span="18" class="red">{{currentTime}}</van-col>
       </van-row>
       <van-row>
         <van-col span="6">打卡地点</van-col>
         <van-col span="18" class="address-body">
-          <p>钦州北路1088号</p>
-          <p class="specific-addr">上海市徐汇区钦州北路1066号</p>
-          <img src="http://restapi.amap.com/v3/staticmap?location=121.406454,31.179774&amp;zoom=14&amp;size=600*200&amp;markers=large,,:121.406454,31.179774&amp;key=b2a701a4c4e88acd8fac16bbf402484f" alt="">
+          <p>{{shotAddress}}</p>
+          <p class="specific-addr">{{address}}</p>
+          <img :src="addressUrl" alt="">
         </van-col>
       </van-row>
       <van-row>
@@ -33,63 +33,34 @@
             <van-col span="6">
               <a href="javascript:;" @click="takePhoto"></a>
             </van-col>
-            <van-col span="6">
-              <img @click="photoPreview(testUrl)" :src="testUrl" alt="">
-            </van-col>
-            <van-col span="6">
-              <img src="../../../assets/images/cat1.jpg" alt="">
-            </van-col>
-            <van-col span="6">
-              <img src="../../../assets/images/cat2.jpg" alt="">
-            </van-col>
-            <van-col span="6">
-              <img src="../../../assets/images/cat2.jpg" alt="">
+            <van-col span="6" v-for="item in photos" :key="item.id">
+              <img @click="photoPreview(item)" :src="item.url" alt="">
             </van-col>
           </van-row>
         </van-col>
       </van-row>
     </div>
-    <van-button class="large-btn" size="large">确认打卡</van-button>
+    <van-button 
+      v-show="$route.params.source!='detail'" 
+      class="large-btn" 
+      size="large" 
+      @click="punchIn">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
-      <van-icon name="delete" @click="deletePhoto"></van-icon>
-      <img :src="currentUrl" alt="">
+      <van-icon 
+        v-show="$route.params.source!='detail'" 
+        name="delete" 
+        @click="deletePhoto"></van-icon>
+      <img :src="largePhoto.url" alt="">
     </van-popup>
 
-
+    <div class="loading-box" v-show="showLoading">
+      <van-loading type="spinner" color="white" />
+      <p>正在加载，请稍候...</p>
+    </div>
   </div>
 </template>
-<script>
-import router from '../../../router'
-import {Toast,ImagePreview} from 'vant'
-export default {
-  name:'attendenceDetail',
-  data(){
-    return {
-      testUrl:'https://avatars1.githubusercontent.com/u/24405319?s=460&v=4',
-      tabIndex:0,
-      message:'',
-      showPhoto:false,
-      currentUrl:''
-    }
-  },
-  methods:{
-    reback(){
-      router.push('/clockHome');
-    },
-    takePhoto(){
-      Toast('打开摄像头');
-    },
-    photoPreview(url){
-      this.currentUrl=url;
-      this.showPhoto=true;
-    },
-    deletePhoto(){
-      this.showPhoto=false;
-    }
-  }
-}
-</script>
+<script src="./js/clockDetail.js"></script>
 
 <style scoped>
   .clock-detail-box{
