@@ -9,9 +9,10 @@ import "vant/lib/vant-css/icon-local.css";
 import "./assets/fonts/mm-font.css";
 import "./common/css/common.css";
 import store from "./store/";
+import VueResource from "vue-resource";
+Vue.use(VueResource);
 
 Vue.config.productionTip = false;
-
 new Vue({
   store,
   router,

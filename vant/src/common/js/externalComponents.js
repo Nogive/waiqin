@@ -14,7 +14,6 @@ import {
   Toast,
   Tab,
   Tabs,
-  Loading,
   Popup,
   Checkbox,
   CheckboxGroup,
@@ -32,8 +31,10 @@ Vue.use(Icon);
 Vue.use(Panel);
 Vue.use(Toast);
 Vue.use(Tab).use(Tabs);
-Vue.use(Loading);
 Vue.use(Popup);
 Vue.use(Checkbox).use(CheckboxGroup);
 Vue.use(SwitchCell);
 Vue.use(DatetimePicker);
+
+import { Loading } from "element-ui";
+Vue.use(Loading);

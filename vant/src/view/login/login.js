@@ -1,5 +1,14 @@
-import axios from "axios";
+import {
+  trim,
+  setCookie,
+  noData,
+  codeError,
+  netError,
+  showLoading
+} from "@/common/js/commonFunc";
+import { getRequestUrl } from "@/common/js/api";
 import JSEncrypt from "jsencrypt";
+import router from "@/router";
 const pubKey =
   "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIGetsuNPeHHbKWutJYmpz2aB6F/3uqq/5HhzuI8Sicz32g9ZkpgelcWJeFNBocfEYzpLgp0fHDz+/PStp23ClUCAwEAAQ==";
 
@@ -15,15 +24,16 @@ export default {
   },
   methods: {
     logIn() {
+      var vm = this;
       if (this.username != "" && this.password != "") {
         let encrypt = new JSEncrypt();
         encrypt.setPublicKey(pubKey);
-        let encrypted = encrypt.encrypt(Trim(this.password));
+        let encrypted = encrypt.encrypt(trim(this.password));
         let params = {
-          account: Trim(this.username),
+          account: trim(this.username),
           password: encrypted
         };
-        requestLogin(params);
+        requestLogin(vm, params);
       } else if (this.username == "") {
         this.userError = true;
       } else {
@@ -32,22 +42,26 @@ export default {
     }
   }
 };
-const tempUrl = "http://mjp.waiqin.co/api/v1/authentication";
-function requestLogin(params) {
-  console.log(params);
-  axios
-    .post(tempUrl, params, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-      }
+function requestLogin(vm, params) {
+  showLoading(vm, true);
+  vm.$http
+    .post(getRequestUrl("login"), params, {
+      emulateJSON: true
     })
     .then(res => {
-      console.log(res);
+      if (res.data == undefined) {
+        noData();
+      } else if (res.data.code == 0) {
+        console.log(res.data.data);
+        setCookie("token", res.data.data.token);
+        router.push("/");
+      } else {
+        codeError(res.data, "登录");
+      }
+      showLoading(vm, false);
     })
     .catch(xhr => {
-      console.log(xhr);
+      showLoading(vm, false);
+      netError(xhr.response);
     });
-}
-function Trim(str) {
-  return str.replace(/(^\s*)|(\s*$)/g, "");
 }
