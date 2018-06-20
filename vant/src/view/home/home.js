@@ -18,21 +18,18 @@ export default {
       active: 1
     };
   },
-  beforeCreate() {
+  mounted() {
     if (!checkCookie("token")) {
-      router.push("/login");
+      console.log("mounted");
+      //router.push("/login");
     } else {
       //showLoading(this, true);
       console.log(getRequestUrl("login"));
     }
   },
-  created() {
-    console.log("create");
-  },
   methods: {
     ...mapActions(["increment"]),
-    login() {
-      console.log(1);
+    logOut() {
       router.push("/login");
     }
   }

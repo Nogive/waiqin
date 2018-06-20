@@ -1,43 +1,71 @@
 import router from "@/router";
+const outers = {
+  time: "13:00",
+  address: "上海市新华路128号",
+  message: "拜访客户"
+};
+
 export default {
   name: "clockIn",
   data() {
     return {
-      tabIndex: 0,
-      showOnWork: true,
-      showAfterWork: true,
-      punchTime: "",
-      punchOutTime: "",
-      disable: true,
-      punchOutBtnText: "未开始",
-      outRecord: false
+      tabIndex: 0, //tabIndex
+      showOnWork: true, //签到按钮
+      showAfterWork: false, //已经签退
+      punchTime: "", //上班打卡时间
+      punchOutTime: "", //下班打卡时间
+      punchOutBtnText: "未开始", //签退按钮文字
+      outerRecords: [] //外出记录
     };
   },
-  created: function() {
+  mounted: function() {
     this.initRender();
   },
+  computed: {
+    showSignOut() {
+      let tag = true;
+      if (this.showOnWork) {
+        tag = false;
+      } else if (this.showAfterWork) {
+        tag = false;
+      }
+      return tag;
+    }
+  },
   methods: {
-    reback() {
+    goBack() {
       router.push("/");
     },
-    goPunch() {
-      router.push({ name: "clockDetail", params: { source: "gotowork" } });
-    },
-    detail(time) {
-      console.log(time);
-      router.push({
-        name: "clockDetail",
-        params: { source: "detail", time: time }
-      });
+    //enter detail page
+    punchCard(key) {
+      router.push({ name: "clockDetail", params: { source: key } });
     },
     initRender() {
       let params = this.$route.params;
+      console.log(params);
       if (JSON.stringify(params) != "{}") {
-        if (params.source == "gotowork") {
+        if (params.source == "in") {
           this.showOnWork = false;
-          this.punchTime = params.punchInTime;
-          this.disable = false;
-          this.punchOutBtnText = "签退";
+          this.punchTime = "09:03";
+        }
+        if (params.source == "out") {
+          this.showOnWork = false;
+          this.punchTime = "09:03";
+          this.showAfterWork = true;
+          this.punchOutTime = "18:08";
+        }
+        if (params.source == "update") {
+          this.showOnWork = false;
+          this.punchTime = "09:03";
+          this.showAfterWork = true;
+          this.punchOutTime = "18:18";
+        }
+        if (params.source == "outer") {
+          this.tabIndex = 1;
+          this.outerRecords.push(outers);
+        }
+        if (params.source == "outerDetail") {
+          this.tabIndex = 1;
         }
       }
     }

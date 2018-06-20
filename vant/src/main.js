@@ -11,8 +11,27 @@ import "./common/css/common.css";
 import store from "./store/";
 import VueResource from "vue-resource";
 Vue.use(VueResource);
+import VueAMap from "vue-amap";
+Vue.use(VueAMap);
 
 Vue.config.productionTip = false;
+
+VueAMap.initAMapApiLoader({
+  key: "e1dedc6bdd765d46693986ff7ff969f4",
+  plugin: [
+    "AMap.Autocomplete",
+    "AMap.PlaceSearch",
+    "AMap.Scale",
+    "AMap.OverView",
+    "AMap.ToolBar",
+    "AMap.MapType",
+    "AMap.PolyEditor",
+    "AMap.CircleEditor",
+    "AMap.Geolocation"
+  ],
+  uiVersion: "1.0"
+});
+
 new Vue({
   store,
   router,

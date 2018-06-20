@@ -23,7 +23,7 @@ export default {
     };
   },
   methods: {
-    logIn() {
+    preLogin() {
       var vm = this;
       if (this.username != "" && this.password != "") {
         let encrypt = new JSEncrypt();
@@ -33,35 +33,35 @@ export default {
           account: trim(this.username),
           password: encrypted
         };
-        requestLogin(vm, params);
+        this.requestLogin(params);
       } else if (this.username == "") {
         this.userError = true;
       } else {
         this.passwordError = true;
       }
+    },
+    requestLogin(params) {
+      showLoading(this, true);
+      this.$http
+        .post(getRequestUrl("login"), params, {
+          emulateJSON: true
+        })
+        .then(res => {
+          if (res.data == undefined) {
+            noData();
+          } else if (res.data.code == 0) {
+            console.log(res.data.data);
+            setCookie("token", res.data.data.token);
+            router.push("/");
+          } else {
+            codeError(res.data, "登录");
+          }
+          showLoading(this, false);
+        })
+        .catch(xhr => {
+          showLoading(this, false);
+          netError(xhr.response);
+        });
     }
   }
 };
-function requestLogin(vm, params) {
-  showLoading(vm, true);
-  vm.$http
-    .post(getRequestUrl("login"), params, {
-      emulateJSON: true
-    })
-    .then(res => {
-      if (res.data == undefined) {
-        noData();
-      } else if (res.data.code == 0) {
-        console.log(res.data.data);
-        setCookie("token", res.data.data.token);
-        router.push("/");
-      } else {
-        codeError(res.data, "登录");
-      }
-      showLoading(vm, false);
-    })
-    .catch(xhr => {
-      showLoading(vm, false);
-      netError(xhr.response);
-    });
-}

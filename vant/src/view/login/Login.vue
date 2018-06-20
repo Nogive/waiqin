@@ -26,7 +26,7 @@
         @click="passwordError=false"
       />
     </van-cell-group>
-    <van-button class="large-btn" @click='logIn'>登录</van-button>
+    <van-button class="large-btn" @click='preLogin'>登录</van-button>
   </div>
 </template>
 

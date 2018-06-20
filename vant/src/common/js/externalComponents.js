@@ -18,7 +18,8 @@ import {
   Checkbox,
   CheckboxGroup,
   SwitchCell,
-  DatetimePicker
+  DatetimePicker,
+  Dialog
 } from "vant";
 
 Vue.use(Button);
@@ -35,6 +36,7 @@ Vue.use(Popup);
 Vue.use(Checkbox).use(CheckboxGroup);
 Vue.use(SwitchCell);
 Vue.use(DatetimePicker);
+Vue.use(Dialog);
 
 import { Loading } from "element-ui";
 Vue.use(Loading);

@@ -16,7 +16,16 @@
         <van-col span="18" class="address-body">
           <p>{{shotAddress}}</p>
           <p class="specific-addr">{{address}}</p>
-          <img :src="addressUrl" alt="">
+          <!-- <img :src="addressUrl" alt=""> -->
+          <div class="amap-page-container">
+            <el-amap 
+              vid="clockMap" 
+              :zoom="zoom" 
+              :plugin="plugin" 
+              class="amap-img" 
+              :center="center">
+            </el-amap>
+          </div>
         </van-col>
       </van-row>
       <van-row>
@@ -41,23 +50,19 @@
       </van-row>
     </div>
     <van-button 
-      v-show="$route.params.source!='detail'" 
+      v-show="isDetail" 
       class="large-btn" 
       size="large" 
-      @click="punchIn">确认打卡</van-button>
+      @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
       <van-icon 
-        v-show="$route.params.source!='detail'" 
+        v-show="isDetail" 
         name="delete" 
         @click="deletePhoto"></van-icon>
       <img :src="largePhoto.url" alt="">
     </van-popup>
 
-    <div class="loading-box" v-show="showLoading">
-      <van-loading type="spinner" color="white" />
-      <p>正在加载，请稍候...</p>
-    </div>
   </div>
 </template>
 <script src="./js/clockDetail.js"></script>
@@ -78,6 +83,12 @@
   }
   .address-body img{
     width: 100%;
+  }
+  .amap-page-container{
+    width: 100%;
+  }
+  .amap-img{
+    height: 10rem;
   }
   .specific-addr{
     font-size: 0.75rem;

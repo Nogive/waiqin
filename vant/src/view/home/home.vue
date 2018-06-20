@@ -4,7 +4,7 @@
       title="标题"
       left-text="工作台"
       right-text="退出登录"
-      @click-right="login"
+      @click-right="logOut"
     />
     <div class="home-box">
       <van-panel class="padd15">
