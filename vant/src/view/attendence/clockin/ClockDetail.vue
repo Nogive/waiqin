@@ -4,7 +4,7 @@
       :title="pageTitle"
       left-arrow
       left-text="返回"
-      @click-left="reback"
+      @click-left="goBack"
     />
     <div class="clock-detail-box">
       <van-row>

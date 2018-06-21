@@ -1,4 +1,5 @@
 import router from "@/router";
+import { Toast } from "vant";
 const outers = {
   time: "13:00",
   address: "上海市新华路128号",
@@ -38,7 +39,21 @@ export default {
     },
     //enter detail page
     punchCard(key) {
-      router.push({ name: "clockDetail", params: { source: key } });
+      if (key == "inDetail") {
+        if (this.showOnWork) {
+          Toast("暂无上班打卡详情");
+        } else {
+          router.push({ name: "clockDetail", params: { source: key } });
+        }
+      } else if (key == "outDetail") {
+        if (this.showAfterWork) {
+          router.push({ name: "clockDetail", params: { source: key } });
+        } else {
+          Toast("暂无下班打卡详情");
+        }
+      } else {
+        router.push({ name: "clockDetail", params: { source: key } });
+      }
     },
     initRender() {
       let params = this.$route.params;

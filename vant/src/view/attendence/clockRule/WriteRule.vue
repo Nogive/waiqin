@@ -5,7 +5,7 @@
       left-arrow
       left-text="返回"
       right-text="保存"
-      @click-left="reback"
+      @click-left="goBack"
     />
     <div class="write-rule-body">
       <van-cell-group>
@@ -13,8 +13,8 @@
         <van-cell title="打卡人员" to="/setClockPerson" is-link value="张冬，业务部" />
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="打卡日期" is-link :value="checkedDate.toString()" @click="datePopup=true" />
-        <van-cell title="打卡时间" is-link value="09:00-12:00" @click="timePopup=true" />
+        <van-cell title="打卡日期" is-link :value="clockDate" @click="datePopup=true" />
+        <van-cell title="打卡时间" is-link :value="clockTime" @click="timePopup=true" />
       </van-cell-group>
       <van-cell-group>
         <van-cell title="打卡位置" is-link :value="address" @click="locationPopup=true" />
@@ -57,31 +57,31 @@
       <van-checkbox-group v-model="checkedDate">
         <van-cell-group>
           <van-cell title="每周一">
-            <van-checkbox name="周一" />
+            <van-checkbox name="1" />
           </van-cell>
           <van-cell title="每周二">
-            <van-checkbox name="周二" />
+            <van-checkbox name="2" />
           </van-cell>
           <van-cell title="每周三">
-            <van-checkbox name="周三" />
+            <van-checkbox name="3" />
           </van-cell>
           <van-cell title="每周四">
-            <van-checkbox name="周四" />
+            <van-checkbox name="4" />
           </van-cell>
           <van-cell title="每周五">
-            <van-checkbox name="周五" />
+            <van-checkbox name="5" />
           </van-cell>
           <van-cell title="每周六">
-            <van-checkbox name="周六" />
+            <van-checkbox name="6" />
           </van-cell>
           <van-cell title="每周日">
-            <van-checkbox name="周日" />
+            <van-checkbox name="0" />
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
       <van-cell-group>
-        <van-switch-cell v-model="checked" title="法定节假日不用打卡" />
-        <van-switch-cell v-model="checked" title="非工作日允许打卡" />
+        <van-switch-cell v-model="holiday" title="法定节假日不用打卡" />
+        <van-switch-cell v-model="nonWorkday" title="非工作日允许打卡" />
       </van-cell-group> 
     </van-popup>
 
@@ -98,9 +98,9 @@
       <van-cell-group>
         <van-cell title="一天内上下班次数" is-link :value="`${workNum}次`" @click="workTimesPopup=true" />
       </van-cell-group> 
-      <van-cell-group>
-        <van-cell title="上班" is-link :value="beforeWork" @click="checkOnWorkTime('beforeWork')" />
-        <van-cell title="下班" is-link :value="afterWork" @click="checkOnWorkTime('afterWork')"  />
+      <van-cell-group v-for="(item,index) in timeArr" :key="index">
+        <van-cell title="上班" is-link :value="item.onTime" @click="checkOnWorkTime(item,'on')" />
+        <van-cell title="下班" is-link :value="item.afterTime" @click="checkOnWorkTime(item,'after')"  />
       </van-cell-group> 
     </van-popup>
     <!-- 上下班次数 -->
@@ -117,7 +117,7 @@
       v-show="showTimePanel"
       v-model="currentTime"
       type="time"
-      @confirm="showTimePanel=false"
+      @confirm="showTimePanel=false;currentTime='12:00'"
       @cancel="showTimePanel=false"
       @change='pickerTime'
     />
@@ -154,55 +154,7 @@
 
   </div>
 </template>
-<script>
-import router from '@/router'
-export default {
-  name:'writeRule',
-  data(){
-    return {
-      rulePopup:false,
-      ruleName:'每日2次打卡',
-      showError:false,
-      datePopup:false,
-      checkedDate:['周一','周五'],
-      checked:true,
-      timePopup:false,
-      workNum:1,
-      workTimesPopup:false,
-      currentTime:'12:00',
-      showTimePanel:false,
-      beforeWork:'09:00',
-      afterWork:'18:00',
-      current:'',
-      address:'无限制',
-      locationPopup:false
-    }
-  },
-  methods:{
-    reback(){
-      router.push('/clockHome/clockRule');
-    },
-    setName(){
-      if(this.ruleName==""){
-        this.showError=true;
-      }else{
-        this.rulePopup=false;
-      }
-    },
-    checkWorkTime(n){
-      this.workNum=n;
-      this.workTimesPopup=false;
-    },
-    checkOnWorkTime(field){
-      this.current=field;
-      this.showTimePanel=true;
-    },
-    pickerTime(){
-      this[[this.current]]=this.currentTime;
-    }
-  }
-}
-</script>
+<script src="./js/writeRule.js"></script>
 
 <style scoped>
   .write-rule-body .van-cell-group{

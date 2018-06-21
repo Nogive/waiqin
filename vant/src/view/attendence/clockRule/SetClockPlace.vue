@@ -11,29 +11,16 @@
         <van-button size="small" class="bg-blue">确定</van-button>
       </div>
     </van-nav-bar>
-    <div class="container"></div>
 
-    <van-cell-group>
-      <van-cell class="one-place" @click="checked=!checked">
+    <dragSite @drag="dragMap" lng="121.329402" lat="31.228667"  class="mapbox"></dragSite>
+
+    <van-cell-group class="pois-box">
+      <van-cell v-for="(item,index) in poisArr" :key="index" class="one-place" @click="checkPoint(item)">
         <template slot="title">
-          <span class="van-cell-text">宾阳路60号临</span>
-          <span>上海市上海市徐汇区宾阳路60号临</span>
+          <span class="van-cell-text">{{item.name}}</span>
+          <span>{{item.address}}</span>
         </template>
-        <van-icon v-show="checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
-      </van-cell>
-      <van-cell class="one-place" @click="checked=!checked">
-        <template slot="title">
-          <span class="van-cell-text">西雅图</span>
-          <span>上海市上海市徐汇区三江路88弄1-21号</span>
-        </template>
-        <van-icon v-show="checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
-      </van-cell>
-      <van-cell class="one-place" @click="checked=!checked">
-        <template slot="title">
-          <span class="van-cell-text">漕河泾</span>
-          <span>上海市上海市徐汇区漕河泾</span>
-        </template>
-        <van-icon v-show="checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
+        <van-icon v-show="item.checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
       </van-cell>
     </van-cell-group>
 
@@ -50,33 +37,9 @@
     </van-popup>
   </div>
 </template>
-<script>
-import router from '../../../router'
-export default {
-  name:'setClockPlace',
-  data(){
-    return {
-      range:300,
-      showRange:false,
-      checked:false,
-      headImg:'https://avatars1.githubusercontent.com/u/24405319?s=460&v=4'
-    }
-  },
-  methods:{
-    reback(){
-      router.push('/writeRule');
-    },
-    checkClockRange(range){
-      this.range=range;
-      this.showRange=false;
-    }
-  }
-}
-</script>
 
 <style scoped>
-  .container{
-    border: 1px solid blue;
+  .amap-page-container{
     height: 300px;
   }
   .range-box{
@@ -101,4 +64,66 @@ export default {
     font-size: 1.2rem;
     margin-top: 0.3rem;
   }
+  .pois-box{
+    max-height: 350px;
+    overflow: scroll;
+  }
 </style>
+<script>
+import router from '@/router'
+import dragSite from '@/components/DragSite.vue'
+export default {
+  name:'setClockPlace',
+  components:{
+    dragSite
+  },
+  data(){
+    let vm=this;
+    return {
+      range:300,//打卡范围
+      showRange:false,//打卡范围弹框
+      checked:false,//勾选附近点
+      poisArr:[]//附近的点
+    }
+  },
+  watch:{
+    'map':function(){}
+  },
+  methods:{
+    reback(){
+      router.push('/writeRule');
+    },
+    //初始页面
+    initPage(result){
+      console.log(result);
+    },
+    //选择打卡范围
+    checkClockRange(range){
+      this.range=range;
+      this.showRange=false;
+    },
+    //获取定位信息
+    dragMap(data) {
+      console.log(data);
+      let nearPois=data.regeocode.pois;
+      let newArr=[];
+      nearPois.forEach(e=>{
+        e['checked']=false;
+        newArr.push(e);
+      })
+      this.poisArr=newArr;
+    },
+    //选择某个地点
+    checkPoint(item){
+      let idx=this.poisArr.indexOf(item);
+      this.poisArr.forEach((e,i)=>{
+        if(i==idx){
+          e.checked=true;
+        }else{
+          e.checked=false;
+        }
+      })
+    }
+  }
+}
+</script>

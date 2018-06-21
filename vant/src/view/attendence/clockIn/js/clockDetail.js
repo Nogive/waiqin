@@ -90,13 +90,14 @@ export default {
     },
     isDetail() {
       return !(
-        this.$route.params.source == "detail" ||
+        this.$route.params.source == "inDetail" ||
+        this.$route.params.source == "outDetail" ||
         this.$route.params.source == "outerDetail"
       );
     }
   },
   methods: {
-    reback() {
+    goBack() {
       router.push({
         name: "clockIn",
         params: { source: this.source }

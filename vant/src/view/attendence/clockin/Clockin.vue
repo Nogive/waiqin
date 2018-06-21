@@ -12,7 +12,7 @@
       <van-tab title="上下班">
         <div class="work-box">
           <van-row class="work-body" :class="{'disable-color':!showOnWork}" gutter="20">
-            <a href="javascript:;" @click="punchCard('detail')">
+            <a href="javascript:;" @click="punchCard('inDetail')">
               <van-col span="4" class="work-icon">
                 <van-icon name="sun"></van-icon>
               </van-col>
@@ -32,7 +32,7 @@
           </van-row>
 
           <van-row class="work-body" :class="{'disable-color':showOnWork}" gutter="20">
-            <a href="javascript:;" @click="punchCard('detail')">
+            <a href="javascript:;" @click="punchCard('outDetail')">
               <van-col span="4" class="work-icon">
                 <van-icon name="moon"></van-icon>
               </van-col>
