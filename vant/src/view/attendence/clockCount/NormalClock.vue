@@ -28,10 +28,10 @@ export default {
   computed:{
     title(){
       let title="正常考勤";
-      if(this.source=='notIn'){
+      if(this.source.search("notIn") >= 0){
         title="上班未签到"
       }
-      if(this.source=='notOut'){
+      if(this.source.search("notOut") >= 0){
         title="下班未签退"
       }
       return title;
@@ -39,7 +39,11 @@ export default {
   },
   methods:{
     reback(){
-      router.push('/monthlyRecord');
+      if(this.source.search('all')>=0){
+        router.push({name:'monthlyRecord',params:{source:'all'}});
+      }else{
+        router.push({name:'monthlyRecord',params:{source:'self'}});
+      }
     }
   }
 }

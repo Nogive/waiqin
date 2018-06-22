@@ -6,7 +6,7 @@
         left-arrow
         left-text="返回"
         right-text="选择部门"
-        @click-left="reback"
+        @click-left="goBack"
         @click-right="chooseDepart"
       />
       <van-row class="company-box">
@@ -14,29 +14,33 @@
         <van-col span="24">麦芒科技公司</van-col>
       </van-row>
       <van-cell-group>
-        <van-cell title="正常" value="1人" to="/normalClockPerson" is-link/>
+        <van-cell title="正常" value="1人" :to="{name:'normalClockPerson',params:{source:'normal'}}" is-link/>
         <van-cell title="未签到" value="1人" is-link/>
-        <van-cell title="迟到" value="1人" is-link/>
+        <van-cell title="迟到" value="1人" :to="{name:'normalClockPerson',params:{source:'late'}}" is-link/>
         <van-cell title="未签退" value="1人" is-link/>
-        <van-cell title="早退" value="1人" is-link/>
+        <van-cell title="早退" value="1人" :to="{name:'normalClockPerson',params:{source:'leave'}}" is-link/>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="外出" value="1人" is-link/>
+        <van-cell title="外出" value="1人" :to="{name:'normalClockPerson',params:{source:'out'}}" is-link/>
       </van-cell-group>
     </div>
   </div>
 </template>
 <script>
-import router from '../../../router'
+import router from '@/router'
 export default {
   name:'clockDetailForDepart',
   data(){
     return {
+      source:''
     }
   },
+  mounted(){
+    this.source=this.$route.params.source;
+  },
   methods:{
-    reback(){
-      router.push('/clockHistory');
+    goBack(){
+      router.push({name:'clockHistory',params:{source:this.source}});
     },
     chooseDepart(){
       router.push('/setClockPerson');

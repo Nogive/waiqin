@@ -39,21 +39,32 @@ export default {
   computed: {
     title() {
       let title = "打卡记录";
-      if (this.source == "late") {
+      if (this.source.search("late") >= 0) {
         title = "迟到记录";
       }
-      if (this.source == "leave") {
+      if (this.source.search("leave") >= 0) {
         title = "早退记录";
+      }
+      if (this.source.search("out") >= 0) {
+        title = "外出记录";
       }
       return title;
     }
   },
   methods: {
     goBack() {
-      if (this.source == "history") {
-        router.push("/clockHistory");
+      if (this.source == "self") {
+        router.push({ name: "clockHistory", params: { source: this.source } });
+      } else if (this.source.search("Depart") >= 0) {
+        let idx = this.source.search("Depart");
+        router.push({
+          name: "normalClockPerson",
+          params: { source: this.source.slice(0, idx) }
+        });
+      } else if (this.source.search("all") >= 0) {
+        router.push({ name: "monthlyRecord", params: { source: "all" } });
       } else {
-        router.push("/monthlyRecord");
+        router.push({ name: "monthlyRecord", params: { source: "self" } });
       }
     }
   }
