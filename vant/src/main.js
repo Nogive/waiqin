@@ -3,7 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
-import "./common/js/rem";
+import "./utils/rem";
 import "./common/js/externalComponents";
 import "vant/lib/vant-css/icon-local.css";
 import "./assets/fonts/mm-font.css";

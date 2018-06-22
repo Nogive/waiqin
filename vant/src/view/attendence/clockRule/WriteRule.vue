@@ -148,7 +148,7 @@
         </div>
       </div>
       <van-cell-group> 
-        <van-cell title="添加位置" icon="add" class="blue" />
+        <van-cell title="添加位置" icon="add" class="blue" to="/setClockPlace" />
       </van-cell-group>
     </van-popup>
 

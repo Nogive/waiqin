@@ -12,7 +12,7 @@
       </div>
     </van-nav-bar>
 
-    <dragSite @drag="dragMap" lng="121.329402" lat="31.228667"  class="mapbox"></dragSite>
+    <dragSite @drag="dragMap" :lng="center.lng" :lat="center.lat" :range="range"  class="mapbox"></dragSite>
 
     <van-cell-group class="pois-box">
       <van-cell v-for="(item,index) in poisArr" :key="index" class="one-place" @click="checkPoint(item)">
@@ -80,7 +80,8 @@ export default {
   data(){
     let vm=this;
     return {
-      range:300,//打卡范围
+      center:{lng:121.473658,lat:31.230378},//地图默认经纬度
+      range:100,//打卡范围
       showRange:false,//打卡范围弹框
       checked:false,//勾选附近点
       poisArr:[]//附近的点
@@ -102,7 +103,7 @@ export default {
       this.range=range;
       this.showRange=false;
     },
-    //获取定位信息
+    //拖拽地图选点
     dragMap(data) {
       console.log(data);
       let nearPois=data.regeocode.pois;
