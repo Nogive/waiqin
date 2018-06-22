@@ -2,7 +2,7 @@
   <div>
     <div class="month-box">
       <van-nav-bar
-        title="正常考勤(21天)"
+        :title="`${title}(21天)`"
         left-arrow
         left-text="返回"
         @click-left="reback"
@@ -14,11 +14,27 @@
   </div>
 </template>
 <script>
-import router from '../../../router'
+import router from '@/router'
 export default {
   name:'normalClock',
   data(){
     return {
+      source:'',//来源
+    }
+  },
+  mounted(){
+    this.source=this.$route.params.source;
+  },
+  computed:{
+    title(){
+      let title="正常考勤";
+      if(this.source=='notIn'){
+        title="上班未签到"
+      }
+      if(this.source=='notOut'){
+        title="下班未签退"
+      }
+      return title;
     }
   },
   methods:{

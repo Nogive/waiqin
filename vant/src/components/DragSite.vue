@@ -117,7 +117,7 @@ export default {
     setCircle(AMap,map){
       let circleMarker=new AMap.CircleMarker({
         center:this.currentCenter,
-        radius:this.range,
+        radius:this.range/2,
         strokeColor:'#38f',
         strokeWeight:1,
         fillColor:'#38f',

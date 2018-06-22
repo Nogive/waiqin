@@ -5,7 +5,7 @@
         title="考勤月报表(个人)"
         left-arrow
         left-text="返回"
-        @click-left="reback"
+        @click-left="goBack"
       />
       <div class="sum-box" @click="goCustom">
         <van-row class="re-header">
@@ -29,10 +29,10 @@
         </van-row>
       </div>
       <van-cell-group>
-        <van-cell title="迟到" value="3次" to="/dailyRecord"  is-link/>
-        <van-cell title="未签到" value="1次" to="/normalClock"  is-link/>
-        <van-cell title="早退" value="1次" to="/dailyRecord"  is-link/>
-        <van-cell title="未签退" value="1次" to="/normalClock"  is-link/>
+        <van-cell title="迟到" value="3次" :to="{name:'dailyRecord',params:{source:'late'}}"  is-link/>
+        <van-cell title="未签到" value="1次" :to="{name:'normalClock',params:{source:'notIn'}}"  is-link/>
+        <van-cell title="早退" value="1次" :to="{name:'dailyRecord',params:{source:'leave'}}"  is-link/>
+        <van-cell title="未签退" value="1次" :to="{name:'normalClock',params:{source:'notOut'}}"  is-link/>
       </van-cell-group>
       <van-cell-group>
         <van-cell title="外出" value="1次" to="/dailyRecord"  is-link/>
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import router from '../../../router'
+import router from '@/router'
 export default {
   name:'DailyRecord',
   data(){
@@ -49,11 +49,12 @@ export default {
     }
   },
   methods:{
-    reback(){
+    goBack(){
       router.push('/clockHistory');
     },
+    //正常考勤
     goCustom(){
-      router.push('/normalClock');
+      router.push({name:'normalClock',params:{source:'normal'}});
     }
   }
 }

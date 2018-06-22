@@ -2,12 +2,12 @@
   <div>
     <div class="record-box">
       <van-nav-bar
-        title="打卡记录"
+        :title="title"
         left-arrow
         left-text="返回"
-        @click-left="reback"
+        @click-left="goBack"
       />
-      <div class="one-record">
+      <div class="one-record" v-for="(item,index) in recordsArr" :key="index">
         <van-row class="re-header">
           <van-col class="w50">
             <img src="../../../assets/images/cat1.jpg" alt="">
@@ -16,62 +16,17 @@
             <p class="re-name">张冬</p>
             <p>销售</p>
           </van-col>
-          <van-col class="w70 text-right">上班签到</van-col>
-          <van-col class="w80 text-right">05-30 17:58</van-col>
+          <van-col class="w70 text-right">{{item.describe}}</van-col>
+          <van-col class="w80 text-right">{{item.time}}</van-col>
         </van-row>
         <van-row>
           <van-col span="24" class="re-address blue">
             <van-icon name="kaoqin"></van-icon>
-            徐汇区钦州北路1066号靠近钦汇园
+            {{item.address}}
           </van-col>
-          <van-col span="24">在外</van-col>
-        </van-row>
-      </div>
-
-      <div class="one-record">
-        <van-row class="re-header">
-          <van-col class="w50">
-            <img src="../../../assets/images/cat1.jpg" alt="">
-          </van-col>
-          <van-col class="wauto">
-            <p class="re-name">张冬</p>
-            <p>销售</p>
-          </van-col>
-          <van-col class="w70 text-right">下班签退</van-col>
-          <van-col class="w80 text-right">05-30 22:58</van-col>
-        </van-row>
-        <van-row>
-          <van-col span="24" class="re-address blue">
-            <van-icon name="kaoqin"></van-icon>
-            徐汇区宾阳路58临靠近漕河泾街道社区卫生服务中心
-          </van-col>
-          <van-col span="24">在客户处</van-col>
-          <van-col span="24" class="re-img">
-            <img src="../../../assets/images/cat1.jpg" alt="">
-          </van-col>
-        </van-row>
-      </div>
-
-      <div class="one-record">
-        <van-row class="re-header">
-          <van-col class="w50">
-            <img src="../../../assets/images/cat1.jpg" alt="">
-          </van-col>
-          <van-col class="wauto">
-            <p class="re-name">张冬</p>
-            <p>销售</p>
-          </van-col>
-          <van-col class="w70 text-right">外出</van-col>
-          <van-col class="w80 text-right">05-31 22:58</van-col>
-        </van-row>
-        <van-row>
-          <van-col span="24" class="re-address blue">
-            <van-icon name="kaoqin"></van-icon>
-            徐汇区宾阳路58临靠近漕河泾街道社区卫生服务中心
-          </van-col>
-          <van-col span="24">外勤哈哈哈</van-col>
-          <van-col span="24" class="re-img">
-            <img src="../../../assets/images/cat1.jpg" alt="">
+          <van-col span="24">{{item.message}}</van-col>
+          <van-col span="24" class="re-img" v-if="item.imgSrc">
+            <img :src="item.imgSrc" alt="">
           </van-col>
         </van-row>
       </div>
@@ -79,21 +34,7 @@
     </div>
   </div>
 </template>
-<script>
-import router from '../../../router'
-export default {
-  name:'DailyRecord',
-  data(){
-    return {
-    }
-  },
-  methods:{
-    reback(){
-      router.push('/clockHistory');
-    }
-  }
-}
-</script>
+<script src="./js/dailyRecord.js"></script>
 
 <style scoped>
 .record-box{

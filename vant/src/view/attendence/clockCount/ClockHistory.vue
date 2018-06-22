@@ -8,7 +8,7 @@
         @click-left="reback"
       />
       <van-cell-group v-for="index in 12" :key="index">
-        <van-cell :title="`${index}月1日 星期五`" to="/dailyRecord"  is-link/>
+        <van-cell :title="`${index}月1日 星期五`" :to="{name:'dailyRecord',params:{source:'history'}}"  is-link/>
         <van-cell :title="`${index}月考勤报表 >`" to="/monthlyRecord" class="text-center blue" />
       </van-cell-group>
 
