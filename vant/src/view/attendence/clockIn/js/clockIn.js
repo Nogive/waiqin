@@ -10,6 +10,7 @@ export default {
   name: "clockIn",
   data() {
     return {
+      time: 1529892675000,
       tabIndex: 0, //tabIndex
       showOnWork: true, //签到按钮
       showAfterWork: false, //已经签退

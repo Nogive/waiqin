@@ -62,6 +62,9 @@ export default {
       headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
     };
   },
+  mounted() {
+    console.log("mounted");
+  },
   methods: {
     goBack() {
       router.push("/writeRule");
@@ -73,6 +76,10 @@ export default {
       if (ev.srcElement.nodeName != "I" && item.children != undefined) {
         this.persons = item.children;
       }
+    },
+    deleteThisDepart(item) {
+      let idx = this.result.indexOf(item);
+      this.result.splice(idx, 1);
     }
   }
 };
