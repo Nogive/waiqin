@@ -18,32 +18,31 @@ Vue.directive("focus", {
  */
 
 //timestamp => some format
-/*
-all => yyyy-mm-dd hh:mm
-ymd => yyyy-mm-dd
-hm => hh:mm
-*/
-Vue.filter("timeFormatting", function(input, params) {
-  let date = new Date(input);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  let hour = date.getHours();
+Vue.filter("timestampFormat", function(value, format) {
+  let date = new Date(value);
+  let y = date.getFullYear();
+  let m = date.getMonth() + 1;
+  let d = date.getDate();
+  let h = date.getHours();
   let min = date.getMinutes();
-  let sec = date.getSeconds();
-  let value = input;
-  if (params == "all") {
-    value = `${year}-${month < 10 ? "0" + month : month}-${
-      day < 10 ? "0" + day : day
-    } ${hour < 10 ? "0" + hour : hour}:${min < 10 ? "0" + min : min}`;
+  let s = date.getSeconds();
+  let result = "";
+  if (format == undefined) {
+    result = `${y}-${m < 10 ? "0" + m : m}-${d < 10 ? "0" + d : d} ${
+      h < 10 ? "0" + h : h
+    }:${min < 10 ? "0" + min : min}:${s < 10 ? "0" + s : s}`;
   }
-  if (params == "ymd") {
-    value = `${year}-${month < 10 ? "0" + month : month}-${
-      day < 10 ? "0" + day : day
-    }`;
+  if (format == "yyyy-mm-dd") {
+    result = `${y}-${m < 10 ? "0" + m : m}-${d < 10 ? "0" + d : d}`;
   }
-  if (params == "hm") {
-    value = `${hour < 10 ? "0" + hour : hour}:${min < 10 ? "0" + min : min}`;
+  if (format == "yyyy-mm") {
+    result = `${y}-${m < 10 ? "0" + m : m}`;
   }
-  return value;
+  if (format == "mm-dd") {
+    result = ` ${mm < 10 ? "0" + mm : mm}:${ddmin < 10 ? "0" + dd : dd}`;
+  }
+  if (format == "hh:mm") {
+    result = ` ${h < 10 ? "0" + h : h}:${min < 10 ? "0" + min : min}`;
+  }
+  return result;
 });
