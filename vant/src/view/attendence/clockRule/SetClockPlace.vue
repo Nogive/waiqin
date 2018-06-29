@@ -19,10 +19,11 @@
         class="amap-demo" 
         :center="center"
         :amapManager="amapManager"
-        :events="events">
+        :events="events"
+        >
         <el-amap-circle 
           vid="circle"
-          :center="center" 
+          :center="circleCenter" 
           :radius="range*2" 
           fill-opacity="0.2"
           strokeColor="#38f"

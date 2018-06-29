@@ -8,6 +8,7 @@ export default {
     return {
       zoom: 15,
       center: [121.473658, 31.230378],
+      circleCenter: [121.473658, 31.230378],
       range: 100, //打卡范围
       showRange: false, //打卡范围弹框
       checked: false, //勾选附近点
@@ -31,10 +32,6 @@ export default {
   methods: {
     reback() {
       router.push("/writeRule");
-    },
-    //初始页面
-    initPage(result) {
-      console.log(result);
     },
     //选择打卡范围
     checkClockRange(range) {
@@ -68,16 +65,23 @@ export default {
           });
         });
         positionPicker.on("success", function(positionResult) {
-          vm.center = [
+          vm.circleCenter = [
             positionResult.position.lng,
             positionResult.position.lat
           ];
-          vm.poisArr = positionResult.regeocode.pois;
+          let results = positionResult.regeocode.pois;
+          results.forEach(e => {
+            e.checked = false;
+          });
+          vm.poisArr = results;
         });
         positionPicker.on("fail", function(failResult) {
           console.log(failResult);
         });
       });
+    },
+    dragMap() {
+      console.log("drag");
     },
     //选择某个地点
     checkPoint(item) {
@@ -89,7 +93,7 @@ export default {
           e.checked = false;
         }
       });
-      this.center = [item.location.lng, item.location.lat];
+      //this.circleCenter = [item.location.lng, item.location.lat];
     }
   }
 };
