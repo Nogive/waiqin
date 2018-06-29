@@ -19,6 +19,8 @@ const photoMap = [
     url: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
   }
 ];
+import { AMapManager } from "vue-amap";
+let amapManage = new AMapManager();
 export default {
   name: "attendenceDetail",
   data() {
@@ -39,18 +41,12 @@ export default {
       map: "",
       zoom: 15, //地图放大级别
       center: [121.59996, 31.197646], //地图默认中心点
-      plugin: [
-        {
-          pName: "Geolocation",
-          showButton: false,
-          extensions: "all",
-          events: {
-            init(o) {
-              vm.map = o;
-            }
-          }
+      amapManage,
+      events: {
+        init(o) {
+          vm.map = o;
         }
-      ]
+      }
     };
   },
   mounted: function() {
@@ -110,7 +106,6 @@ export default {
       this.lng = result.position.lng;
       this.lat = result.position.lat;
       this.center = [result.position.lng, result.position.lat];
-      this.$nextTick();
     },
     //拍照上传
     takePhoto() {
@@ -149,14 +144,28 @@ export default {
     },
     //获取定位信息
     getLocationInfo() {
-      this.map.getCurrentPosition((status, result) => {
-        console.log(result);
-        if (result && result.position) {
-          showLoading(this, false);
-          this.renderPage(result);
-        } else {
-          this.autoLocationError();
-        }
+      let vm = this;
+      let map = this.amapManage.getMap();
+      let geolocation;
+      map.plugin("AMap.Geolocation", function() {
+        geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true, //是否使用高精度定位，默认:true
+          timeout: 10000, //超过10秒后停止定位，默认：无穷大
+          showButton: true, //显示定位按钮，默认：true
+          showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+          extensions: "all"
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, "complete", function(data) {
+          console.log(data);
+          showLoading(vm, false);
+          vm.renderPage(data);
+        }); //返回定位信息
+        AMap.event.addListener(geolocation, "error", function(data) {
+          console.log(data);
+          vm.autoLocationError();
+        }); //返回定位出错信息
       });
     }
   }

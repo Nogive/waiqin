@@ -12,7 +12,27 @@
       </div>
     </van-nav-bar>
 
-    <dragSite @drag="dragMap" :lng="center.lng" :lat="center.lat" :range="range"  class="mapbox"></dragSite>
+    <div class="amap-page-container">
+      <el-amap 
+        vid="amap" 
+        :zoom="zoom" 
+        class="amap-demo" 
+        :center="center"
+        :amapManager="amapManager"
+        :events="events">
+        <el-amap-circle 
+          vid="circle"
+          :center="center" 
+          :radius="range*2" 
+          fill-opacity="0.2"
+          strokeColor="#38f"
+          strokeOpacity="0.8"
+          strokeWeight="1"
+          fillColor="#38f"
+          >
+        </el-amap-circle>
+      </el-amap>
+    </div>
 
     <van-cell-group class="pois-box">
       <van-cell v-for="(item,index) in poisArr" :key="index" class="one-place" @click="checkPoint(item)">
@@ -20,7 +40,7 @@
           <span class="van-cell-text">{{item.name}}</span>
           <span>{{item.address}}</span>
         </template>
-        <van-icon v-show="item.checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
+        <van-icon v-if="item.checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
       </van-cell>
     </van-cell-group>
 
@@ -69,7 +89,8 @@
     overflow: scroll;
   }
 </style>
-<script>
+<script src="./js/setClockPlace.js">
+/*
 import router from '@/router'
 import dragSite from '@/components/DragSite.vue'
 export default {
@@ -127,4 +148,5 @@ export default {
     }
   }
 }
+*/
 </script>

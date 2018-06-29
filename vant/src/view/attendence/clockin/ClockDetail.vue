@@ -4,7 +4,9 @@
       :title="pageTitle"
       left-arrow
       left-text="返回"
+      right-text="定位"
       @click-left="goBack"
+      @click-right="getLocationInfo"
     />
     <div class="clock-detail-box">
       <van-row>
@@ -21,7 +23,8 @@
             <el-amap 
               vid="clockMap" 
               :zoom="zoom" 
-              :plugin="plugin" 
+              :amap-manager="amapManage"
+              :events="events" 
               class="amap-img" 
               :center="center">
             </el-amap>
