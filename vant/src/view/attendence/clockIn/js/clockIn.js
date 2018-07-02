@@ -58,7 +58,6 @@ export default {
     },
     initRender() {
       let params = this.$route.params;
-      console.log(params);
       if (JSON.stringify(params) != "{}") {
         if (params.source == "in") {
           this.showOnWork = false;

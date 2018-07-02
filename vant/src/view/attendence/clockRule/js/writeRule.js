@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     goBack() {
-      router.push("/clockHome/clockRule");
+      router.push({ name: "clockRule", params: { tab: 2 } });
     },
     //规则名称
     setName() {

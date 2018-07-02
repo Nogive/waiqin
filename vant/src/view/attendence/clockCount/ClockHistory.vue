@@ -77,7 +77,7 @@ export default {
   },
   methods:{
     goBack(){
-      router.push('/clockHome/clockCount');
+      router.push({name:'clockCount',params:{tab:1}});
     }
   }
 }

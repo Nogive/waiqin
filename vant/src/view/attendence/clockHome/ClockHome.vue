@@ -17,6 +17,11 @@ export default {
       menuIndex:0
     }
   },
+  mounted(){
+    if(this.$route.params.tab!=undefined){
+      this.menuIndex=this.$route.params.tab;
+    }
+  },
   methods:{
     reback(){
       router.push('/');

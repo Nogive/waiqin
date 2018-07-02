@@ -13,6 +13,9 @@ export default {
       showRange: false, //打卡范围弹框
       checked: false, //勾选附近点
       poisArr: [], //附近的点
+      showSearch: false,
+      searchKey: "",
+      poiPicker: null,
       amapManager,
       map: null,
       events: {
@@ -80,8 +83,43 @@ export default {
         });
       });
     },
-    dragMap() {
-      console.log("drag");
+    startSearch() {
+      let vm = this;
+      let map = this.amapManager.getMap();
+      this.showSearch = true;
+      AMapUI.loadUI(["misc/PoiPicker"], function(PoiPicker) {
+        var poiPicker = new PoiPicker({
+          input: "searchPlace", //输入框id
+          placeSearchOption: {
+            map: map
+          },
+          suggestContainer: "searchTip",
+          searchResultsContainer: "searchTip"
+        });
+        vm.poiPicker = poiPicker;
+        //监听poi选中信息
+        poiPicker.on("poiPicked", function(poiResult) {
+          let source = poiResult.source;
+          let poi = poiResult.item;
+          if (source !== "search") {
+            poiPicker.searchByKeyword(poi.name);
+          } else {
+            //用户选中的poi点信息
+            vm.center = [
+              poiResult.item.location.lng,
+              poiResult.item.location.lat
+            ];
+            poiPicker.clearSearchResults();
+            vm.searchKey = "";
+            vm.showSearch = false;
+          }
+        });
+      });
+    },
+    searchByHand() {
+      if (this.searchKey != "") {
+        this.poiPicker.searchByKeyword(this.searchKey);
+      }
     },
     //选择某个地点
     checkPoint(item) {

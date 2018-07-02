@@ -7,12 +7,17 @@
       @click-left="reback"
     >
       <div slot="right">
-        <van-icon name="search"></van-icon>
+        <van-icon name="search" @click="startSearch"></van-icon>
         <van-button size="small" class="bg-blue">确定</van-button>
       </div>
     </van-nav-bar>
 
     <div class="amap-page-container">
+      <div class="search-box" v-if="showSearch">
+        <input type="search" id="searchPlace" v-model="searchKey">
+        <button @click="searchByHand">搜索</button>
+        <div class="out-box" id="searchTip"></div>
+      </div>
       <el-amap 
         vid="amap" 
         :zoom="zoom" 
@@ -62,6 +67,42 @@
 <style scoped>
   .amap-page-container{
     height: 300px;
+    position: relative;
+  }
+  .search-box{
+    position: absolute;
+    width: 90%;
+    height: 30px;
+    top:10px;
+    left:5%;
+    z-index: 99;
+  }
+  .search-box input{
+    float: left;
+    width: 80%;
+    height: 100%;
+    border: 1px solid rgba(51,136,255,.4);
+    border-radius: 5px 0 0 5px;
+    padding: 0 5px;
+    font-size: 0.8rem;
+  }
+  .search-box button{
+    float: left;
+    width: 20%;
+    height: 100%;
+    border: 1px solid #38f;
+    background-color: #38f;
+    font-size: 0.8rem;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+  }
+  .out-box{
+    width: 100%;
+    max-height: 260px;
+    position: absolute;
+    top:30px;
+    overflow-y: auto;
+    background-color: #fff;
   }
   .range-box{
     position: fixed;
@@ -90,64 +131,4 @@
     overflow: scroll;
   }
 </style>
-<script src="./js/setClockPlace.js">
-/*
-import router from '@/router'
-import dragSite from '@/components/DragSite.vue'
-export default {
-  name:'setClockPlace',
-  components:{
-    dragSite
-  },
-  data(){
-    let vm=this;
-    return {
-      center:{lng:121.473658,lat:31.230378},//地图默认经纬度
-      range:100,//打卡范围
-      showRange:false,//打卡范围弹框
-      checked:false,//勾选附近点
-      poisArr:[]//附近的点
-    }
-  },
-  watch:{
-    'map':function(){}
-  },
-  methods:{
-    reback(){
-      router.push('/writeRule');
-    },
-    //初始页面
-    initPage(result){
-      console.log(result);
-    },
-    //选择打卡范围
-    checkClockRange(range){
-      this.range=range;
-      this.showRange=false;
-    },
-    //拖拽地图选点
-    dragMap(data) {
-      console.log(data);
-      let nearPois=data.regeocode.pois;
-      let newArr=[];
-      nearPois.forEach(e=>{
-        e['checked']=false;
-        newArr.push(e);
-      })
-      this.poisArr=newArr;
-    },
-    //选择某个地点
-    checkPoint(item){
-      let idx=this.poisArr.indexOf(item);
-      this.poisArr.forEach((e,i)=>{
-        if(i==idx){
-          e.checked=true;
-        }else{
-          e.checked=false;
-        }
-      })
-    }
-  }
-}
-*/
-</script>
+<script src="./js/setClockPlace.js"></script>
