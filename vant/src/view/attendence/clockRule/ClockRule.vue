@@ -64,9 +64,11 @@ export default {
   .one-rule .van-col-24:first-child{
     font-weight: bold;
     margin-top: 0;
+    font-size: 0.9rem;
   }
   .one-rule .van-col-24{
     margin-top: 0.5rem;
+    font-size: 0.8rem;
   }
   
 </style>

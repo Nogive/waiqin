@@ -200,6 +200,7 @@
   }
   .one-rule .van-row{
     margin-top: 0.5rem;
+    font-size: 0.8rem;
   }
   .one-rule .van-row:first-child{
     margin-top: 0;
