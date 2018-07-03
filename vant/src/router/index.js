@@ -1,9 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "@/view/home/Home.vue";
-import Login from "@/view/login/Login.vue";
+import home from "@/view/home/Home.vue";
+import login from "@/view/login/Login.vue";
 import { Toast } from "vant";
 Vue.use(Router);
+
+//404
+import page404 from "@/view/default/page404.vue";
 
 //考勤
 import clockHome from "@/view/attendence/clockHome/ClockHome.vue";
@@ -41,12 +44,12 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: home
   },
   {
     path: "/login",
     name: "login",
-    component: Login
+    component: login
   },
   {
     path: "/clockHome", //打卡
@@ -118,10 +121,14 @@ const routes = [
     path: "/normalClockPerson",
     name: "normalClockPerson",
     component: normalClockPerson
+  },
+  {
+    path: "*",
+    component: page404
   }
 ];
 const router = new Router({
-  //mode: "history",
+  mode: "history",
   routes
 });
 router.beforeEach((to, from, next) => {
