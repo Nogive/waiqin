@@ -124,7 +124,8 @@ const routes = [
   },
   {
     path: "*",
-    component: page404
+    //component: page404,
+    component: home
   }
 ];
 const router = new Router({

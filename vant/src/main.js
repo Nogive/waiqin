@@ -11,13 +11,9 @@ import "./assets/fonts/mm-font.css";
 import "./common/css/common.css";
 import store from "./store/";
 import VueResource from "vue-resource";
-import "babel-polyfill";
-import Es6Promise from "es6-promise";
-Es6Promise, polyfill();
 Vue.use(VueResource);
 
 import VueAMap from "vue-amap";
-import { polyfill } from "es6-promise";
 Vue.use(VueAMap);
 
 Vue.config.productionTip = false;

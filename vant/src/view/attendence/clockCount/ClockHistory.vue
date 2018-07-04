@@ -5,7 +5,7 @@
         :title="title"
         left-arrow
         left-text="返回"
-        @click-left="goBack"
+        @click-left="$router.go(-1)"
       />
       <van-cell-group v-for="index in 12" :key="index">
         <van-cell :title="`${index}月1日 星期五`" :to="dayLink"  is-link/>
@@ -76,9 +76,6 @@ export default {
     }
   },
   methods:{
-    goBack(){
-      router.push({name:'clockCount',params:{tab:1}});
-    }
   }
 }
 </script>

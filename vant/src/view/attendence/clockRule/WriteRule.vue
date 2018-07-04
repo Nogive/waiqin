@@ -5,7 +5,7 @@
       left-arrow
       left-text="返回"
       right-text="保存"
-      @click-left="goBack"
+      @click-left="$router.go(-1)"
     />
     <div class="write-rule-body">
       <van-cell-group>

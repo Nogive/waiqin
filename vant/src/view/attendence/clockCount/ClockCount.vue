@@ -5,7 +5,7 @@
         title="考勤统计"
         left-arrow
         left-text="返回"
-        @click-left="goBack"
+        @click-left="$router.push('/')"
       />
       <van-cell-group>
         <van-cell title="全部成员" :to="{name:'clockHistory',params:{source:'all'}}"  is-link/>
@@ -47,17 +47,19 @@
   </div>
 </template>
 <script>
-import router from '@/router'
 export default {
   name:'clockCount',
   data(){
     return {
     }
   },
-  methods:{
-    goBack(){
-      router.push('/');
+  created(){
+    let vm=this;
+    window.onpopstate=()=>{
+      vm.$router.push('/');
     }
+  },
+  methods:{
   }
 }
 </script>

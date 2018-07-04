@@ -4,7 +4,7 @@
       title="规则"
       left-arrow
       left-text="返回"
-      @click-left="reback"
+      @click-left="$router.push('/')"
     >
       <van-icon name="add-o" slot="right" @click="createRule" />
     </van-nav-bar>
@@ -29,19 +29,17 @@
   </div>
 </template>
 <script>
-import router from '../../../router'
 export default {
   name:'attendence',
   data(){
     return {
     }
   },
+  created(){
+  },
   methods:{
-    reback(){
-      router.push('/');
-    },
     createRule(){
-      router.push('/writeRule');
+      this.$router.push('/writeRule');
     }
   }
 }

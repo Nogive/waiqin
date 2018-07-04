@@ -52,9 +52,6 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      router.push({ name: "clockRule", params: { tab: 2 } });
-    },
     //规则名称
     setName() {
       if (this.ruleName == "") {

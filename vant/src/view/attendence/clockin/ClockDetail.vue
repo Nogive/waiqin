@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-      :title="pageTitle"
+      :title="title"
       left-arrow
       left-text="返回"
       right-text="定位"
@@ -53,14 +53,14 @@
       </van-row>
     </div>
     <van-button 
-      v-show="isDetail" 
+      v-show="edit" 
       class="large-btn" 
       size="large" 
       @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
       <van-icon 
-        v-show="isDetail" 
+        v-show="edit" 
         name="delete" 
         @click="deletePhoto"></van-icon>
       <img :src="largePhoto.url" alt="">

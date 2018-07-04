@@ -1,5 +1,6 @@
 import router from "@/router";
 import { Toast } from "vant";
+import * as type from "@/common/js/typeVariable";
 const outers = {
   time: "13:00",
   address: "上海市新华路128号",
@@ -10,6 +11,7 @@ export default {
   name: "clockIn",
   data() {
     return {
+      type: type,
       time: 1529892675000,
       tabIndex: 0, //tabIndex
       showOnWork: true, //签到按钮
@@ -34,19 +36,30 @@ export default {
       return tag;
     }
   },
+  beforeRouteEnter: (to, from, next) => {
+    let vm = this;
+    let source = from.params.source;
+    if (source == type.SIGNOUTDETAIL || source == type.ADDGOOUT) {
+      next(vm => {
+        vm.tabIndex = 1;
+      });
+    } else {
+      next();
+    }
+  },
   methods: {
     goBack() {
-      router.push("/");
+      router.go(-1);
     },
     //enter detail page
     punchCard(key) {
-      if (key == "inDetail") {
+      if (key == type.SIGNINDETAIL) {
         if (this.showOnWork) {
           Toast("暂无上班打卡详情");
         } else {
           router.push({ name: "clockDetail", params: { source: key } });
         }
-      } else if (key == "outDetail") {
+      } else if (key == type.SIGNOUTDETAIL) {
         if (this.showAfterWork) {
           router.push({ name: "clockDetail", params: { source: key } });
         } else {
@@ -59,28 +72,24 @@ export default {
     initRender() {
       let params = this.$route.params;
       if (JSON.stringify(params) != "{}") {
-        if (params.source == "in") {
+        if (params.source == type.SIGNIN) {
           this.showOnWork = false;
           this.punchTime = "09:03";
         }
-        if (params.source == "out") {
+        if (params.source == type.SIGNOUT) {
           this.showOnWork = false;
           this.punchTime = "09:03";
           this.showAfterWork = true;
           this.punchOutTime = "18:08";
         }
-        if (params.source == "update") {
+        if (params.source == type.UPDATE) {
           this.showOnWork = false;
           this.punchTime = "09:03";
           this.showAfterWork = true;
           this.punchOutTime = "18:18";
         }
-        if (params.source == "outer") {
-          this.tabIndex = 1;
+        if (params.source == type.ADDGOOUT) {
           this.outerRecords.push(outers);
-        }
-        if (params.source == "outerDetail") {
-          this.tabIndex = 1;
         }
       }
     }

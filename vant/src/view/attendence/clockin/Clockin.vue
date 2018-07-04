@@ -12,7 +12,7 @@
       <van-tab title="上下班">
         <div class="work-box">
           <van-row class="work-body" :class="{'disable-color':!showOnWork}" gutter="20">
-            <a href="javascript:;" @click="punchCard('inDetail')">
+            <a href="javascript:;" @click="punchCard(type.SIGNINDETAIL)">
               <van-col span="4" class="work-icon">
                 <van-icon name="sun"></van-icon>
               </van-col>
@@ -22,7 +22,7 @@
                   <p>09:00</p>
                 </van-col>
                 <van-col span="8" class="work-btn">
-                  <van-button v-if="showOnWork" size="small" type="danger" @click.stop="punchCard('in')">签到</van-button>
+                  <van-button v-if="showOnWork" size="small" type="danger" @click.stop="punchCard(type.SIGNIN)">签到</van-button>
                   <p class="sign-in" v-else>
                     <van-icon name="itemLine"></van-icon>已签到 {{punchTime}}
                   </p>
@@ -32,7 +32,7 @@
           </van-row>
 
           <van-row class="work-body" :class="{'disable-color':showOnWork}" gutter="20">
-            <a href="javascript:;" @click="punchCard('outDetail')">
+            <a href="javascript:;" @click="punchCard(type.SIGNOUTDETAIL)">
               <van-col span="4" class="work-icon">
                 <van-icon name="moon"></van-icon>
               </van-col>
@@ -52,12 +52,12 @@
                     size="small" 
                     type="danger" 
                     class="before-start" 
-                    @click.stop="punchCard('out')">签退</van-button>
+                    @click.stop="punchCard(type.SIGNOUT)">签退</van-button>
 
                   <p class="sign-in" v-show="showAfterWork">
                     <van-icon name="itemLine"></van-icon>已签退 {{punchOutTime}}
                   </p>
-                  <a v-show="showAfterWork" href="javascript:;" class="blue" @click.stop="punchCard('update')">更新</a>
+                  <a v-show="showAfterWork" href="javascript:;" class="blue" @click.stop="punchCard(type.UPDATE)">更新</a>
                 </van-col>
               </van-col>
             </a>
@@ -71,7 +71,7 @@
               <p class="out-title">外出记录</p>
             </van-col>
             <van-col span="6" class="text-right">
-              <van-button size="small" class="bg-blue" @click.stop="punchCard('outer')">新增打卡</van-button>
+              <van-button size="small" class="bg-blue" @click.stop="punchCard(type.ADDGOOUT)">新增打卡</van-button>
             </van-col>
           </van-row>
           <van-row v-show="outerRecords.length==0" class="no-record grey">
@@ -82,7 +82,7 @@
           </van-row>
           <div class="record-box">
             <van-row class="one-record" v-for="(item,index) in outerRecords" :key="index">
-              <router-link :to="{name:'clockDetail',params:{source:'outerDetail'}}">
+              <router-link :to="{name:'clockDetail',params:{source:type.GOOUTDETAIL}}">
               <van-col span="18">
                 <p class="out-title">第{{index+1}}次打卡</p>
               </van-col>

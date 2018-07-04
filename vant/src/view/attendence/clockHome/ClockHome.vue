@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-import router from '../../../router'
 export default {
   name:'attendence',
   data(){
@@ -17,15 +16,24 @@ export default {
       menuIndex:0
     }
   },
-  mounted(){
-    if(this.$route.params.tab!=undefined){
-      this.menuIndex=this.$route.params.tab;
+  beforeRouteEnter:((to,from,next)=>{
+    let vm=this;
+    if(from.name=="clockHistory"){
+      next(vm=>{
+        vm.menuIndex=1;
+      });
+    }else if(from.name=="writeRule"){
+      next(vm=>{
+        vm.menuIndex=2;
+      });
+    }else{
+      next();
     }
+  }),
+  created(){
+    //console.log(this.$route);
   },
   methods:{
-    reback(){
-      router.push('/');
-    }
   }
 }
 </script>

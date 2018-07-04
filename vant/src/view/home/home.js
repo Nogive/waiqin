@@ -20,7 +20,6 @@ export default {
   },
   mounted() {
     if (!checkCookie("token")) {
-      console.log("mounted");
       //router.push("/login");
     } else {
       //showLoading(this, true);

@@ -1,6 +1,7 @@
 import router from "@/router";
 import { Toast, ImagePreview, Dialog } from "vant";
 import { showLoading } from "@/common/js/commonFunc";
+import * as type from "@/common/js/typeVariable";
 const photoMap = [
   {
     id: 1,
@@ -26,9 +27,10 @@ export default {
   data() {
     let vm = this;
     return {
-      //init page
-      source: "", //记录来源那个操作
       //page data
+      source: null,
+      title: "打卡详情",
+      edit: true, //是否可编辑
       currentTime: "", //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
@@ -49,10 +51,28 @@ export default {
       }
     };
   },
-  mounted: function() {
-    showLoading(this, true);
-    //记录来源
+  created: function() {
     this.source = this.$route.params.source;
+    switch (this.source) {
+      case type.SIGNIN:
+        this.title = "签到";
+        break;
+      case type.SIGNOUT:
+        this.title = "签退";
+        break;
+      case type.UPDATE:
+        this.title = "更新打卡";
+        break;
+      case type.ADDGOOUT:
+        this.title = "外出打卡";
+        break;
+      case type.SIGNINDETAIL:
+        this.edit = false;
+        break;
+      case type.GOOUTDETAIL:
+        this.edit = false;
+        break;
+    }
   },
   watch: {
     //自动获取时间+地点
@@ -62,42 +82,9 @@ export default {
       }
     }
   },
-  computed: {
-    pageTitle() {
-      let title = "";
-      switch (this.source) {
-        case "in":
-          title = "上班打卡";
-          break;
-        case "out":
-          title = "下班打卡";
-          break;
-        case "update":
-          title = "更新下班打卡";
-          break;
-        case "outer":
-          title = "外出打卡";
-          break;
-        default:
-          title = "打卡详情";
-          break;
-      }
-      return title;
-    },
-    isDetail() {
-      return !(
-        this.$route.params.source == "inDetail" ||
-        this.$route.params.source == "outDetail" ||
-        this.$route.params.source == "outerDetail"
-      );
-    }
-  },
   methods: {
     goBack() {
-      router.push({
-        name: "clockIn",
-        params: { source: this.source }
-      });
+      router.go(-1);
     },
     renderPage(result) {
       this.currentTime = getCurrentTime();
@@ -137,6 +124,7 @@ export default {
     },
     //确认打卡
     confirmTheClock() {
+      //this.$router.go(-1);
       router.push({
         name: "clockIn",
         params: { source: this.source }
@@ -159,7 +147,6 @@ export default {
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, "complete", function(data) {
           console.log(data);
-          showLoading(vm, false);
           vm.renderPage(data);
         }); //返回定位信息
         AMap.event.addListener(geolocation, "error", function(data) {
