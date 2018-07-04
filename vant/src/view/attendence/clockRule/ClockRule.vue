@@ -4,7 +4,7 @@
       title="规则"
       left-arrow
       left-text="返回"
-      @click-left="$router.push('/')"
+      @click-left="$router.back()"
     >
       <van-icon name="add-o" slot="right" @click="createRule" />
     </van-nav-bar>

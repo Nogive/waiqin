@@ -5,7 +5,7 @@
         title="考勤统计"
         left-arrow
         left-text="返回"
-        @click-left="$router.push('/')"
+        @click-left="$router.back()"
       />
       <van-cell-group>
         <van-cell title="全部成员" :to="{name:'clockHistory',params:{source:'all'}}"  is-link/>
@@ -54,10 +54,6 @@ export default {
     }
   },
   created(){
-    let vm=this;
-    window.onpopstate=()=>{
-      vm.$router.push('/');
-    }
   },
   methods:{
   }

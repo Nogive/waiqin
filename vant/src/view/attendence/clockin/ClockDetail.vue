@@ -5,7 +5,7 @@
       left-arrow
       left-text="返回"
       right-text="定位"
-      @click-left="goBack"
+      @click-left="$router.back()"
       @click-right="getLocationInfo"
     />
     <div class="clock-detail-box">

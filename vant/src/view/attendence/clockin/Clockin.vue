@@ -4,7 +4,7 @@
       title="打卡"
       left-arrow
       left-text="返回"
-      @click-left="goBack"
+      @click-left="$router.back()"
     >
       <van-icon name="ellipseVertical" slot="right" />
     </van-nav-bar>

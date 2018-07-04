@@ -39,7 +39,8 @@ export default {
   beforeRouteEnter: (to, from, next) => {
     let vm = this;
     let source = from.params.source;
-    if (source == type.SIGNOUTDETAIL || source == type.ADDGOOUT) {
+    console.log(source);
+    if (source == type.GOOUTDETAIL || source == type.ADDGOOUT) {
       next(vm => {
         vm.tabIndex = 1;
       });
@@ -48,9 +49,6 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      router.go(-1);
-    },
     //enter detail page
     punchCard(key) {
       if (key == type.SIGNINDETAIL) {

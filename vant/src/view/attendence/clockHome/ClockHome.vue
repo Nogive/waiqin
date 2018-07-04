@@ -2,9 +2,9 @@
   <div>
     <router-view></router-view>
     <van-tabbar v-model="menuIndex">
-      <van-tabbar-item to="/clockHome" icon="position">打卡</van-tabbar-item>
-      <van-tabbar-item to="/clockHome/clockCount" icon="count">统计</van-tabbar-item>
-      <van-tabbar-item to="/clockHome/clockRule" icon="ruleDash" >规则</van-tabbar-item>
+      <van-tabbar-item to="/clockHome" replace icon="position">打卡</van-tabbar-item>
+      <van-tabbar-item to="/clockHome/clockCount" replace icon="count">统计</van-tabbar-item>
+      <van-tabbar-item to="/clockHome/clockRule" replace icon="ruleDash" >规则</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     }
   }),
   created(){
-    //console.log(this.$route);
+    
   },
   methods:{
   }

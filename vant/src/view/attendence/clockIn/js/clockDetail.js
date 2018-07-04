@@ -83,9 +83,6 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      router.go(-1);
-    },
     renderPage(result) {
       this.currentTime = getCurrentTime();
       this.shotAddress = result.aois[0].name;
@@ -124,10 +121,13 @@ export default {
     },
     //确认打卡
     confirmTheClock() {
-      //this.$router.go(-1);
-      router.push({
+      //this.edit = false;
+      this.$router.back();
+      this.$router.replace({
         name: "clockIn",
-        params: { source: this.source }
+        params: {
+          source: this.source
+        }
       });
     },
     //获取定位信息
