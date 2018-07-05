@@ -5,20 +5,20 @@
         :title="title"
         left-arrow
         left-text="返回"
-        @click-left="goBack"
+        @click-left="$router.back()"
       />
       <van-row class="company-box">
         <van-col span="24">2018年6月1日 星期五</van-col>
         <van-col span="24">麦芒科技公司</van-col>
       </van-row>
       <van-cell-group>
-        <van-cell is-link class="person-box" :to="personLink">
+        <van-cell is-link class="person-box" :to="{name:'dailyRecord'}">
           <template slot="title">
             <img src="../../../assets/images/cat2.jpg" alt="">
             张冬
           </template>
         </van-cell>
-        <van-cell is-link class="person-box" :to="personLink">
+        <van-cell is-link class="person-box" :to="{name:'dailyRecord'}">
           <template slot="title">
             <img src="../../../assets/images/cat2.jpg" alt="">
             张冬
@@ -29,63 +29,36 @@
   </div>
 </template>
 <script>
-import router from '@/router'
+import * as type from "@/common/js/typeVariable"
+import {mapGetters} from "vuex"
 export default {
   name:'normalClockPerson',
   data(){
     return {
-      source:''
+      title:'考勤月报表',
+      source:'',
     }
   },
-  mounted(){
-    this.source=this.$route.params.source;
+  created(){
+    this.source=this.depart_day;
+    this.setTitle(this.source);
   },
   computed:{
-    title(){
-      let title='';
-      if(this.source=='all'){
-        title="考勤月报表"
-      }
-      if(this.source=='normal'){
-        title="正常考勤人员"
-      }
-      if(this.source=='late'){
-        title="迟到考勤人员"
-      }
-      if(this.source=='leave'){
-        title="早退考勤人员"
-      }
-      if(this.source=='out'){
-        title="外出考勤人员"
-      }
-      return title;
-    },
-    personLink(){
-      let path='';
-      if(this.source=='all'){
-        path={
-          name:'monthlyRecord',
-          params:{
-            source:this.source
-          }
-        }
-      }else{
-        path={
-          name:'dailyRecord',
-          params:{
-            source:`${this.source}Depart`
-          }
-        }
-      }
-      return path;
-    }
+    ...mapGetters(['depart_day'])
   },
   methods:{
-    goBack(){
-      if(this.source=='all'){
-        router.push({name:'clockHistory',params:{source:this.source}});
-      }else{
-        router.push({name:'clockDetailForDepart',params:{source:'all'}});
+    setTitle(key){
+      if(key==type.NORMAL){
+        this.title="正常考勤人员"
+      }
+      if(key==type.LATE){
+        this.title="迟到人员"
+      }
+      if(key==type.LEAVEEARLY){
+        this.title="早退人员"
+      }
+      if(key==type.GOOUT){
+        this.title="外出人员"
       }
     }
   }

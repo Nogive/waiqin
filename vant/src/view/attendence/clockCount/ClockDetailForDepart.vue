@@ -2,11 +2,11 @@
   <div>
     <div class="detail-box">
       <van-nav-bar
-        title="考勤详情"
+        :title="title"
         left-arrow
         left-text="返回"
         right-text="选择部门"
-        @click-left="goBack"
+        @click-left="$router.back()"
         @click-right="chooseDepart"
       />
       <van-row class="company-box">
@@ -14,36 +14,59 @@
         <van-col span="24">麦芒科技公司</van-col>
       </van-row>
       <van-cell-group>
-        <van-cell title="正常" value="1人" :to="{name:'normalClockPerson',params:{source:'normal'}}" is-link/>
+        <van-cell title="正常" value="1人" :to="{name:'dayClockPerson',params:{source:type.NORMAL}}" is-link/>
         <van-cell title="未签到" value="1人" is-link/>
-        <van-cell title="迟到" value="1人" :to="{name:'normalClockPerson',params:{source:'late'}}" is-link/>
+        <van-cell title="迟到" value="1人" :to="{name:'dayClockPerson',params:{source:type.LATE}}" is-link/>
         <van-cell title="未签退" value="1人" is-link/>
-        <van-cell title="早退" value="1人" :to="{name:'normalClockPerson',params:{source:'leave'}}" is-link/>
+        <van-cell title="早退" value="1人" :to="{name:'dayClockPerson',params:{source:type.LEAVEEARLY}}" is-link/>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="外出" value="1人" :to="{name:'normalClockPerson',params:{source:'out'}}" is-link/>
+        <van-cell title="外出" value="1人" :to="{name:'dayClockPerson',params:{source:type.GOOUT}}" is-link/>
       </van-cell-group>
     </div>
   </div>
 </template>
 <script>
-import router from '@/router'
+import * as type from "@/common/js/typeVariable"
+import { mapGetters,mapActions } from "vuex";
+import store from "@/store"
 export default {
   name:'clockDetailForDepart',
   data(){
     return {
-      source:''
+      source:'',
+      type:type,
+      title:''
     }
   },
-  mounted(){
-    this.source=this.$route.params.source;
+  computed:{
+    ...mapGetters(["depart_day","statistics"])
+  },
+  beforeRouteLeave:((to,from,next)=>{
+    if(to.name=='dayClockPerson'){
+      store.commit('changeDepartDay',to.params.source);
+    }
+    next();
+  }),
+  created(){
+    this.source=this.statistics;
+    this.setTitle(this.source);
   },
   methods:{
-    goBack(){
-      router.push({name:'clockHistory',params:{source:this.source}});
-    },
+    ...mapActions(['changeDepartDay']),
     chooseDepart(){
-      router.push('/setClockPerson');
+      this.$router.push('/setClockPerson');
+    },
+    setTitle(key){
+      if(key==type.ALL){
+        this.title="全部成员考勤详情"
+      }
+      if(key==type.INTERNAL){
+        this.title="内勤成员考勤详情"
+      }
+      if(key==type.OUTER){
+        this.title="外出成员考勤详情"
+      }
     }
   }
 }

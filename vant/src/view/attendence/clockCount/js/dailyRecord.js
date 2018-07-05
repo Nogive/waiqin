@@ -23,48 +23,34 @@ const records = [
   }
 ];
 
-import router from "@/router";
+import * as type from "@/common/js/typeVariable";
 export default {
   name: "DailyRecord",
   data() {
     return {
-      source: "", //来源
+      type: type,
+      source: "",
+      title: "考勤记录",
       recordsArr: records //打卡记录数据
     };
   },
-  mounted() {
+  created() {
     this.source = this.$route.params.source;
-    console.log(this.$route.params);
-  },
-  computed: {
-    title() {
-      let title = "打卡记录";
-      if (this.source.search("late") >= 0) {
-        title = "迟到记录";
-      }
-      if (this.source.search("leave") >= 0) {
-        title = "早退记录";
-      }
-      if (this.source.search("out") >= 0) {
-        title = "外出记录";
-      }
-      return title;
-    }
+    this.setTitle(this.source);
   },
   methods: {
-    goBack() {
-      if (this.source == "self") {
-        router.push({ name: "clockHistory", params: { source: this.source } });
-      } else if (this.source.search("Depart") >= 0) {
-        let idx = this.source.search("Depart");
-        router.push({
-          name: "normalClockPerson",
-          params: { source: this.source.slice(0, idx) }
-        });
-      } else if (this.source.search("all") >= 0) {
-        router.push({ name: "monthlyRecord", params: { source: "all" } });
-      } else {
-        router.push({ name: "monthlyRecord", params: { source: "self" } });
+    setTitle(key) {
+      if (key == type.LATE) {
+        this.title = "迟到记录";
+      }
+      if (key == type.LEAVEEARLY) {
+        this.title = "早退记录";
+      }
+      if (key == type.GOOUT) {
+        this.title = "外出记录";
+      }
+      if (key == type.NORMAL) {
+        this.title = "正常记录";
       }
     }
   }

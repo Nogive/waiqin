@@ -5,7 +5,7 @@
         title="考勤月报表(个人)"
         left-arrow
         left-text="返回"
-        @click-left="goBack"
+        @click-left="$router.back()"
       />
       <div class="sum-box" @click="goCustom">
         <van-row class="re-header">
@@ -29,40 +29,34 @@
         </van-row>
       </div>
       <van-cell-group>
-        <van-cell title="迟到" value="3次" :to="{name:'dailyRecord',params:{source:`late${source}`}}"  is-link/>
-        <van-cell title="未签到" value="1次" :to="{name:'normalClock',params:{source:`notIn${source}`}}"  is-link/>
-        <van-cell title="早退" value="1次" :to="{name:'dailyRecord',params:{source:`leave${source}`}}"  is-link/>
-        <van-cell title="未签退" value="1次" :to="{name:'normalClock',params:{source:`notOut${source}`}}"  is-link/>
+        <van-cell title="迟到" value="3次" :to="{name:'dailyRecord',params:{source:type.LATE}}"  is-link/>
+        <van-cell title="未签到" value="1次" :to="{name:'normalClock',params:{source:type.NOTSIGNIN}}"  is-link/>
+        <van-cell title="早退" value="1次" :to="{name:'dailyRecord',params:{source:type.LEAVEEARLY}}"  is-link/>
+        <van-cell title="未签退" value="1次" :to="{name:'normalClock',params:{source:type.NOTSIGNOUT}}"  is-link/>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="外出" value="1次" :to="{name:'dailyRecord',params:{source:`out${source}`}}"  is-link/>
+        <van-cell title="外出" value="1次" :to="{name:'dailyRecord',params:{source:type.GOOUT}}"  is-link/>
       </van-cell-group>
     </div>
   </div>
 </template>
 <script>
-import router from '@/router'
+import * as type from '@/common/js/typeVariable'
 export default {
   name:'monthlyRecord',
   data(){
     return {
       source:'',
+      type:type
     }
   },
   mounted(){
-    this.source=this.$route.params.source
+    
   },
   methods:{
-    goBack(){
-      if(this.source=="all"){
-        router.push({name:'normalClockPerson',params:{source:this.source}});
-      }else{
-        router.push({name:'clockHistory',params:{source:this.source}});
-      }
-    },
     //正常考勤
     goCustom(){
-      router.push({name:'normalClock',params:{source:'normal'}});
+      this.$router.push({name:'normalClock',params:{source:type.NORMAL}});
     }
   }
 }

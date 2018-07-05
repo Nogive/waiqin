@@ -8,7 +8,7 @@
         @click-left="$router.back()"
       />
       <van-cell-group>
-        <van-cell title="全部成员" :to="{name:'clockHistory',params:{source:'all'}}"  is-link/>
+        <van-cell title="全部成员" :to="{name:'clockHistory',params:{source:type.ALL}}"  is-link/>
         <van-row class="count-panel">
           <van-col span="24">每天</van-col>
           <van-col span="24">
@@ -22,7 +22,7 @@
         </van-row>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="内勤考勤" :to="{name:'clockHistory',params:{source:'internal'}}"  is-link/>
+        <van-cell title="内勤考勤" :to="{name:'clockHistory',params:{source:type.INTERNAL}}"  is-link/>
         <van-row class="count-panel">
           <van-col span="24">每天</van-col>
           <van-col span="24">
@@ -38,24 +38,38 @@
 
 
       <van-cell-group>
-        <van-cell title="外出统计" :to="{name:'clockHistory',params:{source:'outer'}}" is-link />
+        <van-cell title="外出统计" :to="{name:'clockHistory',params:{source:type.OUTER}}" is-link />
       </van-cell-group>
       <van-cell-group class="history-box">
-        <van-cell :to="{name:'clockHistory',params:{source:'self'}}" title="我的考勤历史 >" class="text-center blue" />
+        <van-cell :to="{name:'clockHistory',params:{source:type.SELF}}" title="我的考勤历史 >" class="text-center blue" />
       </van-cell-group>
     </div>
   </div>
 </template>
 <script>
+import * as type from "@/common/js/typeVariable";
+import { mapGetters, mapActions } from "vuex";
+import store from "@/store/";
 export default {
   name:'clockCount',
   data(){
     return {
+      type:type
     }
   },
   created(){
   },
+  beforeRouteLeave:((to,from,next)=>{
+    if(to.name=='clockHistory'){
+      store.commit('changeStatistics',to.params.source);
+    }
+    next();
+  }),
+  computed:{
+    ...mapGetters(["statistics"])
+  },
   methods:{
+    ...mapActions(["changeStatistics"]),
   }
 }
 </script>

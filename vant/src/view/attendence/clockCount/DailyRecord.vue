@@ -5,7 +5,7 @@
         :title="title"
         left-arrow
         left-text="返回"
-        @click-left="goBack"
+        @click-left="$router.back()"
       />
       <div class="one-record" v-for="(item,index) in recordsArr" :key="index">
         <van-row class="re-header">

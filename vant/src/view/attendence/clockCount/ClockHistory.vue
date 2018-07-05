@@ -5,7 +5,7 @@
         :title="title"
         left-arrow
         left-text="返回"
-        @click-left="$router.go(-1)"
+        @click-left="$router.back()"
       />
       <van-cell-group v-for="index in 12" :key="index">
         <van-cell :title="`${index}月1日 星期五`" :to="dayLink"  is-link/>
@@ -16,66 +16,52 @@
   </div>
 </template>
 <script>
-import router from '@/router'
+import * as type from "@/common/js/typeVariable";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name:'clockHistory',
   data(){
     return {
-      source:''
+      title:'',//标题
+      source:'',
+      dayLink:null,//日记录路由
+      monthLink:null,//月记录路由
     }
-  },
-  mounted(){
-    this.source=this.$route.params.source;
   },
   computed:{
-    title(){
-      let title='我的考勤历史';
-      if(this.source=='all'){
-        title="部门考勤历史"
-      }
-      if(this.source=='internal'){
-        title="部门内勤考勤历史"
-      }
-      if(this.source=='outer'){
-        title="部门外出考勤历史"
-      }
-      if(this.source=='self'){
-        title="我的考勤历史"
-      }
-      return title;
-    },
-    dayLink(){
-      let path='';
-      if(this.source=='self'){
-        path= {
-          name:'dailyRecord',
-          params:{source:this.source}
-        }
-      }else{
-        path={
-          name:'clockDetailForDepart',
-          params:{source:this.source}
-        }
-      }
-      return path;
-    },
-    monthLink(){
-      let path='';
-      if(this.source=='self'){
-        path= {
-          name:'monthlyRecord',
-          params:{source:this.source}
-        }
-      }else{
-        path={
-          name:'normalClockPerson',
-          params:{source:this.source}
-        }
-      }
-      return path;
-    }
+    ...mapGetters(["statistics"])
+  },
+  created(){
+    this.source=this.statistics;
+    this.setTitle();
+    this.setRouter();
   },
   methods:{
+    setTitle(){
+      let key=this.source;
+      if(key==type.ALL){
+        this.title="部门考勤历史";
+      }
+      if(key==type.INTERNAL){
+        this.title="部门内勤考勤历史";
+      }
+      if(key==type.OUTER){
+        this.title="部门外出考勤历史"
+      }
+      if(key==type.SELF){
+        this.title="我的考勤历史"
+      }
+    },
+    setRouter(){
+      let key=this.source;
+      if(key==type.SELF){
+        this.dayLink={name:'dailyRecord'}
+        this.monthLink={name:'monthlyRecord'}
+      }else{
+        this.dayLink={name:'clockDetailForDepart'}
+        this.monthLink={name:'monthClockPerson'}
+      }
+    }
   }
 }
 </script>

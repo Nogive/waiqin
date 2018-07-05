@@ -5,7 +5,7 @@
         :title="`${title}(21天)`"
         left-arrow
         left-text="返回"
-        @click-left="reback"
+        @click-left="$router.back()"
       />
       <van-cell-group>
         <van-cell v-for="index in 21" :key="index" :title="`2017-09-${index} 星期${index%7}`" />
@@ -14,35 +14,27 @@
   </div>
 </template>
 <script>
-import router from '@/router'
+import * as type from '@/common/js/typeVariable'
 export default {
   name:'normalClock',
   data(){
     return {
       source:'',//来源
+      title:'正常考勤'
     }
   },
-  mounted(){
+  created(){
     this.source=this.$route.params.source;
+    this.setTitle(this.source);
   },
   computed:{
-    title(){
-      let title="正常考勤";
-      if(this.source.search("notIn") >= 0){
-        title="上班未签到"
-      }
-      if(this.source.search("notOut") >= 0){
-        title="下班未签退"
-      }
-      return title;
-    }
   },
   methods:{
-    reback(){
-      if(this.source.search('all')>=0){
-        router.push({name:'monthlyRecord',params:{source:'all'}});
-      }else{
-        router.push({name:'monthlyRecord',params:{source:'self'}});
+    setTitle(key){
+      if(key==type.NOTSIGNIN){
+        this.title="上班未签到";
+      }else if(key==type.NOTSIGNOUT){
+        this.title="下班未签退"
       }
     }
   }

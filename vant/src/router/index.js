@@ -28,8 +28,10 @@ import monthlyRecord from "@/view/attendence/clockCount/MonthlyRecord.vue";
 import normalClock from "@/view/attendence/clockCount/NormalClock.vue";
 //考勤详情(部门)
 import clockDetailForDepart from "@/view/attendence/clockCount/ClockDetailForDepart.vue";
-//正常考勤人员
-import normalClockPerson from "@/view/attendence/clockCount/NormalClockPerson.vue";
+//日——考勤人员
+import dayClockPerson from "@/view/attendence/clockCount/DayClockPerson.vue";
+//月——考勤人员
+import monthClockPerson from "@/view/attendence/clockCount/MonthClockPerson.vue";
 
 //考勤-规则
 import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
@@ -118,9 +120,14 @@ const routes = [
     component: clockDetailForDepart
   },
   {
-    path: "/normalClockPerson",
-    name: "normalClockPerson",
-    component: normalClockPerson
+    path: "/dayClockPerson",
+    name: "dayClockPerson",
+    component: dayClockPerson
+  },
+  {
+    path: "/monthClockPerson",
+    name: "monthClockPerson",
+    component: monthClockPerson
   },
   {
     path: "*",
