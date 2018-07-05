@@ -33,9 +33,6 @@ export default {
     }
   },
   methods: {
-    reback() {
-      router.push("/writeRule");
-    },
     //选择打卡范围
     checkClockRange(range) {
       this.range = range;

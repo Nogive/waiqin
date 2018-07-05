@@ -4,7 +4,7 @@
       title="设置打卡地点"
       left-arrow
       left-text="返回"
-      @click-left="reback"
+      @click-left="$router.back()"
     >
       <div slot="right">
         <van-icon name="search" @click="startSearch"></van-icon>
