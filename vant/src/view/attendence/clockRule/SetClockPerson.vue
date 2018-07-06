@@ -32,7 +32,7 @@
         <a href="javascript:;" v-for="(item,index) in result" :key="index">
           <img v-if="item.headImg" :src="item.headImg" alt="">
           <van-button v-else size="small" class="bg-grey">
-            业务部 <van-icon name="close" @click="deleteThisDepart(item)"></van-icon>
+            {{item.name}} <van-icon name="close" @click="deleteThisDepart(item)"></van-icon>
           </van-button>
         </a>
       </van-col>

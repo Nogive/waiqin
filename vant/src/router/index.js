@@ -37,8 +37,16 @@ import monthClockPerson from "@/view/attendence/clockCount/MonthClockPerson.vue"
 import clockRule from "@/view/attendence/clockRule/ClockRule.vue";
 //新增、编辑规则
 import writeRule from "@/view/attendence/clockRule/WriteRule.vue";
+//设置规则名称
+import setRuleName from "@/view/attendence/clockRule/SetRuleName.vue";
 //设置打卡人员
 import setClockPerson from "@/view/attendence/clockRule/SetClockPerson.vue";
+//设置打卡日期
+import setClockDate from "@/view/attendence/clockRule/SetClockDate.vue";
+//设置打卡时间
+import setClockTime from "@/view/attendence/clockRule/SetClockTime.vue";
+//设置打卡位置
+import setLocation from "@/view/attendence/clockRule/SetLocation.vue";
 //设置打卡地点
 import setClockPlace from "@/view/attendence/clockRule/SetClockPlace.vue";
 
@@ -85,9 +93,29 @@ const routes = [
     component: writeRule
   },
   {
+    path: "/setRuleName",
+    name: "setRuleName",
+    component: setRuleName
+  },
+  {
     path: "/setClockPerson",
     name: "setClockPerson",
     component: setClockPerson
+  },
+  {
+    path: "/setClockDate",
+    name: "setClockDate",
+    component: setClockDate
+  },
+  {
+    path: "/setClockTime",
+    name: "setClockTime",
+    component: setClockTime
+  },
+  {
+    path: "/setLocation",
+    name: "setLocation",
+    component: setLocation
   },
   {
     path: "/setClockPlace",
