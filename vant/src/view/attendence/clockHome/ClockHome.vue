@@ -29,12 +29,7 @@ export default {
     }else{
       next();
     }
-  }),
-  created(){
-    
-  },
-  methods:{
-  }
+  })
 }
 </script>
 

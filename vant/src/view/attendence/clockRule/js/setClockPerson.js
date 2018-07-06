@@ -2,31 +2,21 @@ import router from "@/router";
 const personArr = [
   {
     id: "001",
-    name: "张山",
-    headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  },
-  {
-    id: "003",
-    name: "SKY",
-    headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  },
-  {
-    id: "002",
-    name: "业务部",
+    name: "maimang",
     children: [
       {
-        id: "004",
+        id: "002",
         name: "Tom",
         headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
       },
       {
-        id: "005",
+        id: "003",
         name: "Jerry",
         headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
       },
       {
         id: "006",
-        name: "设计部",
+        name: "业务部",
         children: [
           {
             id: "007",
@@ -47,6 +37,11 @@ const personArr = [
               "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
           }
         ]
+      },
+      {
+        id: "010",
+        name: "test",
+        headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
       }
     ]
   }
@@ -56,25 +51,37 @@ export default {
   name: "attendence",
   data() {
     return {
-      persons: personArr,
+      allPerson: null, //获取的全部员工数据
+      persons: [],
       total: 5,
       result: [], //勾选人员结果数组
       headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
     };
   },
-  mounted() {
-    console.log("mounted");
+  created() {
+    this.allPerson = personArr;
+    this.persons = personArr;
+  },
+  watch: {
+    $route() {
+      if (this.$route.query.id == undefined) {
+        this.persons = this.allPerson;
+      } else {
+        let id = this.$route.query.id;
+        this.persons = getCurrentPart(id, this.allPerson);
+      }
+    }
   },
   methods: {
-    goBack() {
-      router.push("/writeRule");
-    },
     testValue() {
       console.log(this.result);
     },
     enterPart(item, ev) {
       if (ev.srcElement.nodeName != "I" && item.children != undefined) {
-        this.persons = item.children;
+        this.$router.push({
+          path: "/setClockPerson",
+          query: { id: item.id }
+        });
       }
     },
     deleteThisDepart(item) {
@@ -83,3 +90,16 @@ export default {
     }
   }
 };
+function getCurrentPart(id, items) {
+  let result;
+  for (var i in items) {
+    let item = items[i];
+    if (item.id == id) {
+      result = item.children;
+      break;
+    } else if (item.children) {
+      result = getCurrentPart(id, item.children);
+    }
+  }
+  return result;
+}

@@ -4,7 +4,7 @@
       title="设置打卡人员"
       left-arrow
       left-text="返回"
-      @click-left="goBack"
+      @click-left="$router.back()"
     >
       <div slot="right">
         <van-icon name="checked" @click="testValue"></van-icon>

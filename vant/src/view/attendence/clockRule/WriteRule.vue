@@ -151,7 +151,6 @@
         <van-cell title="添加位置" icon="add" class="blue" to="/setClockPlace" />
       </van-cell-group>
     </van-popup>
-
   </div>
 </template>
 <script src="./js/writeRule.js"></script>
