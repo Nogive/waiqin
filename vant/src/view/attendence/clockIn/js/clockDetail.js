@@ -40,7 +40,7 @@ export default {
       largePhoto: "", //被放大的图片
       lng: 0,
       lat: 0,
-      map: "",
+      map: null,
       zoom: 15, //地图放大级别
       center: [121.59996, 31.197646], //地图默认中心点
       amapManage,
@@ -77,7 +77,7 @@ export default {
   watch: {
     //自动获取时间+地点
     map: function() {
-      if (this.map != "") {
+      if (this.map != null) {
         this.getLocationInfo();
       }
     }
@@ -150,7 +150,6 @@ export default {
           vm.renderPage(data);
         }); //返回定位信息
         AMap.event.addListener(geolocation, "error", function(data) {
-          console.log(data);
           vm.autoLocationError();
         }); //返回定位出错信息
       });

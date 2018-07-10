@@ -1,6 +1,10 @@
 const state = {
   count: 20,
-  statistics: "t_all", //默认统计 全部
-  depart_day: "t_1" //全部考勤——日记录（正常、迟到、早退、、、）
+  //从统计里面查看的状态（全部、内勤、外出、我的历史记录） 默认：全部
+  statistics: "t_all",
+  //全部、内勤、外出成员考勤详情当前查看的状态（正常、迟到、早退、外出） 默认：正常
+  depart_day: "t_1",
+  //规则 新建、编辑状态 默认：编辑
+  rule_state: "edit"
 };
 export default state;

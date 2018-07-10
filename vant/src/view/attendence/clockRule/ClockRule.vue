@@ -17,7 +17,7 @@
           <van-col span="24" class="show-one-line">位置：乾坤大厦</van-col>
         </router-link>
       </van-row>
-      <van-row class="one-rule">
+      <van-row class="one-rule" @click="createRule">
         <router-link to="/writeRule">
           <van-col span="24">每日4次考勤</van-col>
           <van-col span="24" class="show-one-line">日期：周一至周五</van-col>
@@ -29,6 +29,8 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
+import store from "@/store/";
 export default {
   name:'attendence',
   data(){
@@ -38,7 +40,9 @@ export default {
   created(){
   },
   methods:{
+    ...mapActions(["changeRuleState"]),
     createRule(){
+      store.commit("changeRuleState",'create');
       this.$router.push('/writeRule');
     }
   }

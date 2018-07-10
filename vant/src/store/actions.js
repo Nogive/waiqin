@@ -12,6 +12,9 @@ const actions = {
   },
   [types.CHANGE_DEPART_DAY]: ({ commit }, params) => {
     commit(types.CHANGE_DEPART_DAY, params);
+  },
+  [types.CHANGE_RULE_STATE]: ({ commit }, params) => {
+    commit(types.CHANGE_RULE_STATE, params);
   }
 };
 export default actions;

@@ -1,3 +1,8 @@
+//统一
+export const CREATE = "add"; //新建
+export const EDIT = "edit"; //编辑
+export const DETAIL = "detail"; //详情
+
 //打卡 c_
 export const SIGNIN = "c_1"; //签到
 export const SIGNINDETAIL = "c_2"; //签到详情
@@ -19,4 +24,5 @@ export const NOTSIGNOUT = "t_3"; //未签退
 export const LATE = "t_4"; //迟到
 export const LEAVEEARLY = "t_5"; //早退
 export const GOOUT = "t_6"; //外出
+
 //规则 r_

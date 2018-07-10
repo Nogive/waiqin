@@ -39,7 +39,6 @@ export default {
   beforeRouteEnter: (to, from, next) => {
     let vm = this;
     let source = from.params.source;
-    console.log(source);
     if (source == type.GOOUTDETAIL || source == type.ADDGOOUT) {
       next(vm => {
         vm.tabIndex = 1;

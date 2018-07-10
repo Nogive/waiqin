@@ -1,4 +1,8 @@
 export const INCREMENT = "increment";
 export const DECREMENT = "decrement";
-export const CHANGE_STATISTICS = "changeStatistics"; //修改统计参数
-export const CHANGE_DEPART_DAY = "changeDepartDay"; //修改 部门日记录参数
+//修改统计查看状态
+export const CHANGE_STATISTICS = "changeStatistics";
+//修改考勤详情查看状态
+export const CHANGE_DEPART_DAY = "changeDepartDay";
+//修改规则新建OR编辑状态
+export const CHANGE_RULE_STATE = "changeRuleState";

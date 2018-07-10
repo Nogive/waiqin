@@ -1,28 +1,33 @@
-import router from "@/router";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "writeRule",
   data() {
     return {
+      source: "", //当前状态
+      title: "编辑规则",
       ruleName: "每日2次打卡", //规则名
-      clockDate: "周一", //选中的打卡日期
-      timeArr: [
-        {
-          num: 1,
-          onTime: "09:00",
-          afterTime: "18:00"
-        }
-      ], //上下班次数时间设置
-      address: "无限制"
+      clockPerson: "麦芒",
+      clockDate: "周一至周五", //打卡日期
+      clockTime: "09:00-18:00",
+      address: "无限制",
+      showDelete: true
     };
   },
   computed: {
-    clockTime() {
-      let res = "";
-      this.timeArr.forEach(e => {
-        res += `${e.onTime}-${e.afterTime} `;
-      });
-      return res;
-    }
+    ...mapGetters(["rule_state"])
   },
-  methods: {}
+  created() {
+    this.source = this.rule_state;
+    this.setTitle();
+  },
+  methods: {
+    setTitle() {
+      if (this.source == "create") {
+        this.title = "新增规则";
+        this.showDelete = false;
+      } else {
+        this.title = "编辑规则";
+      }
+    }
+  }
 };
