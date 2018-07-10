@@ -6,7 +6,7 @@
       left-text="返回"
       right-text="确定"
       @click-left="$router.back()"
-      @click-right="$router.back()"
+      @click-right="submit"
     />
     <van-cell-group>
       <van-cell title="一天内上下班次数" is-link :value="`${workNum}次`" @click="workTimesPopup=true" />
@@ -55,22 +55,6 @@ export default {
       current: "", //当前设置的那一次的上下班时间
       currentTag: "", //当前设置的是上班还是下班
     }
-  },
-  computed:{
-    clockDate() {
-      let arr = this.checkedDate;
-      arr.sort();
-      let str = "";
-      if (arr.length == 7) {
-        str = "周一至周日";
-      } else {
-        arr.forEach(e => {
-          str += getDateText(e) + ",";
-        });
-        str = str.substring(0, str.length - 1);
-      }
-      return str;
-    },
   },
   created(){
   },
@@ -126,6 +110,9 @@ export default {
       } else {
         this.timeArr[idx].afterTime = this.currentTime;
       }
+    },
+    submit(){
+      console.log(this.timeArr);
     }
   }
 }

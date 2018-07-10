@@ -31,6 +31,12 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import store from "@/store/";
+const temp={
+  name:'每日2次打卡',
+  date:'周一至周日',
+  time:'09:00-12:00',
+  location:'钦汇园'
+}
 export default {
   name:'attendence',
   data(){

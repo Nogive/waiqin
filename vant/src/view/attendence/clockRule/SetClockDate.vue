@@ -6,7 +6,7 @@
       left-text="返回"
       right-text="确定"
       @click-left="$router.back()"
-      @click-right="$router.back()"
+      @click-right="submit"
     />
     <van-checkbox-group v-model="checkedDate">
       <van-cell-group>
@@ -69,7 +69,11 @@ export default {
   created(){
   },
   methods:{
-   
+   submit(){
+      console.log(this.checkedDate);
+      console.log(this.holiday);
+      console.log(this.nonWorkday);
+   }
   }
 }
 function getDateText(i) {

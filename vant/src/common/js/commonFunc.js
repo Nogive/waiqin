@@ -68,7 +68,7 @@ export function getLocal(key) {
   return JSON.parse(value);
 }
 export function getSession(key) {
-  let value = window.localStorage.getItem(key);
+  let value = window.sessionStorage.getItem(key);
   return JSON.parse(value);
 }
 //clear one local && clear on session

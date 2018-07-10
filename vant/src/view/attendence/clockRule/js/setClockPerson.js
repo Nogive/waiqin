@@ -73,7 +73,7 @@ export default {
     }
   },
   methods: {
-    testValue() {
+    submit() {
       console.log(this.result);
     },
     enterPart(item, ev) {

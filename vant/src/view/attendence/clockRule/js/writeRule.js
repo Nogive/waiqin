@@ -1,4 +1,5 @@
 import { mapGetters, mapActions } from "vuex";
+import { setSession, getSession } from "@/common/js/commonFunc";
 export default {
   name: "writeRule",
   data() {
@@ -9,7 +10,7 @@ export default {
       clockPerson: "麦芒",
       clockDate: "周一至周五", //打卡日期
       clockTime: "09:00-18:00",
-      address: "无限制",
+      location: "无限制",
       showDelete: true
     };
   },

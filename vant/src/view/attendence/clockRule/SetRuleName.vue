@@ -21,6 +21,8 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
+import {setSession,getSession} from "@/common/js/commonFunc"
 export default {
   name:'attendence',
   data(){
@@ -29,6 +31,9 @@ export default {
       showError:false,
     }
   },
+  computed:{
+    ...mapGetters(['rule_state'])
+  },
   created(){
   },
   methods:{
@@ -36,9 +41,10 @@ export default {
       if (this.ruleName == "") {
         this.showError = true;
       } else {
-        this.rulePopup = false;
+        console.log(this.ruleName);
+        //this.$router.back();
       }
-    },
+    }
   }
 }
 </script>
