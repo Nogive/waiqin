@@ -1,6 +1,5 @@
-import router from "@/router";
 import { Toast } from "vant";
-import * as type from "@/common/js/typeVariable";
+import * as type from "@/assets/js/typeVariable";
 const outers = {
   time: "13:00",
   address: "上海市新华路128号",
@@ -54,16 +53,16 @@ export default {
         if (this.showOnWork) {
           Toast("暂无上班打卡详情");
         } else {
-          router.push({ name: "clockDetail", params: { source: key } });
+          this.$router.push({ name: "clockDetail", params: { source: key } });
         }
       } else if (key == type.SIGNOUTDETAIL) {
         if (this.showAfterWork) {
-          router.push({ name: "clockDetail", params: { source: key } });
+          this.$router.push({ name: "clockDetail", params: { source: key } });
         } else {
           Toast("暂无下班打卡详情");
         }
       } else {
-        router.push({ name: "clockDetail", params: { source: key } });
+        this.$router.push({ name: "clockDetail", params: { source: key } });
       }
     },
     initRender() {

@@ -5,10 +5,9 @@ import {
   codeError,
   netError,
   showLoading
-} from "@/common/js/commonFunc";
-import { getRequestUrl } from "@/common/js/api";
+} from "@/assets/js/commonFunc";
+import { getRequestUrl } from "@/assets/js/api";
 import JSEncrypt from "jsencrypt";
-import router from "@/router";
 const pubKey =
   "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIGetsuNPeHHbKWutJYmpz2aB6F/3uqq/5HhzuI8Sicz32g9ZkpgelcWJeFNBocfEYzpLgp0fHDz+/PStp23ClUCAwEAAQ==";
 
@@ -52,7 +51,7 @@ export default {
           } else if (res.data.code == 0) {
             console.log(res.data.data);
             setCookie("token", res.data.data.token);
-            router.push("/");
+            vm.$router.push("/");
           } else {
             codeError(res.data, "登录");
           }

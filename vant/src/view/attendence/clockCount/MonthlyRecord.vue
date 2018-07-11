@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import * as type from '@/common/js/typeVariable'
+import * as type from '@/assets/js/typeVariable'
 export default {
   name:'monthlyRecord',
   data(){

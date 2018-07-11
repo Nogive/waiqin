@@ -1,7 +1,6 @@
-import router from "@/router";
 import { Toast, ImagePreview, Dialog } from "vant";
-import { showLoading } from "@/common/js/commonFunc";
-import * as type from "@/common/js/typeVariable";
+import { showLoading } from "@/assets/js/commonFunc";
+import * as type from "@/assets/js/typeVariable";
 const photoMap = [
   {
     id: 1,

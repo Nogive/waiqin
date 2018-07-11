@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import * as type from "@/common/js/typeVariable"
+import * as type from "@/assets/js/typeVariable"
 import { mapGetters,mapActions } from "vuex";
 import store from "@/store"
 export default {

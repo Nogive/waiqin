@@ -22,7 +22,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import {setSession,getSession} from "@/common/js/commonFunc"
+import {setSession,getSession} from "@/assets/js/commonFunc"
 export default {
   name:'attendence',
   data(){

@@ -1,4 +1,3 @@
-import router from "@/router";
 import { mapGetters, mapActions } from "vuex";
 import {
   checkCookie,
@@ -6,8 +5,8 @@ import {
   noData,
   codeError,
   netError
-} from "@/common/js/commonFunc";
-import { getRequestUrl } from "@/common/js/api";
+} from "@/assets/js/commonFunc";
+import { getRequestUrl } from "@/assets/js/api";
 export default {
   name: "home",
   computed: {
@@ -29,7 +28,7 @@ export default {
   methods: {
     ...mapActions(["increment"]),
     logOut() {
-      router.push("/login");
+      this.$router.push("/login");
     }
   }
 };

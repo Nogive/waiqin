@@ -23,7 +23,7 @@ const records = [
   }
 ];
 
-import * as type from "@/common/js/typeVariable";
+import * as type from "@/assets/js/typeVariable";
 export default {
   name: "DailyRecord",
   data() {

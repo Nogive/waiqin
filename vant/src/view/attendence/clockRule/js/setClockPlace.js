@@ -1,4 +1,3 @@
-import router from "@/router";
 import { AMapManager } from "vue-amap";
 let amapManager = new AMapManager();
 export default {
