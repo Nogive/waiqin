@@ -164,7 +164,9 @@ const routes = [
   }
 ];
 const router = new Router({
-  mode: "history",
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes
 });
 router.beforeEach((to, from, next) => {
