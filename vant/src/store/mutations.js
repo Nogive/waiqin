@@ -16,6 +16,12 @@ const mutations = {
   },
   [types.CHANGE_RULE_STATE](state, params) {
     state.rule_state = params;
+  },
+  [types.SHOWLOADING](state) {
+    state.loading = true;
+  },
+  [types.HIDELOADING](state) {
+    state.loading = false;
   }
 };
 export default mutations;

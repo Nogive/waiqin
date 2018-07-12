@@ -103,18 +103,6 @@ export function netError(xhr) {
     Toast("未知网络错误, 请确保设备处在联网状态");
   }
 }
-//loading
-export function showLoading(vm, tag) {
-  const loading = vm.$loading({
-    lock: true,
-    text: "正在加载,请稍后...",
-    spinner: "el-icon-loading",
-    background: "rgba(0, 0, 0, 0.7)"
-  });
-  if (!tag) {
-    loading.close();
-  }
-}
 /****************************************************************************************/
 //filter space
 export function trim(str) {

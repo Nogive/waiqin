@@ -3,8 +3,7 @@ import {
   setCookie,
   noData,
   codeError,
-  netError,
-  showLoading
+  netError
 } from "@/assets/js/commonFunc";
 import { getRequestUrl } from "@/assets/js/api";
 import JSEncrypt from "jsencrypt";
@@ -40,7 +39,6 @@ export default {
       }
     },
     requestLogin(params) {
-      showLoading(this, true);
       this.$http
         .post(getRequestUrl("login"), params, {
           emulateJSON: true
@@ -55,10 +53,8 @@ export default {
           } else {
             codeError(res.data, "登录");
           }
-          showLoading(this, false);
         })
         .catch(xhr => {
-          showLoading(this, false);
           netError(xhr.response);
         });
     }

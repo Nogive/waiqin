@@ -13,9 +13,6 @@ import store from "./store/";
 import VueResource from "vue-resource";
 Vue.use(VueResource);
 
-import VueAMap from "vue-amap";
-Vue.use(VueAMap);
-
 //filters
 import filters from "./utils/filters";
 Object.keys(filters).forEach(key => {
@@ -28,8 +25,9 @@ Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key]);
 });
 
-Vue.config.productionTip = false;
-
+//map
+import VueAMap from "vue-amap";
+Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
   key: "e1dedc6bdd765d46693986ff7ff969f4",
   plugin: [
@@ -46,6 +44,7 @@ VueAMap.initAMapApiLoader({
   uiVersion: "1.0"
 });
 
+Vue.config.productionTip = false;
 new Vue({
   store,
   router,

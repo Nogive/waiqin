@@ -3,6 +3,9 @@ const getters = {
   count: state => {
     return state.count;
   },
+  loading: state => {
+    return state.loading;
+  },
   statistics: state => {
     return state.statistics;
   },

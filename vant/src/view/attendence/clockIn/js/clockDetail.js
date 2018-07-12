@@ -1,5 +1,4 @@
 import { Toast, ImagePreview, Dialog } from "vant";
-import { showLoading } from "@/assets/js/commonFunc";
 import * as type from "@/assets/js/typeVariable";
 const photoMap = [
   {
