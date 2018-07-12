@@ -35,6 +35,7 @@ Object.keys(directives).forEach(key => {
 
 //map
 import VueAMap from "vue-amap";
+import { Toast } from "vant";
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
   key: "e1dedc6bdd765d46693986ff7ff969f4",
