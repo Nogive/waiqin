@@ -1,5 +1,5 @@
 const Api = {
-  login: "http://mjp.waiqin.co/api/v1/authentication"
+  login: "http://218.78.187.216/api/v1/authentication"
 };
 function getHost() {
   let location = window.location;

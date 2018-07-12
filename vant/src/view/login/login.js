@@ -40,9 +40,7 @@ export default {
     },
     requestLogin(params) {
       this.$http
-        .post(getRequestUrl("login"), params, {
-          emulateJSON: true
-        })
+        .post(getRequestUrl("login"), params)
         .then(res => {
           if (res.data == undefined) {
             noData();
@@ -54,8 +52,9 @@ export default {
             codeError(res.data, "登录");
           }
         })
-        .catch(xhr => {
-          netError(xhr.response);
+        .catch(error => {
+          console.log(error);
+          netError(error);
         });
     }
   }

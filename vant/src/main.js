@@ -10,8 +10,8 @@ import "./assets/fonts/mm-font.css";
 import "./assets/css/common.css";
 import store from "./store/";
 
-import VueResource from "vue-resource";
-Vue.use(VueResource);
+// import VueResource from "vue-resource";
+// Vue.use(VueResource);
 
 //filters
 import filters from "./utils/filters";
@@ -44,6 +44,30 @@ VueAMap.initAMapApiLoader({
   uiVersion: "1.0"
 });
 
+//axios
+import axios from "axios";
+import { Store } from "vuex";
+axios.interceptors.request.use(
+  config => {
+    store.dispatch("showLoading");
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+axios.interceptors.response.use(
+  response => {
+    store.dispatch("hideLoading");
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+//配置post请求的头部信息
+//axios.defaults.headers.post["Content-Type"] ="application/x-www-form-urlencoded";
+Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 new Vue({
   store,
