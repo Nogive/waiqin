@@ -5,16 +5,28 @@ import App from "./App";
 import router from "./router";
 import "./utils/rem";
 import "./assets/js/externalComponents";
-import "./assets/js/filterAndDirective";
 import "vant/lib/vant-css/icon-local.css";
 import "./assets/fonts/mm-font.css";
 import "./assets/css/common.css";
 import store from "./store/";
+
 import VueResource from "vue-resource";
 Vue.use(VueResource);
 
 import VueAMap from "vue-amap";
 Vue.use(VueAMap);
+
+//filters
+import filters from "./utils/filters";
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key]);
+});
+
+//directives
+import directives from "./utils/directives";
+Object.keys(directives).forEach(key => {
+  Vue.directive(key, directives[key]);
+});
 
 Vue.config.productionTip = false;
 

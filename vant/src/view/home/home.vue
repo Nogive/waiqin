@@ -22,7 +22,7 @@
             <p>签到人数</p>
           </van-col>
           <van-col span="6">
-            <span>0</span>
+            <span>{{dialog|fillZero}}</span>
             <p>未读日志</p>
           </van-col>
         </van-row>
@@ -96,9 +96,7 @@
           </van-row>
         </div>
       </van-panel>
-
     </div>
-
     <van-tabbar v-model="active">
       <van-tabbar-item icon="chat" info="5">消息</van-tabbar-item>
       <van-tabbar-item icon="menu">工作台</van-tabbar-item>

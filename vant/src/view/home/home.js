@@ -14,7 +14,8 @@ export default {
   },
   data() {
     return {
-      active: 1
+      active: 1,
+      dialog: 8
     };
   },
   mounted() {

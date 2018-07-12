@@ -1,24 +1,23 @@
-import Vue from "vue";
-
-/**
- * 自定义指令
- */
-
-//focus
-Vue.directive("focus", {
-  update: function(el, binding) {
-    if (binding.value) {
-      el.focus();
-    }
-  }
-});
-
-/**
- * 过滤器
- */
-
-//timestamp => some format
-Vue.filter("timestampFormat", function(value, format) {
+//补零
+const fillZero = num => {
+  return num < 10 ? "0" + num : num;
+};
+//带参数
+//货币形式
+const currency = (value, unit, decimal) => {
+  let reg = /^[0-9]+.?[0-9]*$/;
+  if (!reg.test(value)) return "";
+  value = decimal == undefined ? value : value.toFixed(decimal);
+  return `${unit}${value}`;
+};
+//首字母大写
+const capitalize = value => {
+  if (!value) return "";
+  value = value.toString();
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
+//时间戳转换为指定格式时间
+const timeFormat = (value, format) => {
   let date = new Date(value);
   let y = date.getFullYear();
   let m = date.getMonth() + 1;
@@ -45,4 +44,10 @@ Vue.filter("timestampFormat", function(value, format) {
     result = ` ${h < 10 ? "0" + h : h}:${min < 10 ? "0" + min : min}`;
   }
   return result;
-});
+};
+export default {
+  fillZero,
+  currency,
+  capitalize,
+  timeFormat
+};
