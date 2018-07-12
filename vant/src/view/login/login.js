@@ -39,13 +39,15 @@ export default {
       }
     },
     requestLogin(params) {
+      let vm = this;
       this.$http
-        .post(getRequestUrl("login"), params)
+        .post(getRequestUrl("login"), params, {
+          emulateJSON: true
+        })
         .then(res => {
           if (res.data == undefined) {
             noData();
           } else if (res.data.code == 0) {
-            console.log(res.data.data);
             setCookie("token", res.data.data.token);
             vm.$router.push("/");
           } else {
@@ -53,7 +55,6 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
           netError(error);
         });
     }

@@ -18,9 +18,11 @@ const mutations = {
     state.rule_state = params;
   },
   [types.SHOWLOADING](state) {
+    console.log("show");
     state.loading = true;
   },
   [types.HIDELOADING](state) {
+    console.log("hide");
     state.loading = false;
   }
 };
