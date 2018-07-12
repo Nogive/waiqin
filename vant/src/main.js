@@ -10,6 +10,7 @@ import "./assets/fonts/mm-font.css";
 import "./assets/css/common.css";
 import store from "./store/";
 
+//resource
 // import VueResource from "vue-resource";
 // Vue.use(VueResource);
 
@@ -68,6 +69,7 @@ axios.interceptors.response.use(
 //配置post请求的头部信息
 //axios.defaults.headers.post["Content-Type"] ="application/x-www-form-urlencoded";
 Vue.prototype.$http = axios;
+
 Vue.config.productionTip = false;
 new Vue({
   store,
