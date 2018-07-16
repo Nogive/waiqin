@@ -102,6 +102,7 @@
       <van-tabbar-item icon="menu">工作台</van-tabbar-item>
       <van-tabbar-item icon="contact" >我</van-tabbar-item>
     </van-tabbar>
+    <button @click="testPhoto">测试拍照</button>
   </div>
 </template>
 <script src="./home.js"></script>

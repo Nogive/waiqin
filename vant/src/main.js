@@ -54,6 +54,29 @@ VueAMap.initAMapApiLoader({
 });
 
 Vue.config.productionTip = false;
+
+var app = {
+  initialize: function() {
+    document.addEventListener(
+      "deviceready",
+      this.onDeviceReady.bind(this),
+      false
+    );
+    document.addEventListener("pause", this.onPause.bind(this), false);
+    document.addEventListener("resume", this.onResume.bind(this), false);
+  },
+  onDeviceReady: function() {
+    console.log("deviceready");
+  },
+  onPause: function() {
+    console.log("pause");
+  },
+  onResume: function() {
+    console.log("resume");
+  }
+};
+app.initialize();
+
 new Vue({
   store,
   router,
