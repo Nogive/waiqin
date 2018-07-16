@@ -10,16 +10,27 @@ import "./assets/fonts/mm-font.css";
 import "./assets/css/common.css";
 import store from "./store/";
 
-//resource
-import VueResource from "vue-resource";
-Vue.use(VueResource);
-Vue.http.interceptors.push((request, next) => {
-  store.dispatch("showLoading");
-  next(response => {
+//axios
+import axios from "axios";
+axios.interceptors.request.use(
+  function(config) {
+    store.dispatch("showLoading"); //通过VUEX管理是否显示loading
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+axios.interceptors.response.use(
+  function(response) {
     store.dispatch("hideLoading");
     return response;
-  });
-});
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+Vue.prototype.$http = axios;
 
 //filters
 import filters from "./utils/filters";

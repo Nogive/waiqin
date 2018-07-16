@@ -41,10 +41,9 @@ export default {
     requestLogin(params) {
       let vm = this;
       this.$http
-        .post(getRequestUrl("login"), params, {
-          emulateJSON: true
-        })
+        .post(getRequestUrl("login"), params)
         .then(res => {
+          console.log(res);
           if (res.data == undefined) {
             noData();
           } else if (res.data.code == 0) {
