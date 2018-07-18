@@ -14,6 +14,9 @@ const getters = {
   },
   rule_state: state => {
     return state.rule_state;
+  },
+  fullpath: state => {
+    return state.fullpath;
   }
 };
 export default getters;

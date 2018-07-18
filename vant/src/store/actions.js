@@ -21,6 +21,9 @@ const actions = {
   },
   [types.HIDELOADING]: ({ commit }) => {
     commit(types.HIDELOADING);
+  },
+  [types.CHANGEFULLPATH]: ({ commit }, params) => {
+    commit(types.CHANGEFULLPATH, params);
   }
 };
 export default actions;

@@ -15,7 +15,7 @@ export default {
   },
   watch:{
     $route(){
-      console.log(this.$route.fullPath);
+      this.$store.dispatch('changeFullPath',this.$route.fullPath);
     }
   }
 }

@@ -10,3 +10,6 @@ export const CHANGE_RULE_STATE = "changeRuleState";
 //显示，隐藏loading
 export const SHOWLOADING = "showLoading";
 export const HIDELOADING = "hideLoading";
+
+//更改fullpath
+export const CHANGEFULLPATH = "changeFullPath";

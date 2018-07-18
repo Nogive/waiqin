@@ -81,11 +81,13 @@ var app = {
   },
   onPause: function() {
     console.log("pause");
-    console.log(app.$route);
+    let currentPath = store.state.fullpath;
+    console.log(currentPath);
   },
   onResume: function() {
     console.log("resume");
-    console.log(app.$route);
+    let currentPath = store.state.fullpath;
+    console.log(currentPath);
   }
 };
 app.initialize();

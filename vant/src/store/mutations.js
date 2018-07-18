@@ -24,6 +24,9 @@ const mutations = {
   [types.HIDELOADING](state) {
     console.log("hide");
     state.loading = false;
+  },
+  [types.CHANGEFULLPATH](state, params) {
+    state.fullpath = params;
   }
 };
 export default mutations;
