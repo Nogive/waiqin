@@ -12,7 +12,9 @@ export default {
       showRange: false, //打卡范围弹框
       checked: false, //勾选附近点
       poisArr: [], //附近的点
+      showCircle: false,
       showSearch: false,
+      updatePois: true,
       searchKey: "",
       poiPicker: null,
       amapManager,
@@ -20,6 +22,11 @@ export default {
       events: {
         init(o) {
           vm.map = o;
+        },
+        dragstart() {
+          console.log("1111");
+          vm.showCircle = false;
+          vm.updatePois = true;
         }
       }
     };
@@ -68,11 +75,14 @@ export default {
             positionResult.position.lng,
             positionResult.position.lat
           ];
+          vm.showCircle = true;
           let results = positionResult.regeocode.pois;
           results.forEach(e => {
             e.checked = false;
           });
-          vm.poisArr = results;
+          if (vm.updatePois) {
+            vm.poisArr = results;
+          }
         });
         positionPicker.on("fail", function(failResult) {
           console.log(failResult);
@@ -127,7 +137,9 @@ export default {
           e.checked = false;
         }
       });
-      //this.circleCenter = [item.location.lng, item.location.lat];
+      this.updatePois = false;
+      this.circleCenter = [item.location.lng, item.location.lat];
+      this.center = [item.location.lng, item.location.lat];
     }
   }
 };

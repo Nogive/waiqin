@@ -35,6 +35,7 @@
           strokeOpacity="0.8"
           strokeWeight="1"
           fillColor="#38f"
+          v-if="showCircle"
           >
         </el-amap-circle>
       </el-amap>

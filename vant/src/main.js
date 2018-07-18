@@ -78,6 +78,17 @@ var app = {
   },
   onDeviceReady: function() {
     console.log("deviceready");
+    cordova.exec(
+      function(data) {
+        console.log(data);
+      },
+      function(err) {
+        console.log(err);
+      },
+      "Location",
+      "start",
+      []
+    );
   },
   onPause: function() {
     console.log("pause");

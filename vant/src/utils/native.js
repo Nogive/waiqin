@@ -1,4 +1,3 @@
-import { Toast } from "vant";
 //拍照
 function takePhoto(onSuccess, onFail) {
   if (!navigator.camera) {
@@ -14,8 +13,35 @@ function takePhoto(onSuccess, onFail) {
     allowEdit: true,
     correctOrientation: true // Corrects Android orientation quirks
   };
-  let successCallback = function(imageURI) {
-    onSuccess(imageURI);
+  let successCallback = function(imgUri) {
+    window.resolveLocalFileSystemURL(
+      imgUri,
+      function success(fileEntry) {
+        console.log("got file: " + fileEntry.fullPath);
+        onSuccess(fileEntry, imgUri);
+      },
+      function() {
+        createNewFileEntry(imgUri);
+        window.resolveLocalFileSystemURL(
+          cordova.file.cacheDirectory,
+          function success(dirEntry) {
+            dirEntry.getFile(
+              "tempFile.jpeg",
+              { create: true, exclusive: false },
+              function(fileEntry) {
+                onSuccess(fileEntry, imgUri);
+              },
+              function() {
+                onFail("获取图片源文件失败");
+              }
+            );
+          },
+          function() {
+            onFail("解析图片路径出错");
+          }
+        );
+      }
+    );
   };
   let errorCallback = function(message) {
     onFail(message);
@@ -23,4 +49,8 @@ function takePhoto(onSuccess, onFail) {
   navigator.camera.getPicture(successCallback, errorCallback, options);
 }
 
-export { takePhoto };
+//定位
+function startLocate() {
+  console.log(开始定位);
+}
+export { takePhoto, startLocate };
