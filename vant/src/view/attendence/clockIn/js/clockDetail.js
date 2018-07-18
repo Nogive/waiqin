@@ -1,5 +1,6 @@
 import { Toast, ImagePreview, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
+import { takePhoto } from "@/utils/native";
 const photoMap = [
   {
     id: 1,
@@ -90,8 +91,19 @@ export default {
       this.center = [result.position.lng, result.position.lat];
     },
     //拍照上传
-    takePhoto() {
-      Toast("打开摄像头");
+    evokeCamera() {
+      takePhoto(
+        img => {
+          console.log(img);
+          this.photos.push({
+            id: Date.parse(new Date()),
+            url: img
+          });
+        },
+        err => {
+          Toast("拍照失败，失败原因：" + err);
+        }
+      );
     },
     //预览图片
     photoPreview(item) {

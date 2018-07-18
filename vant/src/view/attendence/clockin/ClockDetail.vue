@@ -43,7 +43,7 @@
           />
           <van-row gutter="15" class="photo-box">
             <van-col span="6">
-              <a href="javascript:;" @click="takePhoto"></a>
+              <a href="javascript:;" @click="evokeCamera"></a>
             </van-col>
             <van-col span="6" v-for="item in photos" :key="item.id">
               <img @click="photoPreview(item)" :src="item.url" alt="">
@@ -62,8 +62,8 @@
       <van-icon 
         v-show="edit" 
         name="delete" 
-        @click="deletePhoto"></van-icon>
-      <img :src="largePhoto.url" alt="">
+        @click.stop="deletePhoto"></van-icon>
+      <img :src="largePhoto.url" alt="" @click.self="showPhoto=false">
     </van-popup>
 
   </div>
@@ -127,8 +127,8 @@
     font-size: 1.5rem;
     color: #38f;
     position: absolute;
-    right: 0.5rem;
-    top:0.5rem;
+    right: 1rem;
+    top:2rem;
   }
   .modal-box img{
     width: 100%;

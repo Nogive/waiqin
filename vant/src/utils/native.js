@@ -1,6 +1,6 @@
 import { Toast } from "vant";
 //拍照
-function takePhoto() {
+function takePhoto(onSuccess, onFail) {
   if (!navigator.camera) {
     Toast("Camera API not supported !");
     return;
@@ -15,11 +15,10 @@ function takePhoto() {
     correctOrientation: true // Corrects Android orientation quirks
   };
   let successCallback = function(imageURI) {
-    Toast("拍照成功");
-    Toast(imageURI);
+    onSuccess(imageURI);
   };
   let errorCallback = function(message) {
-    Toast("error:" + message);
+    onFail(message);
   };
   navigator.camera.getPicture(successCallback, errorCallback, options);
 }

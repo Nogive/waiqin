@@ -12,6 +12,11 @@ export default {
   name: 'App',
   computed:{
     ...mapGetters(['loading'])
+  },
+  watch:{
+    $route(){
+      console.log(this.$route.fullPath);
+    }
   }
 }
 </script>

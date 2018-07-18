@@ -81,9 +81,11 @@ var app = {
   },
   onPause: function() {
     console.log("pause");
+    console.log(app.$route);
   },
   onResume: function() {
     console.log("resume");
+    console.log(app.$route);
   }
 };
 app.initialize();
