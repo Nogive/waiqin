@@ -28,7 +28,7 @@
         >
         <el-amap-circle 
           vid="circle"
-          :center="circleCenter" 
+          :center="center" 
           :radius="range*2" 
           fill-opacity="0.2"
           strokeColor="#38f"
@@ -39,6 +39,7 @@
           >
         </el-amap-circle>
       </el-amap>
+      <van-icon name="location" class="position-btn" @click.stop="onLocate"></van-icon>
     </div>
 
     <van-cell-group class="pois-box" :style="{maxHeight:posH+'px'}">
@@ -130,6 +131,13 @@
   .pois-box{
     max-height: 350px;
     overflow: scroll;
+  }
+  .position-btn{
+    color: #38f;
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    font-size: 2rem;
   }
 </style>
 <script src="./js/setClockPlace.js"></script>

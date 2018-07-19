@@ -7,6 +7,7 @@ import {
   netError
 } from "@/assets/js/commonFunc";
 import { getRequestUrl } from "@/assets/js/api";
+import { startLocate, stopLocate } from "@/utils/native";
 export default {
   name: "home",
   computed: {
@@ -53,6 +54,23 @@ export default {
         window.alert("error:" + message);
       };
       navigator.camera.getPicture(successCallback, errorCallback, options);
+    },
+    testLocate() {
+      let arr = [];
+      startLocate(
+        data => {
+          console.log(data);
+          if (data != "OK" && arr.length < 5) {
+            arr.push(data);
+          } else {
+            stopLocate();
+            console.log(arr);
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
   }
 };

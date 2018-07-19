@@ -1,3 +1,4 @@
+import { startLocate, stopLocate } from "@/utils/native";
 import { AMapManager } from "vue-amap";
 let amapManager = new AMapManager();
 export default {
@@ -5,17 +6,17 @@ export default {
   data() {
     let vm = this;
     return {
-      posH: 400,
+      posH: 400, //附近的点容器最大高度
       zoom: 15,
       center: [121.473658, 31.230378],
-      circleCenter: [121.473658, 31.230378],
       range: 100, //打卡范围
       showRange: false, //打卡范围弹框
       checked: false, //勾选附近点
       poisArr: [], //附近的点
-      showCircle: false,
-      showSearch: false,
-      updatePois: true,
+      showCircle: false, //显示打卡范围
+      showSearch: false, //显示搜索框
+      updatePois: true, //更新附近的点
+      positionPicker: null, //拖拽对象
       searchKey: "",
       poiPicker: null,
       amapManager,
@@ -25,7 +26,6 @@ export default {
           vm.map = o;
         },
         touchstart() {
-          console.log("move");
           vm.showCircle = false;
           vm.updatePois = true;
         }
@@ -44,7 +44,6 @@ export default {
       window.innerHeight ||
       document.documentElement.clientHeight ||
       document.body.clientHeight;
-    console.log(h);
     this.posH = h - 390;
   },
   methods: {
@@ -52,6 +51,28 @@ export default {
     checkClockRange(range) {
       this.range = range;
       this.showRange = false;
+    },
+    onLocate() {
+      let vm = this;
+      let arr = [];
+      startLocate(
+        data => {
+          console.log(data);
+          if (data != "OK" && arr.length < 5) {
+            arr.push(data);
+          } else {
+            stopLocate();
+            arr.sort((a, b) => {
+              return b.acr - a.acr;
+            });
+            vm.updatePois = true;
+            vm.center = [arr[0].lng, arr[0].lat];
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
     },
     //拖拽地图选点
     startDrag() {
@@ -62,25 +83,9 @@ export default {
           mode: "dragMap",
           map: map
         });
-        //定位
-        let geolocation;
-        map.plugin("AMap.Geolocation", function() {
-          geolocation = new AMap.Geolocation({
-            showButton: true, //显示定位按钮，默认：true
-            showMarker: false, //定位成功后在定位到的位置显示点标记，默认：true
-            extensions: "all"
-          });
-          map.addControl(geolocation);
-          geolocation.getCurrentPosition();
-          AMap.event.addListener(geolocation, "complete", function(data) {
-            positionPicker.start();
-          });
-          AMap.event.addListener(geolocation, "error", function(data) {
-            positionPicker.start();
-          });
-        });
+        //drag
         positionPicker.on("success", function(positionResult) {
-          vm.circleCenter = [
+          vm.center = [
             positionResult.position.lng,
             positionResult.position.lat
           ];
@@ -96,6 +101,8 @@ export default {
         positionPicker.on("fail", function(failResult) {
           console.log(failResult);
         });
+        vm.positionPicker = positionPicker;
+        positionPicker.start();
       });
     },
     startSearch() {
@@ -147,7 +154,6 @@ export default {
         }
       });
       this.updatePois = false;
-      this.circleCenter = [item.location.lng, item.location.lat];
       this.center = [item.location.lng, item.location.lat];
     }
   }

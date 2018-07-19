@@ -14,6 +14,8 @@ function takePhoto(onSuccess, onFail) {
     correctOrientation: true // Corrects Android orientation quirks
   };
   let successCallback = function(imgUri) {
+    onSuccess(imgUri);
+    /*
     window.resolveLocalFileSystemURL(
       imgUri,
       function success(fileEntry) {
@@ -42,6 +44,7 @@ function takePhoto(onSuccess, onFail) {
         );
       }
     );
+    */
   };
   let errorCallback = function(message) {
     onFail(message);
@@ -49,8 +52,47 @@ function takePhoto(onSuccess, onFail) {
   navigator.camera.getPicture(successCallback, errorCallback, options);
 }
 
-//定位
-function startLocate() {
-  console.log(开始定位);
+//开始定位
+function startLocate(successCallback, errorCallback) {
+  let arr = [];
+  let endFlag = false;
+  cordova.exec(
+    data => {
+      if (data != "OK" && arr.length < 5) {
+        arr.push(data);
+      } else {
+        cordova.exec(function() {}, function() {}, "Location", "stop", []);
+        //endFlag = true;
+        console.log(111111);
+        console.log(arr);
+      }
+    },
+    err => {
+      endFlag = true;
+    },
+    "Location",
+    "start",
+    []
+  );
 }
-export { takePhoto, startLocate };
+//结束定位
+function stopLocate() {
+  cordova.exec(function() {}, function() {}, "Location", "stop", []);
+}
+
+export { takePhoto, startLocate, stopLocate };
+let arr = [];
+startLocate(
+  data => {
+    console.log(data);
+    if (data != "OK" && arr.length < 5) {
+      arr.push(data);
+    } else {
+      stopLocate();
+      console.log(arr);
+    }
+  },
+  err => {
+    console.log(err);
+  }
+);

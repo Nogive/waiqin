@@ -37,3 +37,5 @@
 .van-icon-approve:before { content: "\e769"; }
 .van-icon-clock:before { content: "\e62b"; }
 .van-icon-outClock:before { content: "\e676"; }
+
+.van-icon-location:before { content: "\e64a"; }

@@ -93,8 +93,7 @@ export default {
     //拍照上传
     evokeCamera() {
       takePhoto(
-        (fileEntry, imgUri) => {
-          console.log(fileEntry);
+        imgUri => {
           console.log(imgUri);
           this.photos.push({
             id: Date.parse(new Date()),
