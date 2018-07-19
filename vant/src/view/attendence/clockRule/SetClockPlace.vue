@@ -20,7 +20,7 @@
       </div>
       <el-amap 
         vid="amap" 
-        :zoom="zoom" 
+        :zoom="zoom"
         class="amap-demo" 
         :center="center"
         :amapManager="amapManager"
@@ -41,7 +41,7 @@
       </el-amap>
     </div>
 
-    <van-cell-group class="pois-box">
+    <van-cell-group class="pois-box" :style="{maxHeight:posH+'px'}">
       <van-cell v-for="(item,index) in poisArr" :key="index" class="one-place" @click="checkPoint(item)">
         <template slot="title">
           <span class="van-cell-text">{{item.name}}</span>

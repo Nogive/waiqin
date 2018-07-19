@@ -5,6 +5,7 @@ export default {
   data() {
     let vm = this;
     return {
+      posH: 400,
       zoom: 15,
       center: [121.473658, 31.230378],
       circleCenter: [121.473658, 31.230378],
@@ -23,8 +24,8 @@ export default {
         init(o) {
           vm.map = o;
         },
-        dragstart() {
-          console.log("1111");
+        touchstart() {
+          console.log("move");
           vm.showCircle = false;
           vm.updatePois = true;
         }
@@ -37,6 +38,14 @@ export default {
         this.startDrag();
       }
     }
+  },
+  mounted() {
+    let h =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    console.log(h);
+    this.posH = h - 390;
   },
   methods: {
     //选择打卡范围
