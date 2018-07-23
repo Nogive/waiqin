@@ -7,7 +7,7 @@ import {
   netError
 } from "@/assets/js/commonFunc";
 import { getRequestUrl } from "@/assets/js/api";
-import { startLocate, stopLocate } from "@/utils/native";
+import { startLocate, stopLocate, takePhoto } from "@/utils/native";
 export default {
   name: "home",
   computed: {
@@ -53,27 +53,15 @@ export default {
       this.$router.push("/login");
     },
     testPhoto() {
-      if (!navigator.camera) {
-        window.alert("Camera API not supported !");
-        return;
-      }
-      let options = {
-        quality: 50,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: navigator.camera.PictureSourceType.CAMERA,
-        encodingType: navigator.camera.EncodingType.JPEG,
-        mediaType: navigator.camera.MediaType.PICTURE,
-        allowEdit: true,
-        correctOrientation: true // Corrects Android orientation quirks
-      };
-      let successCallback = function(imageURI) {
-        console.log("拍照成功");
-        console.log(imageURI);
-      };
-      let errorCallback = function(message) {
-        window.alert("error:" + message);
-      };
-      navigator.camera.getPicture(successCallback, errorCallback, options);
+      takePhoto(
+        url => {
+          console.log("拍照成功");
+          console.log(url);
+        },
+        err => {
+          console.log(err);
+        }
+      );
     },
     testLocate() {
       let vm = this;

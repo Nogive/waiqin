@@ -15,36 +15,6 @@ function takePhoto(onSuccess, onFail) {
   };
   let successCallback = function(imgUri) {
     onSuccess(imgUri);
-    /*
-    window.resolveLocalFileSystemURL(
-      imgUri,
-      function success(fileEntry) {
-        console.log("got file: " + fileEntry.fullPath);
-        onSuccess(fileEntry, imgUri);
-      },
-      function() {
-        createNewFileEntry(imgUri);
-        window.resolveLocalFileSystemURL(
-          cordova.file.cacheDirectory,
-          function success(dirEntry) {
-            dirEntry.getFile(
-              "tempFile.jpeg",
-              { create: true, exclusive: false },
-              function(fileEntry) {
-                onSuccess(fileEntry, imgUri);
-              },
-              function() {
-                onFail("获取图片源文件失败");
-              }
-            );
-          },
-          function() {
-            onFail("解析图片路径出错");
-          }
-        );
-      }
-    );
-    */
   };
   let errorCallback = function(message) {
     onFail(message);
