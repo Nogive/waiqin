@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-    submit() {
+    onSubmit() {
       console.log(this.result);
     },
     enterPart(item, ev) {

@@ -8,7 +8,7 @@
     >
       <div slot="right">
         <van-icon name="search" @click="startSearch"></van-icon>
-        <van-button size="small" class="bg-blue">确定</van-button>
+        <van-button size="small" class="bg-blue" @click="onSubmit">确定</van-button>
       </div>
     </van-nav-bar>
 

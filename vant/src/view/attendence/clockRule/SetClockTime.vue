@@ -34,6 +34,7 @@
       @cancel="showTimePanel=false"
       @change='pickerTime'
     />
+    {{timeArr}}
   </div>
 </template>
 <script>

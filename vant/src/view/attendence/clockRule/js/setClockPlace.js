@@ -164,6 +164,10 @@ export default {
       });
       this.updatePois = false;
       this.center = [item.location.lng, item.location.lat];
+    },
+    onSubmit() {
+      console.log(this.center);
+      console.log(this.range);
     }
   }
 };

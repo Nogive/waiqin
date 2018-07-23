@@ -7,7 +7,7 @@
       @click-left="$router.back()"
     >
       <div slot="right">
-        <van-icon name="checked" @click="submit"></van-icon>
+        <van-icon name="checked" @click="onSubmit"></van-icon>
         <van-icon name="search"></van-icon>
       </div>
     </van-nav-bar>
@@ -38,7 +38,7 @@
       </van-col>
 
       <van-col class="w80 text-right">
-        <van-button size="small" class="bg-blue" @click="submit">确定({{result.length}})</van-button>
+        <van-button size="small" class="bg-blue" @click="onSubmit">确定({{result.length}})</van-button>
       </van-col>
     </van-row>
   </div>
