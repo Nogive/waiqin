@@ -67,6 +67,8 @@ export default {
     onLocate() {
       console.log("locate");
       let vm = this;
+      vm.locateLength = 0;
+      vm.locateArr = [];
       startLocate(
         data => {
           if (data != "OK") {
