@@ -41,8 +41,10 @@ export default {
       if (this.ruleName == "") {
         this.showError = true;
       } else {
-        console.log(this.ruleName);
-        //this.$router.back();
+        let rule=getSession('rule');
+        rule.name=this.ruleName;
+        setSession('rule',rule);
+        this.$router.back();
       }
     }
   }

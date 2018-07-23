@@ -1,5 +1,6 @@
 import { mapGetters, mapActions } from "vuex";
 import { setSession, getSession } from "@/assets/js/commonFunc";
+
 export default {
   name: "writeRule",
   data() {
@@ -20,6 +21,7 @@ export default {
   created() {
     this.source = this.rule_state;
     this.setTitle();
+    this.fetchCache();
   },
   methods: {
     setTitle() {
@@ -29,6 +31,14 @@ export default {
       } else {
         this.title = "编辑规则";
       }
+    },
+    fetchCache() {
+      let rule = getSession("rule");
+      this.ruleName = rule.name;
+      this.clockPerson = rule.staff;
+      this.clockDate = rule.date;
+      this.clockTime = rule.time;
+      this.location = rule.location;
     }
   }
 };

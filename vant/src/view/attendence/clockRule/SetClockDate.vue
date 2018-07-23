@@ -29,7 +29,7 @@
           <van-checkbox name="6" />
         </van-cell>
         <van-cell title="每周日">
-          <van-checkbox name="0" />
+          <van-checkbox name="7" />
         </van-cell>
       </van-cell-group>
     </van-checkbox-group>
@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import { setSession, getSession } from "@/assets/js/commonFunc";
 export default {
   name:'attendence',
   data(){
@@ -54,16 +55,7 @@ export default {
     clockDate() {
       let arr = this.checkedDate;
       arr.sort();
-      let str = "";
-      if (arr.length == 7) {
-        str = "周一至周日";
-      } else {
-        arr.forEach(e => {
-          str += getDateText(e) + ",";
-        });
-        str = str.substring(0, str.length - 1);
-      }
-      return str;
+      return getDateRange(arr);
     },
   },
   created(){
@@ -76,11 +68,53 @@ export default {
    }
   }
 }
+function getDateRange(arr){
+  console.log(arr);
+  let reg_6_1=/1,2,3,4,5,6/;//周一至周六
+  let reg_6_2=/2,3,4,5,6,7/;//周二至周六
+  let reg_5_1=/1,2,3,4,5/;//周一至周五
+  let reg_5_2=/2,3,4,5,6/;//周二至周六
+  let reg_5_3=/3,4,5,6,7/;//周三至周日
+  let result="";
+  let str=arr.join();
+  let len=arr.length;
+  if(len==7){
+    result='周一至周日'
+  }else if(len==6){
+    if(reg_6_1.test(str)){
+      result="周一至周六"
+    }else if(reg_6_2.test(str)){
+      result="周二至周日"
+    }else{
+      result=getText(arr);
+    }
+  }else if(len==5){
+    if(reg_5_1.test(str)){
+      result="周一至周五"
+    }else if(reg_5_2.test(str)){
+      result="周二至周六"
+    }else if(reg_5_3.test(str)){
+      result="周三至周日"
+    }else{
+      result=getText(arr);
+    }
+  }else{
+    result=getText(arr);
+  }
+  return result;
+}
+function getText(arr){
+  let str="";
+  arr.forEach(e => {
+    str += getDateText(e) + ",";
+  });
+  return str.substring(0, str.length - 1);
+}
 function getDateText(i) {
   i = parseInt(i);
   let str = "";
   switch (i) {
-    case 0:
+    case 7:
       str = "周日";
       break;
     case 1:
