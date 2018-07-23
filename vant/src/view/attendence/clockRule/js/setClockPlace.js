@@ -7,6 +7,8 @@ export default {
     let vm = this;
     return {
       posH: 400, //附近的点容器最大高度
+      locateArr: [],
+      locateLength: 0,
       zoom: 15,
       center: [121.473658, 31.230378],
       range: 100, //打卡范围
@@ -37,6 +39,16 @@ export default {
       if (this.map != null) {
         this.startDrag();
       }
+    },
+    locateLength() {
+      if (this.locateLength >= 5) {
+        stopLocate();
+        this.locateArr.sort((a, b) => {
+          return b.acr - a.acr;
+        });
+        this.center = [this.locateArr[0].lng, this.locateArr[0].lat];
+        this.updatePois = true;
+      }
     }
   },
   mounted() {
@@ -53,20 +65,15 @@ export default {
       this.showRange = false;
     },
     onLocate() {
+      console.log("locate");
       let vm = this;
-      let arr = [];
       startLocate(
         data => {
-          console.log(data);
-          if (data != "OK" && arr.length < 5) {
-            arr.push(data);
+          if (data != "OK") {
+            vm.locateLength++;
+            vm.locateArr.push(data);
           } else {
-            stopLocate();
-            arr.sort((a, b) => {
-              return b.acr - a.acr;
-            });
-            vm.updatePois = true;
-            vm.center = [arr[0].lng, arr[0].lat];
+            console.log(vm.locateArr);
           }
         },
         err => {

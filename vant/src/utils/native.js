@@ -54,26 +54,7 @@ function takePhoto(onSuccess, onFail) {
 
 //开始定位
 function startLocate(successCallback, errorCallback) {
-  let arr = [];
-  let endFlag = false;
-  cordova.exec(
-    data => {
-      if (data != "OK" && arr.length < 5) {
-        arr.push(data);
-      } else {
-        cordova.exec(function() {}, function() {}, "Location", "stop", []);
-        //endFlag = true;
-        console.log(111111);
-        console.log(arr);
-      }
-    },
-    err => {
-      endFlag = true;
-    },
-    "Location",
-    "start",
-    []
-  );
+  cordova.exec(successCallback, errorCallback, "Location", "start", []);
 }
 //结束定位
 function stopLocate() {
@@ -81,18 +62,3 @@ function stopLocate() {
 }
 
 export { takePhoto, startLocate, stopLocate };
-let arr = [];
-startLocate(
-  data => {
-    console.log(data);
-    if (data != "OK" && arr.length < 5) {
-      arr.push(data);
-    } else {
-      stopLocate();
-      console.log(arr);
-    }
-  },
-  err => {
-    console.log(err);
-  }
-);
