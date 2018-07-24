@@ -4,9 +4,9 @@
       :title="title"
       left-arrow
       left-text="返回"
-      right-text="定位"
+      right-text="测试"
       @click-left="$router.back()"
-      @click-right="createMarker()"
+      @click-right="getCurrentTime()"
     />
     <div class="clock-detail-box">
       <van-row>
@@ -46,7 +46,7 @@
             <van-col span="6">
               <a href="javascript:;" @click="evokeCamera"></a>
             </van-col>
-            <van-col span="6" v-for="item in photos" :key="item.id">
+            <van-col span="6" v-for="item in photos" :key="item.uuid">
               <img @click="photoPreview(item)" :src="item.url" alt="">
             </van-col>
           </van-row>
@@ -54,14 +54,14 @@
       </van-row>
     </div>
     <van-button 
-      v-show="edit" 
+      v-show="showSubBtn" 
       class="large-btn" 
       size="large" 
       @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
       <van-icon 
-        v-show="edit" 
+        v-show="deleteBth" 
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
       <img :src="largePhoto.url" alt="" @click.self="showPhoto=false">

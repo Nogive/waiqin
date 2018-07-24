@@ -27,6 +27,7 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
+    store.dispatch("hideLoading");
     return Promise.reject(error);
   }
 );
