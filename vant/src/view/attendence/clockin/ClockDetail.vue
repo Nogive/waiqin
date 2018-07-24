@@ -18,7 +18,6 @@
         <van-col span="18" class="address-body">
           <p>{{shotAddress}}</p>
           <p class="specific-addr">{{address}}</p>
-          <!-- <img :src="addressUrl" alt=""> -->
           <div class="amap-page-container">
             <el-amap 
               vid="clockMap" 

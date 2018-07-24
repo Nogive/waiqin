@@ -10,7 +10,8 @@ function takePhoto(onSuccess, onFail) {
     sourceType: navigator.camera.PictureSourceType.CAMERA,
     encodingType: navigator.camera.EncodingType.JPEG,
     mediaType: navigator.camera.MediaType.PICTURE,
-    allowEdit: true,
+    allowEdit: false, //不允许编辑
+    saveToPhotoAlbum: false, //不允许保存到相册
     correctOrientation: true // Corrects Android orientation quirks
   };
   let successCallback = function(imgUri) {
@@ -23,8 +24,14 @@ function takePhoto(onSuccess, onFail) {
 }
 
 //开始定位
-function startLocate(successCallback, errorCallback) {
-  cordova.exec(successCallback, errorCallback, "Location", "start", []);
+function startLocate(successCallback, errorCallback, options) {
+  if (options) {
+    cordova.exec(successCallback, errorCallback, "Location", "start", [
+      options
+    ]);
+  } else {
+    cordova.exec(successCallback, errorCallback, "Location", "start", []);
+  }
 }
 //结束定位
 function stopLocate() {

@@ -1,5 +1,6 @@
 import { startLocate, stopLocate } from "@/utils/native";
 import { AMapManager } from "vue-amap";
+import { Toast } from "vant";
 let amapManager = new AMapManager();
 export default {
   name: "setClockPlace",
@@ -43,11 +44,7 @@ export default {
     locateLength() {
       if (this.locateLength >= 5) {
         stopLocate();
-        this.locateArr.sort((a, b) => {
-          return b.acr - a.acr;
-        });
-        this.center = [this.locateArr[0].lng, this.locateArr[0].lat];
-        this.updatePois = true;
+        this.showLocateData();
       }
     }
   },
@@ -65,21 +62,23 @@ export default {
       this.showRange = false;
     },
     onLocate() {
-      console.log("locate");
       let vm = this;
       vm.locateLength = 0;
       vm.locateArr = [];
       startLocate(
         data => {
-          if (data != "OK") {
-            vm.locateLength++;
-            vm.locateArr.push(data);
-          } else {
-            console.log(vm.locateArr);
-          }
+          vm.locateLength++;
+          vm.locateArr.push(data);
         },
         err => {
-          console.log(err);
+          if (vm.locateLength == 0) {
+            Toast(
+              "定位失败，请确保设备联网且开启GPS定位权限。错误原因：" + err
+            );
+          } else {
+            stopLocate();
+            vm.showLocateData();
+          }
         }
       );
     },
@@ -164,6 +163,14 @@ export default {
       });
       this.updatePois = false;
       this.center = [item.location.lng, item.location.lat];
+    },
+    //显示定位数据
+    showLocateData() {
+      this.locateArr.sort((a, b) => {
+        return b.acr - a.acr;
+      });
+      this.center = [this.locateArr[0].lng, this.locateArr[0].lat];
+      this.updatePois = true;
     },
     onSubmit() {
       console.log(this.center);

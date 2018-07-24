@@ -1,6 +1,7 @@
 import { Toast, ImagePreview, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
 import { takePhoto, startLocate, stopLocate } from "@/utils/native";
+import { getUuid } from "@/assets/js/commonFunc";
 const photoMap = [
   {
     id: 1,
@@ -26,10 +27,9 @@ export default {
   data() {
     let vm = this;
     return {
-      //page data
       source: null,
       title: "打卡详情",
-      edit: true, //是否可编辑
+      edit: false, //是否可编辑
       currentTime: 1532403276700, //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
@@ -46,9 +46,9 @@ export default {
           vm.map = o;
         }
       },
-      locateLength: 0,
-      locateArr: [],
-      showMarker: false
+      location: null, //定位信息
+      showMarker: false, //定位所在marker
+      showSubBtn: false
     };
   },
   created: function() {
@@ -77,14 +77,12 @@ export default {
   watch: {
     //自动获取时间+地点
     map: function() {
-      if (this.map != null) {
+      if (
+        this.map != null &&
+        this.source != type.SIGNINDETAIL &&
+        this.source != type.GOOUTDETAIL
+      ) {
         //this.onLocation();
-      }
-    },
-    locateLength() {
-      if (this.locateLength >= 5) {
-        stopLocate();
-        this.renderPage();
       }
     }
   },
@@ -146,27 +144,26 @@ export default {
       let vm = this;
       startLocate(
         data => {
-          console.log(data);
-          vm.locateLength++;
-          vm.locateArr.push(data);
+          vm.location = data;
+          vm.renderPage();
+          vm.getCurrentTime();
         },
         err => {
           vm.autoLocationError(err);
-        }
+        },
+        5000
       );
     },
     renderPage() {
-      let results = this.locateArr;
-      results.sort((a, b) => {
-        return b.acr - a.acr;
-      });
-      let result = results[0];
-      console.log(result);
-      this.currentTime = result.tme;
+      let result = this.location;
       this.shotAddress = result.adr;
       this.address = result.adr;
       this.center = [result.lng, result.lat];
       this.showMarker = true;
+    },
+    getCurrentTime() {
+      vm.edit = true;
+      console.log("获取当前时间");
     },
     createMarker() {
       this.showMarker = true;
