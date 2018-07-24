@@ -1,6 +1,6 @@
 import { Toast, ImagePreview, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
-import { takePhoto } from "@/utils/native";
+import { takePhoto, startLocate, stopLocate } from "@/utils/native";
 const photoMap = [
   {
     id: 1,
@@ -30,15 +30,13 @@ export default {
       source: null,
       title: "打卡详情",
       edit: true, //是否可编辑
-      currentTime: "", //打卡时间
+      currentTime: 1532403276700, //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
       photos: photoMap, //图片数组
       message: "", //备注
       showPhoto: false, //是否放大图片
       largePhoto: "", //被放大的图片
-      lng: 0,
-      lat: 0,
       map: null,
       zoom: 15, //地图放大级别
       center: [121.59996, 31.197646], //地图默认中心点
@@ -47,7 +45,10 @@ export default {
         init(o) {
           vm.map = o;
         }
-      }
+      },
+      locateLength: 0,
+      locateArr: [],
+      showMarker: false
     };
   },
   created: function() {
@@ -77,19 +78,17 @@ export default {
     //自动获取时间+地点
     map: function() {
       if (this.map != null) {
-        this.getLocationInfo();
+        //this.onLocation();
+      }
+    },
+    locateLength() {
+      if (this.locateLength >= 5) {
+        stopLocate();
+        this.renderPage();
       }
     }
   },
   methods: {
-    renderPage(result) {
-      this.currentTime = getCurrentTime();
-      this.shotAddress = result.aois[0].name;
-      this.address = result.formattedAddress;
-      this.lng = result.position.lng;
-      this.lat = result.position.lat;
-      this.center = [result.position.lng, result.position.lat];
-    },
     //拍照上传
     evokeCamera() {
       takePhoto(
@@ -117,13 +116,15 @@ export default {
       this.showPhoto = false;
     },
     //定位失败
-    autoLocationError() {
+    autoLocationError(err) {
       Dialog.confirm({
         title: "提示",
-        message: "定位失败,请确保设备联网且允许GPS定位。点击确认进行重新定位"
+        message:
+          "定位失败,请确保设备联网且允许GPS定位。点击确认进行重新定位。失败原因：" +
+          err
       })
         .then(() => {
-          this.getLocationInfo();
+          this.onLocation();
         })
         .catch(() => {
           console.log("取消");
@@ -141,37 +142,34 @@ export default {
       });
     },
     //获取定位信息
-    getLocationInfo() {
+    onLocation() {
       let vm = this;
-      let map = this.amapManage.getMap();
-      let geolocation;
-      map.plugin("AMap.Geolocation", function() {
-        geolocation = new AMap.Geolocation({
-          enableHighAccuracy: true, //是否使用高精度定位，默认:true
-          timeout: 10000, //超过10秒后停止定位，默认：无穷大
-          showButton: true, //显示定位按钮，默认：true
-          showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
-          extensions: "all"
-        });
-        map.addControl(geolocation);
-        geolocation.getCurrentPosition();
-        AMap.event.addListener(geolocation, "complete", function(data) {
+      startLocate(
+        data => {
           console.log(data);
-          vm.renderPage(data);
-        }); //返回定位信息
-        AMap.event.addListener(geolocation, "error", function(data) {
-          vm.autoLocationError();
-        }); //返回定位出错信息
+          vm.locateLength++;
+          vm.locateArr.push(data);
+        },
+        err => {
+          vm.autoLocationError(err);
+        }
+      );
+    },
+    renderPage() {
+      let results = this.locateArr;
+      results.sort((a, b) => {
+        return b.acr - a.acr;
       });
+      let result = results[0];
+      console.log(result);
+      this.currentTime = result.tme;
+      this.shotAddress = result.adr;
+      this.address = result.adr;
+      this.center = [result.lng, result.lat];
+      this.showMarker = true;
+    },
+    createMarker() {
+      this.showMarker = true;
     }
   }
 };
-
-function getCurrentTime() {
-  let d = new Date();
-  return (
-    (d.getHours() < 10 ? "0" + d.getHours() : d.getHours()) +
-    ":" +
-    (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes())
-  );
-}

@@ -6,12 +6,12 @@
       left-text="返回"
       right-text="定位"
       @click-left="$router.back()"
-      @click-right="getLocationInfo"
+      @click-right="createMarker()"
     />
     <div class="clock-detail-box">
       <van-row>
         <van-col span="6">打卡时间</van-col>
-        <van-col span="18" class="red">{{currentTime}}</van-col>
+        <van-col span="18" class="red">{{currentTime|timeFormat('hh:mm')}}</van-col>
       </van-row>
       <van-row>
         <van-col span="6">打卡地点</van-col>
@@ -27,7 +27,9 @@
               :events="events" 
               class="amap-img" 
               :center="center">
+              <el-amap-marker :position="center" v-if="showMarker"></el-amap-marker>
             </el-amap>
+            <van-icon name="locate" class="locate-btn" @click="onLocation"></van-icon>
           </div>
         </van-col>
       </van-row>
@@ -89,6 +91,13 @@
   }
   .amap-page-container{
     width: 100%;
+    position: relative;
+  }
+  .locate-btn{
+    position: absolute;
+    font-size: 1.6rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
   }
   .amap-img{
     height: 10rem;
