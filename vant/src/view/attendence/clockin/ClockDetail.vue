@@ -60,11 +60,16 @@
       @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
-      <van-icon 
+      <!-- <van-icon 
         v-show="deleteBth" 
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
-      <img :src="largePhoto.url" alt="" @click.self="showPhoto=false">
+      <img :src="largePhoto.url" alt="" @click.self="showPhoto=false"> -->
+      <van-swipe :autoplay="3000">
+        <van-swipe-item v-for="(img, index) in photos" :key="index">
+          <img v-lazy="img.url" />
+        </van-swipe-item>
+      </van-swipe>
     </van-popup>
 
   </div>
