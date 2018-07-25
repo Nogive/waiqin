@@ -1,4 +1,5 @@
 import { Toast } from "vant";
+import $ from "jquery";
 /****************************************************************************************/
 // 高德地图 key
 export const mapKey = "e1dedc6bdd765d46693986ff7ff969f4";
@@ -139,4 +140,18 @@ export function getUuid(len, radix) {
   }
 
   return uuid.join("");
+}
+//get time from server
+export function getTimeFromServer() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      timeout: 5000, //5s超时
+      url: "https://m.tmall.com",
+      complete: function(xhr) {
+        var time = xhr.getResponseHeader("Date");
+        resolve(time);
+      }
+    });
+  });
 }

@@ -104,6 +104,7 @@
     </van-tabbar>
     <button @click="testPhoto">测试拍照</button>
     <button @click="testLocate">测试定位</button>
+    <button @click="getTime">获取请求时间</button>
   </div>
 </template>
 <script src="./home.js"></script>

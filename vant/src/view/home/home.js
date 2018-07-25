@@ -4,7 +4,8 @@ import {
   showLoading,
   noData,
   codeError,
-  netError
+  netError,
+  getTimeFromServer
 } from "@/assets/js/commonFunc";
 import { getRequestUrl } from "@/assets/js/api";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
@@ -79,6 +80,16 @@ export default {
           console.log(err);
         }
       );
+    },
+    getTime() {
+      getTimeFromServer().then(res => {
+        let currentTime = new Date();
+        if (res) {
+          currentTime = new Date(res);
+        }
+        console.log(currentTime);
+        console.log(Date.parse(currentTime));
+      });
     }
   }
 };

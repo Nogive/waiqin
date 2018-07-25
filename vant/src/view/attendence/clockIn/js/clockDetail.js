@@ -1,7 +1,7 @@
 import { Toast, ImagePreview, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
 import { takePhoto, startLocate, stopLocate } from "@/utils/native";
-import { getUuid } from "@/assets/js/commonFunc";
+import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
 const photoMap = [
   {
     uuid: 1,
@@ -30,7 +30,7 @@ export default {
       source: null,
       title: "打卡详情",
       deleteBth: true, //是否可编辑
-      currentTime: 1532403276700, //打卡时间
+      currentTime: Date.parse(new Date()), //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
       photos: photoMap, //图片数组
@@ -95,7 +95,7 @@ export default {
         imgUri => {
           console.log(imgUri);
           this.photos.push({
-            uuid: getUuid() + this.currentTime,
+            uuid: this.currentTime + "@" + getUuid(),
             url: imgUri
           });
           console.log(this.photos);
@@ -153,13 +153,15 @@ export default {
       this.showMarker = true;
     },
     getCurrentTime() {
-      this.edit = true;
-      let timestamp = Date.parse(new Date());
-      this.currentTime = timestamp;
+      this.showSubBtn = true;
+      getTimeFromServer().then(res => {
+        if (res) {
+          this.currentTime = Date.parse(new Date(res));
+        }
+      });
     },
     //确认打卡
     confirmTheClock() {
-      //this.edit = false;
       this.$router.back();
       this.$router.replace({
         name: "clockIn",
