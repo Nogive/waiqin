@@ -74,7 +74,6 @@ export default {
         this.deleteBth = false;
         break;
     }
-    console.log(getUuid());
   },
   watch: {
     //自动获取时间+地点
@@ -91,9 +90,9 @@ export default {
   methods: {
     //拍照上传
     evokeCamera() {
+      let now = this.getCurrentTime();
       takePhoto(
         imgUri => {
-          console.log(imgUri);
           this.photos.push({
             uuid: this.currentTime + "@" + getUuid(),
             url: imgUri
@@ -102,7 +101,8 @@ export default {
         },
         err => {
           Toast("拍照失败，失败原因：" + err);
-        }
+        },
+        now
       );
     },
     //预览图片
@@ -122,7 +122,8 @@ export default {
         data => {
           vm.location = data;
           vm.renderPage();
-          vm.getCurrentTime();
+          vm.showSubBtn = true;
+          vm.currentTime = Date.parse(vm.getCurrentTime());
         },
         err => {
           vm.autoLocationError(err);
@@ -153,12 +154,13 @@ export default {
       this.showMarker = true;
     },
     getCurrentTime() {
-      this.showSubBtn = true;
+      let now = new Date();
       getTimeFromServer().then(res => {
         if (res) {
-          this.currentTime = Date.parse(new Date(res));
+          now = new Date(res);
         }
       });
+      return now;
     },
     //确认打卡
     confirmTheClock() {

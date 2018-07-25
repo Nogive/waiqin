@@ -17,28 +17,8 @@ export default {
   data() {
     return {
       active: 1,
-      dialog: 8,
-      locateArr: [],
-      locateLength: 0
+      dialog: 8
     };
-  },
-  watch: {
-    locateLength() {
-      console.log(this.locateArr);
-      console.log(this.locateLength);
-      if (this.locateLength >= 5) {
-        stopLocate();
-        console.log("定位信息：");
-        console.log(this.locateArr);
-        this.locateArr.sort((a, b) => {
-          return b.acr - a.acr;
-        });
-        console.log("排序后：");
-        console.log(this.locateArr);
-        console.log("经纬度：");
-        console.log(this.locateArr[0].lng, this.locateArr[0].lat);
-      }
-    }
   },
   mounted() {
     if (!checkCookie("token")) {
@@ -69,27 +49,13 @@ export default {
       startLocate(
         data => {
           console.log(data);
-          if (data != "OK") {
-            vm.locateLength++;
-            vm.locateArr.push(data);
-          } else {
-            console.log(vm.locateArr);
-          }
         },
         err => {
           console.log(err);
-        }
+        },
+        5000
       );
-    },
-    getTime() {
-      getTimeFromServer().then(res => {
-        let currentTime = new Date();
-        if (res) {
-          currentTime = new Date(res);
-        }
-        console.log(currentTime);
-        console.log(Date.parse(currentTime));
-      });
+      stopLocate();
     }
   }
 };

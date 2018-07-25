@@ -1,5 +1,5 @@
 //拍照
-function takePhoto(onSuccess, onFail) {
+function takePhoto(onSuccess, onFail, option) {
   if (!navigator.camera) {
     Toast("Camera API not supported !");
     return;
@@ -15,6 +15,9 @@ function takePhoto(onSuccess, onFail) {
     cameraDirection: navigator.camera.Direction.FRONT,
     correctOrientation: true // Corrects Android orientation quirks
   };
+  if (option) {
+    options.waterMarker = option;
+  }
   let successCallback = function(imgUri) {
     onSuccess(imgUri);
   };
@@ -25,11 +28,9 @@ function takePhoto(onSuccess, onFail) {
 }
 
 //开始定位
-function startLocate(successCallback, errorCallback, options) {
-  if (options) {
-    cordova.exec(successCallback, errorCallback, "Location", "start", [
-      options
-    ]);
+function startLocate(successCallback, errorCallback, option) {
+  if (option) {
+    cordova.exec(successCallback, errorCallback, "Location", "start", [option]);
   } else {
     cordova.exec(successCallback, errorCallback, "Location", "start", []);
   }
