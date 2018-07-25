@@ -12,6 +12,7 @@ function takePhoto(onSuccess, onFail) {
     mediaType: navigator.camera.MediaType.PICTURE,
     allowEdit: false, //不允许编辑
     saveToPhotoAlbum: false, //不允许保存到相册
+    cameraDirection: navigator.camera.Direction.FRONT,
     correctOrientation: true // Corrects Android orientation quirks
   };
   let successCallback = function(imgUri) {

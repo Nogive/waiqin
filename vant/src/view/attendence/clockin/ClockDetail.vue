@@ -46,8 +46,8 @@
             <van-col span="6">
               <a href="javascript:;" @click="evokeCamera"></a>
             </van-col>
-            <van-col span="6" v-for="item in photos" :key="item.uuid">
-              <img @click="photoPreview(item)" :src="item.url" alt="">
+            <van-col span="6" v-for="(item,index) in photos" :key="item.uuid">
+              <img @click="photoPreview(index)" :src="item.url" alt="">
             </van-col>
           </van-row>
         </van-col>
@@ -60,14 +60,14 @@
       @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
-      <!-- <van-icon 
+      <van-icon 
         v-show="deleteBth" 
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
-      <img :src="largePhoto.url" alt="" @click.self="showPhoto=false"> -->
-      <van-swipe :autoplay="3000">
+      <!-- <img :src="largePhoto.url" alt="" @click.self="showPhoto=false"> -->
+      <van-swipe :initial-swipe="currentIndex">
         <van-swipe-item v-for="(img, index) in photos" :key="index">
-          <img v-lazy="img.url" />
+          <img v-lazy="img.url" @click.self="showPhoto=false" />
         </van-swipe-item>
       </van-swipe>
     </van-popup>
@@ -142,6 +142,7 @@
     position: absolute;
     right: 1rem;
     top:2rem;
+    z-index: 99;
   }
   .modal-box img{
     width: 100%;

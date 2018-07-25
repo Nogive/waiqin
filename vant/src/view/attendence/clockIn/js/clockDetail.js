@@ -36,7 +36,8 @@ export default {
       photos: photoMap, //图片数组
       message: "", //备注
       showPhoto: false, //是否放大图片
-      largePhoto: "", //被放大的图片
+      largePhoto: null, //被放大的图片
+      currentIndex: 0, //被放大图片的index
       map: null,
       zoom: 15, //地图放大级别
       center: [121.59996, 31.197646], //地图默认中心点
@@ -48,7 +49,7 @@ export default {
       },
       location: null, //定位信息
       showMarker: false, //定位所在marker
-      showSubBtn: false
+      showSubBtn: false //确认按钮
     };
   },
   created: function() {
@@ -105,14 +106,13 @@ export default {
       );
     },
     //预览图片
-    photoPreview(item) {
-      this.largePhoto = item;
+    photoPreview(index) {
+      this.currentIndex = index;
       this.showPhoto = true;
     },
     //删除图片
     deletePhoto() {
-      let index = this.photos.indexOf(this.largePhoto);
-      this.photos.splice(index, 1);
+      this.photos.splice(this.currentIndex, 1);
       this.showPhoto = false;
     },
     //获取定位信息
