@@ -147,4 +147,7 @@
   .modal-box img{
     width: 100%;
   }
+  .van-swipe{
+    max-height: 600px;
+  }
 </style>
