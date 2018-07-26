@@ -18,6 +18,7 @@ function takePhoto(onSuccess, onFail, option) {
   if (option) {
     options.waterMarker = option;
   }
+  console.log(options);
   let successCallback = function(imgUri) {
     onSuccess(imgUri);
   };
