@@ -90,7 +90,7 @@ export default {
   methods: {
     //拍照上传
     evokeCamera() {
-      let now = this.getCurrentTime();
+      let now = getWaterTime(this.getCurrentTime());
       takePhoto(
         imgUri => {
           this.photos.push({
@@ -102,7 +102,7 @@ export default {
         err => {
           Toast("拍照失败，失败原因：" + err);
         },
-        ["2018-07-26"]
+        [now]
       );
     },
     //预览图片
@@ -174,3 +174,9 @@ export default {
     }
   }
 };
+function getWaterTime(time) {
+  let y = date.getFullYear();
+  let m = date.getMonth() + 1;
+  let d = date.getDate();
+  return y + "-" + m < 10 ? "0" + m : m + "-" + d < 10 ? "0" + d : d;
+}
