@@ -2,24 +2,6 @@ import { Toast, ImagePreview, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
 import { takePhoto, startLocate, stopLocate } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
-const photoMap = [
-  {
-    uuid: 1,
-    url: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  },
-  {
-    uuid: 2,
-    url: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  },
-  {
-    uuid: 3,
-    url: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  },
-  {
-    uuid: 4,
-    url: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-  }
-];
 import { AMapManager } from "vue-amap";
 let amapManage = new AMapManager();
 export default {
@@ -33,10 +15,10 @@ export default {
       currentTime: Date.parse(new Date()), //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
-      photos: photoMap, //图片数组
+      photos: [], //图片数组
       message: "", //备注
       showPhoto: false, //是否放大图片
-      largePhoto: null, //被放大的图片
+      largeImg: {}, //被放大的图片
       currentIndex: 0, //被放大图片的index
       map: null,
       zoom: 15, //地图放大级别
@@ -49,7 +31,8 @@ export default {
       },
       location: null, //定位信息
       showMarker: false, //定位所在marker
-      showSubBtn: false //确认按钮
+      showSubBtn: false, //确认按钮
+      showCamera: true
     };
   },
   created: function() {
@@ -74,6 +57,11 @@ export default {
         this.deleteBth = false;
         break;
     }
+    let vm = this;
+    definedBackbehavior(function() {
+      vm.showPhoto = false;
+    });
+    restoreBackButton();
   },
   watch: {
     //自动获取时间+地点
@@ -84,6 +72,20 @@ export default {
         this.source != type.GOOUTDETAIL
       ) {
         //this.onLocation();
+      }
+    },
+    photos() {
+      if (this.photos.length >= 8) {
+        this.showCamera = false;
+      } else {
+        this.showCamera = true;
+      }
+    },
+    showPhoto() {
+      if (this.showPhoto) {
+        stopBehaviorOfBackButton();
+      } else {
+        restoreBackButton();
       }
     }
   },
@@ -97,7 +99,6 @@ export default {
             uuid: this.currentTime + "@" + getUuid(),
             url: imgUri
           });
-          console.log(this.photos);
         },
         err => {
           Toast("拍照失败，失败原因：" + err);
@@ -106,9 +107,13 @@ export default {
       );
     },
     //预览图片
-    photoPreview(index) {
+    photoPreview(item, index) {
       this.currentIndex = index;
+      this.largeImg = item;
       this.showPhoto = true;
+      definedBackbehavior(function() {
+        this.showPhoto = false;
+      });
     },
     //删除图片
     deletePhoto() {
@@ -174,9 +179,20 @@ export default {
     }
   }
 };
-function getWaterTime(time) {
+function getWaterTime(date) {
   let y = date.getFullYear();
   let m = date.getMonth() + 1;
   let d = date.getDate();
-  return y + "-" + m < 10 ? "0" + m : m + "-" + d < 10 ? "0" + d : d;
+  let result = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d);
+  return result;
+}
+
+function stopBehaviorOfBackButton() {
+  cordova.exec(null, null, "CoreAndroid", "overrideBackbutton", [true]);
+}
+function restoreBackButton() {
+  cordova.exec(null, null, "CoreAndroid", "overrideBackbutton", [false]);
+}
+function definedBackbehavior(fn) {
+  document.addEventListener("backbutton", fn);
 }

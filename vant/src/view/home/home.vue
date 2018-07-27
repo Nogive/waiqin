@@ -104,48 +104,66 @@
     </van-tabbar>
     <button @click="testPhoto">测试拍照</button>
     <button @click="testLocate">测试定位</button>
+    <button @click="showPhoto=true">查看轮播</button>
+    <van-popup v-model="showPhoto" class="modal-box" style="width:100%">
+      <van-swipe>
+        <van-swipe-item v-for="item in arr" :key="item.id">
+          <img :src="item.url" @click.self="showPhoto = false" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="../../assets/images/cat.jpg" @click.self="showPhoto = false" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="../../assets/images/cat2.jpg" @click.self="showPhoto = false"/>
+        </van-swipe-item>
+      </van-swipe>
+    </van-popup>
   </div>
 </template>
 <script src="./home.js"></script>
 <style scoped>
-  .van-panel{
-    padding: 15px;
-    margin-bottom: 0.8rem;
-  }
-  .van-hairline--top-bottom::after{
-    border-width: 0;
-  }
-  .home-title{
-    border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 0.6rem;
-    font-size: 0.8rem;
-    color: #a7a4a4;
-  }
-  .home-title .van-icon{
-    color: orange;
-    margin-right: 1rem;
-    font-size: 1rem;
-  }
-  .panel-body{
-    padding: 1rem 0px;
-    text-align: center;
-  }
-  .panel-body .van-col span{
-    display: block;
-    background: rgb(244,244,244);
-    font-weight: bold;
-    height: 60px;
-    line-height: 60px;
-    border-radius: 8px;
-    font-size: 1.5rem;
-  }
-  .panel-body .van-icon{
-    font-size: 2rem;
-  }
-  .panel-body .van-col p{
-    color: initial;
-  }
-  .panel-body .grey p{
-    color: inherit;
-  }
+.van-swipe-item img{
+  width: 100%;
+}
+
+.van-panel{
+  padding: 15px;
+  margin-bottom: 0.8rem;
+}
+.van-hairline--top-bottom::after{
+  border-width: 0;
+}
+.home-title{
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.6rem;
+  font-size: 0.8rem;
+  color: #a7a4a4;
+}
+.home-title .van-icon{
+  color: orange;
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+.panel-body{
+  padding: 1rem 0px;
+  text-align: center;
+}
+.panel-body .van-col span{
+  display: block;
+  background: rgb(244,244,244);
+  font-weight: bold;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 8px;
+  font-size: 1.5rem;
+}
+.panel-body .van-icon{
+  font-size: 2rem;
+}
+.panel-body .van-col p{
+  color: initial;
+}
+.panel-body .grey p{
+  color: inherit;
+}
 </style>

@@ -43,11 +43,11 @@
             autosize
           />
           <van-row gutter="15" class="photo-box">
-            <van-col span="6">
+            <van-col span="6" v-if="showCamera">
               <a href="javascript:;" @click="evokeCamera"></a>
             </van-col>
-            <van-col span="6" v-for="(item,index) in photos" :key="item.uuid">
-              <img @click="photoPreview(index)" :src="item.url" alt="">
+            <van-col span="6" v-for="(item,index) in photos" :key="index">
+              <img @click="photoPreview(item,index)" :src="item.url" alt="">
             </van-col>
           </van-row>
         </van-col>
@@ -64,12 +64,12 @@
         v-show="deleteBth" 
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
-      <!-- <img :src="largePhoto.url" alt="" @click.self="showPhoto=false"> -->
-      <van-swipe :initial-swipe="currentIndex">
+      <img :src="largeImg.url" @click.self="showPhoto = false" />
+      <!-- <van-swipe :initial-swipe="currentIndex">
         <van-swipe-item v-for="(img, index) in photos" :key="index">
-          <img v-lazy="img.url" @click.self="showPhoto=false" />
+          <img :src="img.url" @click.self="showPhoto = false" />
         </van-swipe-item>
-      </van-swipe>
+      </van-swipe> -->
     </van-popup>
 
   </div>
@@ -135,6 +135,7 @@
   .van-popup{
     width: 100%;
     background: transparent;
+    padding-bottom: 1rem;
   }
   .van-popup .van-icon{
     font-size: 1.5rem;
@@ -146,8 +147,5 @@
   }
   .modal-box img{
     width: 100%;
-  }
-  .van-swipe{
-    max-height: 600px;
   }
 </style>

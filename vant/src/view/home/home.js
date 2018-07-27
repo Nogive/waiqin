@@ -17,7 +17,18 @@ export default {
   data() {
     return {
       active: 1,
-      dialog: 8
+      dialog: 8,
+      showPhoto: false,
+      arr: [
+        {
+          id: 1,
+          url: "https://avatars1.githubusercontent.com/u/24405319?s=460&amp;v=4"
+        },
+        {
+          id: 2,
+          url: "https://avatars1.githubusercontent.com/u/24405319?s=460&amp;v=4"
+        }
+      ]
     };
   },
   mounted() {
@@ -38,6 +49,10 @@ export default {
         url => {
           console.log("拍照成功");
           console.log(url);
+          this.arr.push({
+            id: 3,
+            url: url
+          });
         },
         err => {
           console.log(err);

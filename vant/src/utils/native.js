@@ -12,7 +12,6 @@ function takePhoto(onSuccess, onFail, option) {
     mediaType: navigator.camera.MediaType.PICTURE,
     allowEdit: false, //不允许编辑
     saveToPhotoAlbum: false, //不允许保存到相册
-    cameraDirection: navigator.camera.Direction.FRONT,
     correctOrientation: true // Corrects Android orientation quirks
   };
   if (option) {
@@ -40,5 +39,24 @@ function startLocate(successCallback, errorCallback, option) {
 function stopLocate() {
   cordova.exec(function() {}, function() {}, "Location", "stop", []);
 }
+//阻止设备自带返回行为
+function stopBehaviorOfBackButton() {
+  cordova.exec(null, null, "CoreAndroid", "overrideBackbutton", [true]);
+}
+//恢复返回按钮的行为
+function restoreBackButton() {
+  cordova.exec(null, null, "CoreAndroid", "overrideBackbutton", [false]);
+}
+//自定义返回按钮的行为
+function definedBackbehavior(fn) {
+  document.addEventListener("backbutton", fn);
+}
 
-export { takePhoto, startLocate, stopLocate };
+export {
+  takePhoto,
+  startLocate,
+  stopLocate,
+  stopBehaviorOfBackButton,
+  restoreBackButton,
+  definedBackbehavior
+};
