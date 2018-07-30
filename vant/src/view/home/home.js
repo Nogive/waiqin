@@ -25,7 +25,7 @@ export default {
   },
   mounted() {
     if (!this.$checkCookie("token")) {
-      router.push("/login");
+      //this.$router.push("/login");
     } else {
       console.log("mounted");
     }

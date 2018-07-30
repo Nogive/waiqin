@@ -47,6 +47,12 @@ Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key]);
 });
 
+//request response  cookie session loading
+import custom from "./assets/js/custom";
+Object.keys(custom).forEach(key => {
+  Vue.prototype["$" + key] = custom[key];
+});
+
 //map
 import VueAMap from "vue-amap";
 Vue.use(VueAMap);
@@ -66,12 +72,6 @@ VueAMap.initAMapApiLoader({
   uiVersion: "1.0"
 });
 
-//request response  cookie session
-import custom from "./assets/js/custom";
-Object.keys(custom).forEach(key => {
-  Vue.prototype["$" + key] = custom[key];
-});
-
 //cordova init
 var app = {
   initialize: function() {
@@ -85,6 +85,7 @@ var app = {
   },
   onDeviceReady: function() {
     console.log("deviceready");
+    console.log(Vue.prototype.getCookie("token"));
   },
   onPause: function() {
     console.log("pause");
@@ -93,6 +94,14 @@ var app = {
   },
   onResume: function() {
     console.log("resume");
+    let hasToken = app.$checkCookie("token");
+    if (hasToken) {
+      app.$axios.defaults.headers.common["Authorization"] = app.$getCookie(
+        "token"
+      );
+    } else {
+      //app.$router.replace("/login");
+    }
     let currentPath = store.state.fullpath;
     console.log(currentPath);
   }
@@ -100,7 +109,7 @@ var app = {
 app.initialize();
 
 Vue.config.productionTip = false;
-new Vue({
+var app = new Vue({
   store,
   router,
   render: h => h(App)

@@ -41,6 +41,7 @@ export default {
           if (res.data == undefined) {
             noData();
           } else if (res.data.code == 0) {
+            //vm.$axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
             vm.$setCookie("token", res.data.data.token, 10);
             vm.$router.push("/");
           } else {
