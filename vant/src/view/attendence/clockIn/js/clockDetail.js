@@ -1,4 +1,4 @@
-import { Toast, ImagePreview, Dialog } from "vant";
+import { Toast, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
 import { takePhoto, startLocate, stopLocate } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";

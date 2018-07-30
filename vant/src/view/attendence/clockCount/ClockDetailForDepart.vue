@@ -29,7 +29,6 @@
 <script>
 import * as type from "@/assets/js/typeVariable"
 import { mapGetters,mapActions } from "vuex";
-import store from "@/store"
 export default {
   name:'clockDetailForDepart',
   data(){
@@ -44,7 +43,7 @@ export default {
   },
   beforeRouteLeave:((to,from,next)=>{
     if(to.name=='dayClockPerson'){
-      store.commit('changeDepartDay',to.params.source);
+      this.$store.commit('changeDepartDay',to.params.source);
     }
     next();
   }),

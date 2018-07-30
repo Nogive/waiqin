@@ -47,7 +47,6 @@ const defaultRule = {
   location: "无限制"
 };
 import { mapGetters, mapActions } from "vuex";
-import { setSession, getSession } from "@/assets/js/commonFunc";
 export default {
   name:'attendence',
   data(){
@@ -60,9 +59,9 @@ export default {
   beforeRouteLeave(to, from, next){
     let index=to.params.index;
     if(index==undefined){
-      setSession('rule',defaultRule);
+      this.$setSession('rule',defaultRule);
     }else{
-      setSession('rule',this.rules[index]);
+      this.$setSession('rule',this.rules[index]);
     }
     next();
   },

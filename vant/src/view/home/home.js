@@ -1,13 +1,5 @@
 import { mapGetters, mapActions } from "vuex";
-import {
-  checkCookie,
-  showLoading,
-  noData,
-  codeError,
-  netError,
-  getTimeFromServer
-} from "@/assets/js/commonFunc";
-import { getRequestUrl } from "@/assets/js/api";
+import { getTimeFromServer } from "@/assets/js/commonFunc";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
 export default {
   name: "home",
@@ -32,11 +24,10 @@ export default {
     };
   },
   mounted() {
-    if (!checkCookie("token")) {
-      //router.push("/login");
+    if (!this.$checkCookie("token")) {
+      router.push("/login");
     } else {
-      //showLoading(this, true);
-      console.log(getRequestUrl("login"));
+      console.log("mounted");
     }
   },
   methods: {
@@ -71,6 +62,9 @@ export default {
         5000
       );
       stopLocate();
+    },
+    onTest() {
+      //this.$showLoading();
     }
   }
 };

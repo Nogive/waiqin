@@ -12,6 +12,7 @@ import store from "./store/";
 
 //axios
 import axios from "axios";
+import qs from "qs";
 axios.interceptors.request.use(
   function(config) {
     store.dispatch("showLoading"); //通过VUEX管理是否显示loading
@@ -31,7 +32,8 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-Vue.prototype.$http = axios;
+Vue.prototype.$axios = axios;
+Vue.prototype.$qs = qs;
 
 //filters
 import filters from "./utils/filters";
@@ -48,7 +50,6 @@ Object.keys(directives).forEach(key => {
 //map
 import VueAMap from "vue-amap";
 Vue.use(VueAMap);
-
 VueAMap.initAMapApiLoader({
   key: "e1dedc6bdd765d46693986ff7ff969f4",
   plugin: [
@@ -65,8 +66,13 @@ VueAMap.initAMapApiLoader({
   uiVersion: "1.0"
 });
 
-Vue.config.productionTip = false;
+//request response  cookie session
+import custom from "./assets/js/custom";
+Object.keys(custom).forEach(key => {
+  Vue.prototype["$" + key] = custom[key];
+});
 
+//cordova init
 var app = {
   initialize: function() {
     document.addEventListener(
@@ -93,6 +99,7 @@ var app = {
 };
 app.initialize();
 
+Vue.config.productionTip = false;
 new Vue({
   store,
   router,

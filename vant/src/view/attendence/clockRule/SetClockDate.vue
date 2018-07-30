@@ -41,7 +41,6 @@
   </div>
 </template>
 <script>
-import { setSession, getSession } from "@/assets/js/commonFunc";
 export default {
   name:'attendence',
   data(){

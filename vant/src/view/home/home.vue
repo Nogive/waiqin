@@ -104,20 +104,7 @@
     </van-tabbar>
     <button @click="testPhoto">测试拍照</button>
     <button @click="testLocate">测试定位</button>
-    <button @click="showPhoto=true">查看轮播</button>
-    <van-popup v-model="showPhoto" class="modal-box" style="width:100%">
-      <van-swipe>
-        <van-swipe-item v-for="item in arr" :key="item.id">
-          <img :src="item.url" @click.self="showPhoto = false" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="../../assets/images/cat.jpg" @click.self="showPhoto = false" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="../../assets/images/cat2.jpg" @click.self="showPhoto = false"/>
-        </van-swipe-item>
-      </van-swipe>
-    </van-popup>
+    <button @click="onTest">查看轮播</button>
   </div>
 </template>
 <script src="./home.js"></script>

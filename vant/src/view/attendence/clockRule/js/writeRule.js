@@ -1,6 +1,4 @@
 import { mapGetters, mapActions } from "vuex";
-import { setSession, getSession } from "@/assets/js/commonFunc";
-
 export default {
   name: "writeRule",
   data() {
@@ -33,7 +31,7 @@ export default {
       }
     },
     fetchCache() {
-      let rule = getSession("rule");
+      let rule = this.$getSession("rule");
       this.ruleName = rule.name;
       this.clockPerson = rule.staff;
       this.clockDate = rule.date;
