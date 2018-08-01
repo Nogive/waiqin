@@ -4,13 +4,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  padding-bottom: 65px;
 }
 *{
   box-sizing: border-box;
-}
-.logo{
-  width: 50%;
 }
 body{
   background: rgb(240,239,244);
@@ -24,6 +20,9 @@ h1,h2,h3,h4{
 }
 a{
   color: inherit;
+}
+.pb65{
+  padding-bottom: 65px;
 }
 /* 颜色 */
 .red{
@@ -73,6 +72,9 @@ a{
 .bg-grey{
   background-color:rgb(197,197,197);
 }
+.text-left{
+  text-align: left;
+}
 .text-right{
   text-align: right;
 }
@@ -99,19 +101,4 @@ a{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.loading-box{
-  text-align: center;
-  display: inline-block;
-  color: white;
-  background: rgba(0,0,0,.6);
-  border-radius: 5px;
-  position: fixed;
-  top: calc(50% - 45px);;
-  left: calc(50% - 75px);
-  width: 150px;
-  height: 90px;
-}
-.loading-box .van-loading{
-  margin: 15px auto 0;
 }

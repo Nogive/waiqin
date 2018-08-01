@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb65">
     <van-nav-bar
       title="标题"
       left-text="工作台"
@@ -104,7 +104,7 @@
     </van-tabbar>
     <button @click="testPhoto">测试拍照</button>
     <button @click="testLocate">测试定位</button>
-    <button @click="onTest">查看轮播</button>
+    <button @click="onTest">其他测试</button>
   </div>
 </template>
 <script src="./home.js"></script>

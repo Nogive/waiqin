@@ -1,9 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
-import home from "@/view/home/Home.vue";
-import login from "@/view/login/Login.vue";
 import { Toast } from "vant";
 Vue.use(Router);
+
+//home
+import home from "@/view/home/Home.vue";
+
+//login-login
+import login from "@/view/login/Login.vue";
+//login-register
+import register from "@/view/login/Register.vue";
 
 //404
 import page404 from "@/view/default/page404.vue";
@@ -60,6 +66,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: login
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: register
   },
   {
     path: "/clockHome", //打卡

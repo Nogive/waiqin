@@ -13,6 +13,10 @@ export default {
   computed:{
     ...mapGetters(['loading'])
   },
+  mounted(){
+    let bodyH = window.screen.availHeight;
+    document.getElementById("app").style.height = bodyH + "px";
+  },
   watch:{
     $route(){
       this.$store.dispatch('changeFullPath',this.$route.fullPath);

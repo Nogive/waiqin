@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb65">
     <router-view></router-view>
     <van-tabbar v-model="menuIndex">
       <van-tabbar-item to="/clockHome" replace icon="position">打卡</van-tabbar-item>

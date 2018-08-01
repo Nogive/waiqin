@@ -61,7 +61,7 @@ export default {
     definedBackbehavior(function() {
       vm.showPhoto = false;
     });
-    restoreBackButton();
+    //restoreBackButton();
   },
   watch: {
     //自动获取时间+地点
@@ -71,7 +71,7 @@ export default {
         this.source != type.SIGNINDETAIL &&
         this.source != type.GOOUTDETAIL
       ) {
-        //this.onLocation();
+        this.onLocation();
       }
     },
     photos() {

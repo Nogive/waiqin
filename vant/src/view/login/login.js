@@ -7,33 +7,45 @@ export default {
   name: "login",
   data() {
     return {
-      username: "",
-      password: "",
-      userError: false,
-      passwordError: false
+      loginForm: {
+        account: "",
+        password: ""
+      },
+      loginRule: {
+        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      }
     };
   },
   methods: {
-    preLogin() {
-      var vm = this;
-      if (this.username != "" && this.password != "") {
-        let encrypt = new JSEncrypt();
-        encrypt.setPublicKey(pubKey);
-        let encrypted = encrypt.encrypt(trim(this.password));
-        let params = {
-          account: trim(this.username),
-          password: encrypted
-        };
-        this.requestLogin(params);
-      } else if (this.username == "") {
-        this.userError = true;
-      } else {
-        this.passwordError = true;
-      }
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.encryptAndLogin();
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
-    requestLogin(params) {
-      params = this.$qs.stringify(params);
-      let vm = this;
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    goRegister() {
+      this.$router.push("/register");
+    },
+    findPassword() {
+      console.log("找回密码");
+    },
+    encryptAndLogin() {
+      var vm = this;
+      let encrypt = new JSEncrypt();
+      encrypt.setPublicKey(pubKey);
+      let encrypted = encrypt.encrypt(trim(this.loginForm.password));
+      let params = this.$qs.stringify({
+        account: this.loginForm.account,
+        password: encrypted
+      });
       this.$axios
         .post("/api/authentication", params)
         .then(res => {

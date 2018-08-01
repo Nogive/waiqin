@@ -108,6 +108,10 @@ var app = {
 };
 app.initialize();
 
+//common api
+import { CommonConstants } from "./assets/js/CommonConstants";
+Vue.prototype.CommonConstants = CommonConstants;
+
 Vue.config.productionTip = false;
 var app = new Vue({
   store,

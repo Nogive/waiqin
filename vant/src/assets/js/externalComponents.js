@@ -43,5 +43,9 @@ Vue.use(Dialog);
 Vue.use(Swipe).use(SwipeItem);
 Vue.use(Lazyload);
 
-import { Loading } from "element-ui";
+import { Loading, Input, Form, FormItem, Select, Option } from "element-ui";
 Vue.use(Loading);
+Vue.use(Input)
+  .use(Select)
+  .use(Option);
+Vue.use(Form).use(FormItem);

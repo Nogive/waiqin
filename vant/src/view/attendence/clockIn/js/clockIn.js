@@ -18,7 +18,7 @@ export default {
       punchTime: "", //上班打卡时间
       punchOutTime: "", //下班打卡时间
       punchOutBtnText: "未开始", //签退按钮文字
-      outerRecords: [] //外出记录
+      outerRecords: [outers] //外出记录
     };
   },
   mounted: function() {
