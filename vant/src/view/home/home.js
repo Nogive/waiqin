@@ -34,7 +34,7 @@ export default {
   methods: {
     ...mapActions(["increment"]),
     logOut() {
-      this.$router.push("/login");
+      this.$router.replace("/login");
     },
     testPhoto() {
       takePhoto(
@@ -65,8 +65,7 @@ export default {
       stopLocate();
     },
     onTest() {
-      //this.$showLoading();
-      this.$toast("nihao");
+      console.log(device);
     }
   }
 };

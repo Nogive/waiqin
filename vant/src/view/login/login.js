@@ -1,8 +1,6 @@
 import { trim } from "@/assets/js/commonFunc";
+import { getClientVersion, getApiVersion } from "@/utils/native";
 import JSEncrypt from "jsencrypt";
-const pubKey =
-  "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIGetsuNPeHHbKWutJYmpz2aB6F/3uqq/5HhzuI8Sicz32g9ZkpgelcWJeFNBocfEYzpLgp0fHDz+/PStp23ClUCAwEAAQ==";
-
 export default {
   name: "login",
   data() {
@@ -40,29 +38,69 @@ export default {
     encryptAndLogin() {
       var vm = this;
       let encrypt = new JSEncrypt();
-      encrypt.setPublicKey(pubKey);
+      encrypt.setPublicKey(vm.CommonConstants.PUBLIC_KEY);
       let encrypted = encrypt.encrypt(trim(this.loginForm.password));
-      let params = this.$qs.stringify({
-        account: this.loginForm.account,
-        password: encrypted
+      let params;
+      Promise.all([getClientVersion(), getApiVersion()]).then(function([
+        cv,
+        av
+      ]) {
+        params = {
+          [vm.CommonConstants.JSON_KEY.ACCOUNT]: vm.loginForm.account,
+          [vm.CommonConstants.JSON_KEY.PASSWORD]: encrypted,
+          [vm.CommonConstants.JSON_KEY.IMEI]: device.uuid,
+          [vm.CommonConstants.JSON_KEY.DEVICE_TYPE]: vm.getDeviceType(),
+          [vm.CommonConstants.JSON_KEY.DEVICE_INFO]:
+            device.manufacturer + "-" + device.model + "-" + device.version,
+          [vm.CommonConstants.JSON_KEY.CLIENT_VERSION]: cv,
+          [vm.CommonConstants.JSON_KEY.API_VERSION]: av
+        };
+        vm.$axios
+          .post("http://x.waiqin.co/api/login", params)
+          .then(res => {
+            console.log(res);
+            if (res.data == undefined) {
+              noData();
+            } else if (res.data.code == vm.CommonConstants.API_CODE.OK) {
+              //vm.$axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+              vm.$setCookie("token", res.data.data, 10);
+              vm.$router.push("/");
+            } else if (
+              res.data.code == vm.CommonConstants.API_CODE.AUTH_INVALID_ACCOUNT
+            ) {
+              vm.$toast("不合法的账户，错误码：" + res.data.code);
+            } else if (
+              res.data.code == vm.CommonConstants.API_CODE.AUTH_INVALID_PASSWORD
+            ) {
+              vm.$toast("密码错误，错误码：" + res.data.code);
+            } else if (
+              res.data.code == vm.CommonConstants.API_CODE.AUTH_INACTIVE_ACCOUNT
+            ) {
+              vm.$toast("未激活账户，错误码：" + res.data.code);
+            } else if (
+              res.data.code == vm.CommonConstants.API_CODE.AUTH_FAILED
+            ) {
+              vm.$toast("登录失败，错误码：" + res.data.code);
+            } else {
+              vm.$codeError(res.data, "登录");
+            }
+          })
+          .catch(error => {
+            vm.$netError(error);
+          });
       });
-      this.$axios
-        .post("/api/authentication", params)
-        .then(res => {
-          console.log(res);
-          if (res.data == undefined) {
-            noData();
-          } else if (res.data.code == 0) {
-            //vm.$axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
-            vm.$setCookie("token", res.data.data.token, 10);
-            vm.$router.push("/");
-          } else {
-            vm.$codeError(res.data, "登录");
-          }
-        })
-        .catch(error => {
-          vm.$netError(error);
-        });
+    },
+    getDeviceType() {
+      let type;
+      let platform = device.platform;
+      if (platform == "Android") {
+        type = this.CommonConstants.DEVICE_TYPE.ANDROID;
+      } else if (platform == "iOS") {
+        type = this.CommonConstants.DEVICE_TYPE.IOS;
+      } else {
+        type = this.CommonConstants.DEVICE_TYPE.WEB;
+      }
+      return type;
     }
   }
 };

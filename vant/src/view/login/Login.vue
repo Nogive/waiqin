@@ -1,19 +1,19 @@
 <template>
   <div class="login-box" id="loginPage">
-    <img src="../../assets/images/logo.jpg" class="logo">
+    <!-- <img src="../../assets/images/logo.jpg" class="logo"> -->
     <p class="title"><b>外勤专家</b>，欢迎登录~</p>
     <el-form :model="loginForm" status-icon :rules="loginRule" ref="loginForm" class="register-main">
       <el-form-item label="账号" prop="account">
-        <el-input v-model="loginForm.account" auto-complete="off" placeholder="电话号码、姓名、公司名称"></el-input>
+        <el-input v-model="loginForm.account" auto-complete="off" placeholder="请输入账号"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="loginForm.password" auto-complete="off"></el-input>
+        <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <van-button @click="resetForm('loginForm')">重置</van-button>
-        <van-button class="bg-blue" @click="submitForm('loginForm')">登录</van-button>
-      </el-form-item>
-      <van-row>
+    </el-form>
+    <div class="btns">
+      <van-button @click="resetForm('loginForm')">重置</van-button>
+      <van-button class="bg-blue" @click="submitForm('loginForm')">登录</van-button>
+      <van-row class="register-find">
         <van-col :span="12" class="text-left">
           <p>没有账号？<a href="javascript:;" @click="goRegister" class="blue">前往注册</a></p>
         </van-col>
@@ -21,7 +21,7 @@
           <p>忘记密码？<a href="javascript:;" @click="findPassword" class="blue">找回密码</a></p>
         </van-col>
       </van-row>
-    </el-form>
+    </div>
   </div>
 </template>
 <script src="./login.js"></script>
@@ -45,6 +45,9 @@ h1, h2 {
 .title{
   font-size: 1rem;
   margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #38f;
+  padding-bottom: 1rem;
 }
 .title b{
   color: #38f;
@@ -61,5 +64,12 @@ h1, h2 {
 }
 .bg-blue{
   margin-left: 1rem;
+}
+.btns{
+  margin: 2rem 0 1rem;
+}
+.register-find{
+  width: 80%;
+  margin: 2rem auto;
 }
 </style>

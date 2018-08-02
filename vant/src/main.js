@@ -78,14 +78,14 @@ var app = {
     document.addEventListener(
       "deviceready",
       this.onDeviceReady.bind(this),
-      false
+      true
     );
     document.addEventListener("pause", this.onPause.bind(this), false);
     document.addEventListener("resume", this.onResume.bind(this), false);
   },
   onDeviceReady: function() {
     console.log("deviceready");
-    console.log(Vue.prototype.getCookie("token"));
+    console.log(mmApp.$getCookie("token"));
   },
   onPause: function() {
     console.log("pause");
@@ -94,9 +94,9 @@ var app = {
   },
   onResume: function() {
     console.log("resume");
-    let hasToken = app.$checkCookie("token");
+    let hasToken = mmApp.$checkCookie("token");
     if (hasToken) {
-      app.$axios.defaults.headers.common["Authorization"] = app.$getCookie(
+      mmApp.$axios.defaults.headers.common["Authorization"] = mmApp.$getCookie(
         "token"
       );
     } else {
@@ -113,7 +113,7 @@ import { CommonConstants } from "./assets/js/CommonConstants";
 Vue.prototype.CommonConstants = CommonConstants;
 
 Vue.config.productionTip = false;
-var app = new Vue({
+var mmApp = new Vue({
   store,
   router,
   render: h => h(App)

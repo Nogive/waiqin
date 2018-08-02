@@ -52,11 +52,46 @@ function definedBackbehavior(fn) {
   document.addEventListener("backbutton", fn);
 }
 
+//client version
+function getClientVersion() {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(
+      function(data) {
+        resolve(data);
+      },
+      function(err) {
+        reject(err);
+      },
+      "Version",
+      "client",
+      []
+    );
+  });
+}
+//api version
+function getApiVersion() {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(
+      function(data) {
+        resolve(data);
+      },
+      function(err) {
+        reject(err);
+      },
+      "Version",
+      "api",
+      []
+    );
+  });
+}
+
 export {
   takePhoto,
   startLocate,
   stopLocate,
   stopBehaviorOfBackButton,
   restoreBackButton,
-  definedBackbehavior
+  definedBackbehavior,
+  getClientVersion,
+  getApiVersion
 };

@@ -25,12 +25,12 @@
       <el-form-item label="确认密码" prop="checkPassword">
         <el-input type="password" v-model="registerForm.checkPassword" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item>
-        <van-button  @click="resetForm('registerForm')">重置</van-button>
-        <van-button  class="bg-blue" @click="submitForm('registerForm')">提交</van-button>
-      </el-form-item>
-      <p class="rb">已有账号？<a href="javascript:;" @click="goLogin" class="blue">直接登录</a></p>
     </el-form>
+    <div class="btns">
+      <van-button  @click="resetForm('registerForm')">重置</van-button>
+      <van-button  class="bg-blue" @click="submitForm('registerForm')">提交</van-button>
+      <p class="rb">已有账号？<a href="javascript:;" @click="goLogin" class="blue">直接登录</a></p>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -52,13 +52,14 @@ h1, h2 {
 }
 .register-main{
   width: 80%;
-  margin: 2rem auto;
+  margin: 0 auto;
 }
 .el-select{
   width: 100%;
 }
 .rb{
   text-align: right;
+  margin-top: 1rem;
 }
 .rb a{
   text-decoration: underline;
@@ -68,6 +69,10 @@ h1, h2 {
 }
 .bg-blue{
   margin-left: 1rem;
+}
+.btns{
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
 <script>
@@ -115,7 +120,7 @@ export default {
             [this.CommonConstants.JSON_KEY.COMPANY_NAME]: this.registerForm.companyName,
             [this.CommonConstants.JSON_KEY.MOBILE]: this.registerForm.mobile
           }
-          this.$axios.post("http://x.waiqin.co/register",param).then(res=>{
+          this.$axios.post("http://x.waiqin.co/api/register",param).then(res=>{
             if(res.data.code==vm.CommonConstants.API_CODE.OK){
               Dialog.confirm({
                 title: "注册成功",
@@ -126,7 +131,7 @@ export default {
               .catch(() => {
                 vm.resetForm('registerForm');
               });
-            }else if(res.data.code==vm.API_CODE.REG_INVALID_MOBILE){
+            }else if(res.data.code==vm.CommonConstants.API_CODE.REG_INVALID_MOBILE){
               vm.$toast("不合法的手机号，错误码："+res.data.code);
             }else if(res.data.code==vm.CommonConstants.API_CODE.REG_ALREADY_REGISTERED){
               vm.$toast("该手机号已经被注册，错误码："+res.data.code);

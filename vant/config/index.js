@@ -10,13 +10,15 @@ module.exports = {
     assetsSubDirectory: "static",
     assetsPublicPath: "/",
     proxyTable: {
+      /*
       "/api": {
-        target: "http://218.78.187.216/api/v1", //设置调用的接口域名和端口
+        target: "http://x.waiqin.co/api", //设置调用的接口域名和端口
         changeOrigin: true,
         pathRewrite: {
-          "^/api": "" //用'/api' 代替 'http://218.78.187.216/api/v1'
+          "^/api": "" //用'/api' 代替 'http://x.waiqin.co'
         }
       }
+      */
     },
 
     // Various Dev Server settings
