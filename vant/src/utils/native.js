@@ -17,7 +17,6 @@ function takePhoto(onSuccess, onFail, option) {
   if (option) {
     options.waterMarker = option;
   }
-  console.log(options);
   let successCallback = function(imgUri) {
     onSuccess(imgUri);
   };
@@ -90,30 +89,16 @@ function savePhoto(options) {
   return new Promise(function(resolve, reject) {
     cordova.exec(
       function(data) {
-        let res = {
-          msg: "success",
-          data: data
-        };
         resolve(data);
       },
       function(err) {
-        let rej = {
-          msg: "fail",
-          data: err
-        };
-        reject(data);
+        reject(err);
       },
       "Photo",
       "upload",
-      options
+      [options.url.substring(7), options.uuid + ".jpg"]
     );
   });
-  /*
-  cordova.exec(cussessCallback, errorCallback, "Photo", "upload", [
-    "file url from camera",
-    "uuid generated yourself.jpg"
-  ]);
-  */
 }
 
 export {

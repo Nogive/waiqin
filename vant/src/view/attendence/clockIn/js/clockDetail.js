@@ -4,6 +4,7 @@ import { takePhoto, startLocate, stopLocate, savePhoto } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
 import { AMapManager } from "vue-amap";
 let amapManage = new AMapManager();
+const userId = "100001";
 export default {
   name: "attendenceDetail",
   data() {
@@ -32,7 +33,9 @@ export default {
       location: null, //定位信息
       showMarker: false, //定位所在marker
       showSubBtn: false, //确认按钮
-      showCamera: true
+      showCamera: true,
+      timeFrom: "",
+      cameraTime: ""
     };
   },
   created: function() {
@@ -90,22 +93,6 @@ export default {
     }
   },
   methods: {
-    //拍照上传
-    evokeCamera() {
-      let now = getWaterTime(this.getCurrentTime());
-      takePhoto(
-        imgUri => {
-          this.photos.push({
-            uuid: this.currentTime + "@" + getUuid(),
-            url: imgUri
-          });
-        },
-        err => {
-          Toast("拍照失败，失败原因：" + err);
-        },
-        [now]
-      );
-    },
     //预览图片
     photoPreview(item, index) {
       this.currentIndex = index;
@@ -125,10 +112,12 @@ export default {
       let vm = this;
       startLocate(
         data => {
+          getTimeFromServer().then(res => {
+            vm.currentTime = Date.parse(res);
+          });
           vm.location = data;
           vm.renderPage();
           vm.showSubBtn = true;
-          vm.currentTime = Date.parse(vm.getCurrentTime());
         },
         err => {
           vm.autoLocationError(err);
@@ -158,14 +147,31 @@ export default {
       this.center = [result.lng, result.lat];
       this.showMarker = true;
     },
-    getCurrentTime() {
-      let now = new Date();
+    //拍照上传
+    evokeCamera() {
       getTimeFromServer().then(res => {
+        let [time, waterTime, timestamp] = [];
         if (res) {
-          now = new Date(res);
+          time = new Date(res);
+          timestamp = Date.parse(time);
+        } else {
+          time = new Date();
+          timestamp = "LT" + Date.parse(time);
         }
+        waterTime = getWaterTime(time);
+        takePhoto(
+          imgUri => {
+            this.photos.push({
+              uuid: userId + "@" + timestamp + "@" + getUuid(),
+              url: imgUri
+            });
+          },
+          err => {
+            Toast("拍照失败，失败原因：" + err);
+          },
+          [waterTime]
+        );
       });
-      return now;
     },
     //确认打卡
     confirmTheClock() {
@@ -191,12 +197,15 @@ export default {
       );
     },
     uploadPhoto() {
-      console.log("上传");
+      this.$showLoading("图片上传中，请稍候");
       let vm = this;
-      let options = [this.photos[0].url, this.photos[0].uuid];
-      savePhoto(options).then(
-        res => {
-          console.log(res);
+      let promises = [];
+      this.photos.forEach(e => {
+        promises.push(savePhoto(e));
+      });
+      Promise.all(promises)
+        .then(arr => {
+          vm.$hideLoading();
           vm.$router.back();
           vm.$router.replace({
             name: "clockIn",
@@ -204,11 +213,11 @@ export default {
               source: this.source
             }
           });
-        },
-        err => {
+        })
+        .catch(err => {
+          vm.$toast("图片上传失败");
           console.log(err);
-        }
-      );
+        });
     }
   }
 };
