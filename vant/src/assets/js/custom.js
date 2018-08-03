@@ -1,7 +1,7 @@
 import { Toast } from "vant";
 import store from "@/store/";
-const showLoading = () => {
-  store.dispatch("showLoading");
+const showLoading = params => {
+  store.dispatch("showLoading", params);
 };
 const hideLoading = () => {
   store.dispatch("hideLoading");

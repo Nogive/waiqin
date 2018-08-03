@@ -1,6 +1,6 @@
 import { Toast, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
-import { takePhoto, startLocate, stopLocate } from "@/utils/native";
+import { takePhoto, startLocate, stopLocate, savePhoto } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
 import { AMapManager } from "vue-amap";
 let amapManage = new AMapManager();
@@ -71,7 +71,7 @@ export default {
         this.source != type.SIGNINDETAIL &&
         this.source != type.GOOUTDETAIL
       ) {
-        this.onLocation();
+        //this.onLocation();
       }
     },
     photos() {
@@ -169,13 +169,46 @@ export default {
     },
     //确认打卡
     confirmTheClock() {
-      this.$router.back();
-      this.$router.replace({
-        name: "clockIn",
-        params: {
-          source: this.source
+      let vm = this;
+      let params = {
+        clockTime: this.currentTime,
+        address: this.address,
+        photos: this.photos,
+        message: this.message
+      };
+      this.$axios.post("url", params).then(
+        res => {
+          let data = res.data;
+          if (data.code == vm.CommonConstants.API_CODE.OK) {
+            vm.uploadPhoto();
+          } else {
+            vm.$codeError(data, "确认打卡");
+          }
+        },
+        err => {
+          vm.$netError(err);
         }
-      });
+      );
+    },
+    uploadPhoto() {
+      console.log("上传");
+      let vm = this;
+      let options = [this.photos[0].url, this.photos[0].uuid];
+      savePhoto(options).then(
+        res => {
+          console.log(res);
+          vm.$router.back();
+          vm.$router.replace({
+            name: "clockIn",
+            params: {
+              source: this.source
+            }
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
   }
 };

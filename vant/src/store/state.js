@@ -2,6 +2,7 @@ const state = {
   count: 20,
   //是否显示加载中
   loading: false,
+  loadingText: "拼命加载中",
   //从统计里面查看的状态（全部、内勤、外出、我的历史记录） 默认：全部
   statistics: "t_all",
   //全部、内勤、外出成员考勤详情当前查看的状态（正常、迟到、早退、外出） 默认：正常

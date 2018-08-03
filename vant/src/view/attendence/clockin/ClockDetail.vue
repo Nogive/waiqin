@@ -4,9 +4,9 @@
       :title="title"
       left-arrow
       left-text="返回"
-      right-text="测试"
+      right-text="测试上传"
       @click-left="$router.back()"
-      @click-right="getCurrentTime()"
+      @click-right="uploadPhoto()"
     />
     <div class="clock-detail-box">
       <van-row>

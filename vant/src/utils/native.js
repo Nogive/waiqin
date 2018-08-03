@@ -85,6 +85,37 @@ function getApiVersion() {
   });
 }
 
+//save photo
+function savePhoto(options) {
+  return new Promise(function(resolve, reject) {
+    cordova.exec(
+      function(data) {
+        let res = {
+          msg: "success",
+          data: data
+        };
+        resolve(data);
+      },
+      function(err) {
+        let rej = {
+          msg: "fail",
+          data: err
+        };
+        reject(data);
+      },
+      "Photo",
+      "upload",
+      options
+    );
+  });
+  /*
+  cordova.exec(cussessCallback, errorCallback, "Photo", "upload", [
+    "file url from camera",
+    "uuid generated yourself.jpg"
+  ]);
+  */
+}
+
 export {
   takePhoto,
   startLocate,
@@ -93,5 +124,6 @@ export {
   restoreBackButton,
   definedBackbehavior,
   getClientVersion,
-  getApiVersion
+  getApiVersion,
+  savePhoto
 };

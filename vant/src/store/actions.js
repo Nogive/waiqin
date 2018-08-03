@@ -16,8 +16,8 @@ const actions = {
   [types.CHANGE_RULE_STATE]: ({ commit }, params) => {
     commit(types.CHANGE_RULE_STATE, params);
   },
-  [types.SHOWLOADING]: ({ commit }) => {
-    commit(types.SHOWLOADING);
+  [types.SHOWLOADING]: ({ commit }, params) => {
+    commit(types.SHOWLOADING, params);
   },
   [types.HIDELOADING]: ({ commit }) => {
     commit(types.HIDELOADING);

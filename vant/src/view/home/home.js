@@ -65,7 +65,7 @@ export default {
       stopLocate();
     },
     onTest() {
-      console.log(device);
+      this.$showLoading("正在请求");
     }
   }
 };

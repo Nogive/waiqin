@@ -6,6 +6,9 @@ const getters = {
   loading: state => {
     return state.loading;
   },
+  loadingText: state => {
+    return state.loadingText;
+  },
   statistics: state => {
     return state.statistics;
   },
