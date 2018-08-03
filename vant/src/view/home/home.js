@@ -65,7 +65,7 @@ export default {
       stopLocate();
     },
     onTest() {
-      this.$showLoading("正在请求");
+      console.log(this.imgPrefix);
     }
   }
 };

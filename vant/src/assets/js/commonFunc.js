@@ -3,6 +3,8 @@ import $ from "jquery";
 /****************************************************************************************/
 // 高德地图 key
 export const mapKey = "e1dedc6bdd765d46693986ff7ff969f4";
+//照片路径前缀
+export const imgUrlPrefix = "http://xfield.oss-cn-hangzhou.aliyuncs.com";
 /****************************************************************************************/
 //filter space
 export function trim(str) {
