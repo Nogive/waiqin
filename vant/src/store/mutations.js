@@ -32,6 +32,9 @@ const mutations = {
   },
   [types.CHANGEFULLPATH](state, params) {
     state.fullpath = params;
+  },
+  [types.CHANGEAPPSTATE](state, params) {
+    state.appState = params;
   }
 };
 export default mutations;

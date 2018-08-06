@@ -13,3 +13,6 @@ export const HIDELOADING = "hideLoading";
 
 //更改fullpath
 export const CHANGEFULLPATH = "changeFullPath";
+
+//记录 pause  or resume
+export const CHANGEAPPSTATE = "changeAppState";

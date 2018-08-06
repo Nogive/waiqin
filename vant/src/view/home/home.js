@@ -40,7 +40,6 @@ export default {
       takePhoto(
         url => {
           console.log("拍照成功");
-          console.log(url);
           this.arr.push({
             id: 3,
             url: url
@@ -65,7 +64,9 @@ export default {
       stopLocate();
     },
     onTest() {
-      console.log(this.imgPrefix);
+      getTimeFromServer().then(res => {
+        console.log(res);
+      });
     }
   }
 };

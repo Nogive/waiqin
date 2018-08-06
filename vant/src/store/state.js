@@ -10,6 +10,8 @@ const state = {
   //规则 新建、编辑状态 默认：编辑
   rule_state: "edit",
   //当前路由的fullpath
-  fullpath: "/"
+  fullpath: "/",
+  //app pause or resume
+  appState: ""
 };
 export default state;

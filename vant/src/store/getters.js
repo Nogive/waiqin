@@ -20,6 +20,9 @@ const getters = {
   },
   fullpath: state => {
     return state.fullpath;
+  },
+  appState: state => {
+    return state.appState;
   }
 };
 export default getters;

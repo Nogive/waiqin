@@ -24,6 +24,9 @@ const actions = {
   },
   [types.CHANGEFULLPATH]: ({ commit }, params) => {
     commit(types.CHANGEFULLPATH, params);
+  },
+  [types.CHANGEAPPSTATE]: ({ commit }, params) => {
+    commit(types.CHANGEAPPSTATE, params);
   }
 };
 export default actions;

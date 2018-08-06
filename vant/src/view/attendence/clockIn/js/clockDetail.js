@@ -1,5 +1,6 @@
 import { Toast, Dialog } from "vant";
 import * as type from "@/assets/js/typeVariable";
+import { mapGetters, mapActions } from "vuex";
 import { takePhoto, startLocate, stopLocate, savePhoto } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
 import { AMapManager } from "vue-amap";
@@ -61,10 +62,15 @@ export default {
         break;
     }
     let vm = this;
+    setInterval(function() {
+      getTimeFromServer().then(res => {
+        vm.currentTime = res.date;
+      });
+    }, 10000);
     definedBackbehavior(function() {
       vm.showPhoto = false;
     });
-    //restoreBackButton();
+    restoreBackButton();
   },
   watch: {
     //自动获取时间+地点
@@ -74,7 +80,7 @@ export default {
         this.source != type.SIGNINDETAIL &&
         this.source != type.GOOUTDETAIL
       ) {
-        //this.onLocation();
+        this.onLocation();
       }
     },
     photos() {
@@ -90,7 +96,17 @@ export default {
       } else {
         restoreBackButton();
       }
+    },
+    appState() {
+      if (this.appState == "resume") {
+        this.onLocation();
+      } else {
+        stopLocate();
+      }
     }
+  },
+  computed: {
+    ...mapGetters(["appState"])
   },
   methods: {
     //预览图片
@@ -112,9 +128,6 @@ export default {
       let vm = this;
       startLocate(
         data => {
-          getTimeFromServer().then(res => {
-            vm.currentTime = Date.parse(res);
-          });
           vm.location = data;
           vm.renderPage();
           vm.showSubBtn = true;
@@ -150,15 +163,13 @@ export default {
     //拍照上传
     evokeCamera() {
       getTimeFromServer().then(res => {
-        let [time, waterTime, timestamp] = [];
-        if (res) {
-          time = new Date(res);
-          timestamp = Date.parse(time);
+        let [waterTime, timestamp] = [];
+        if (res.form == "LT") {
+          timestamp = "LT" + res.date;
         } else {
-          time = new Date();
-          timestamp = "LT" + Date.parse(time);
+          timestamp = res.date;
         }
-        waterTime = getWaterTime(time);
+        waterTime = getWaterTime(timestamp);
         takePhoto(
           imgUri => {
             this.photos.push({

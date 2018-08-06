@@ -15,7 +15,9 @@ import axios from "axios";
 import qs from "qs";
 axios.interceptors.request.use(
   function(config) {
-    store.dispatch("showLoading"); //通过VUEX管理是否显示loading
+    if (config.url != "http://m.tmall.com") {
+      store.dispatch("showLoading"); //通过VUEX管理是否显示loading
+    }
     return config;
   },
   function(error) {
@@ -24,7 +26,9 @@ axios.interceptors.request.use(
 );
 axios.interceptors.response.use(
   function(response) {
-    store.dispatch("hideLoading");
+    if (response.config.url != "http://m.tmall.com") {
+      store.dispatch("hideLoading");
+    }
     return response;
   },
   function(error) {
@@ -89,11 +93,11 @@ var app = {
   },
   onPause: function() {
     console.log("pause");
-    let currentPath = store.state.fullpath;
-    console.log(currentPath);
+    store.dispatch("changeAppState", "pause");
   },
   onResume: function() {
     console.log("resume");
+    store.dispatch("changeAppState", "resume");
     let hasToken = mmApp.$checkCookie("token");
     if (hasToken) {
       mmApp.$axios.defaults.headers.common["Authorization"] = mmApp.$getCookie(
@@ -102,8 +106,6 @@ var app = {
     } else {
       //app.$router.replace("/login");
     }
-    let currentPath = store.state.fullpath;
-    console.log(currentPath);
   }
 };
 app.initialize();
