@@ -1,0 +1,33 @@
+
+{
+  "clock":{
+    "normal":{
+      "rule":[
+        {
+          "id":1,
+          "onWorkTime":"09:00",
+          "afterWorkTime":"12:00"
+        },
+        {
+          "id":2,
+          "onWorkTime":"13:00",
+          "afterWorkTime":"18:00"
+        }
+      ],
+      "data":{
+        "onWorkTime":1533540512000,
+        "afterWorkTime":1533550140000
+      }
+    },
+    "outer":{
+      "records":[
+        {
+          "id":1,
+          "clockTime":1533540512000,
+          "address":"上海市新华路128号",
+          "note":"外出拜访客户"
+        }
+      ]
+    }
+  }
+}

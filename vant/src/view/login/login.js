@@ -59,30 +59,28 @@ export default {
           .post("http://x.waiqin.co/api/login", params)
           .then(res => {
             console.log(res);
-            if (res.data == undefined) {
+            if (res == undefined) {
               noData();
-            } else if (res.data.code == vm.CommonConstants.API_CODE.OK) {
+            } else if (res.code == vm.CommonConstants.API_CODE.OK) {
               //vm.$axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
-              vm.$setCookie("token", res.data.data, 10);
+              vm.$setCookie("token", res.data, 10);
               vm.$router.push("/");
             } else if (
-              res.data.code == vm.CommonConstants.API_CODE.AUTH_INVALID_ACCOUNT
+              res.code == vm.CommonConstants.API_CODE.AUTH_INVALID_ACCOUNT
             ) {
-              vm.$toast("不合法的账户，错误码：" + res.data.code);
+              vm.$toast("不合法的账户，错误码：" + res.code);
             } else if (
-              res.data.code == vm.CommonConstants.API_CODE.AUTH_INVALID_PASSWORD
+              res.code == vm.CommonConstants.API_CODE.AUTH_INVALID_PASSWORD
             ) {
-              vm.$toast("密码错误，错误码：" + res.data.code);
+              vm.$toast("密码错误，错误码：" + res.code);
             } else if (
-              res.data.code == vm.CommonConstants.API_CODE.AUTH_INACTIVE_ACCOUNT
+              res.code == vm.CommonConstants.API_CODE.AUTH_INACTIVE_ACCOUNT
             ) {
-              vm.$toast("未激活账户，错误码：" + res.data.code);
-            } else if (
-              res.data.code == vm.CommonConstants.API_CODE.AUTH_FAILED
-            ) {
-              vm.$toast("登录失败，错误码：" + res.data.code);
+              vm.$toast("未激活账户，错误码：" + res.code);
+            } else if (res.code == vm.CommonConstants.API_CODE.AUTH_FAILED) {
+              vm.$toast("登录失败，错误码：" + res.code);
             } else {
-              vm.$codeError(res.data, "登录");
+              vm.$codeError(res, "登录");
             }
           })
           .catch(error => {

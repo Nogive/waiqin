@@ -121,7 +121,7 @@ export default {
             [this.CommonConstants.JSON_KEY.MOBILE]: this.registerForm.mobile
           }
           this.$axios.post("http://x.waiqin.co/api/register",param).then(res=>{
-            if(res.data.code==vm.CommonConstants.API_CODE.OK){
+            if(res.code==vm.CommonConstants.API_CODE.OK){
               Dialog.confirm({
                 title: "注册成功",
                 message: "恭喜您，账号已成功注册，是否前往登录？"
@@ -131,15 +131,14 @@ export default {
               .catch(() => {
                 vm.resetForm('registerForm');
               });
-            }else if(res.data.code==vm.CommonConstants.API_CODE.REG_INVALID_MOBILE){
-              vm.$toast("不合法的手机号，错误码："+res.data.code);
-            }else if(res.data.code==vm.CommonConstants.API_CODE.REG_ALREADY_REGISTERED){
-              vm.$toast("该手机号已经被注册，错误码："+res.data.code);
+            }else if(res.code==vm.CommonConstants.API_CODE.REG_INVALID_MOBILE){
+              vm.$toast("不合法的手机号，错误码："+res.code);
+            }else if(res.code==vm.CommonConstants.API_CODE.REG_ALREADY_REGISTERED){
+              vm.$toast("该手机号已经被注册，错误码："+res.code);
             }else{
-              vm.$codeError(res.data,'注册');
+              vm.$codeError(res,'注册');
             }
           },err=>{
-            console.log(err);
             vm.$netError(err.response);
           })
         } else {

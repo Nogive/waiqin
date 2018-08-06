@@ -28,6 +28,7 @@ axios.interceptors.response.use(
   function(response) {
     if (response.config.url != "http://m.tmall.com") {
       store.dispatch("hideLoading");
+      response = response.data;
     }
     return response;
   },

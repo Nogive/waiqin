@@ -1,10 +1,5 @@
 import { Toast } from "vant";
 import * as type from "@/assets/js/typeVariable";
-const outers = {
-  time: "13:00",
-  address: "上海市新华路128号",
-  message: "拜访客户"
-};
 
 export default {
   name: "clockIn",
@@ -18,11 +13,12 @@ export default {
       punchTime: "", //上班打卡时间
       punchOutTime: "", //下班打卡时间
       punchOutBtnText: "未开始", //签退按钮文字
-      outerRecords: [outers] //外出记录
+      outerRecords: [] //外出记录
     };
   },
   mounted: function() {
     this.initRender();
+    this.fetchInitData();
   },
   computed: {
     showSignOut() {
@@ -64,6 +60,17 @@ export default {
       } else {
         this.$router.push({ name: "clockDetail", params: { source: key } });
       }
+    },
+    fetchInitData() {
+      let vm = this;
+      this.$axios.get("/api/clock").then(
+        res => {
+          console.log(res);
+        },
+        err => {
+          vm.$netError(err.response);
+        }
+      );
     },
     initRender() {
       let params = this.$route.params;
