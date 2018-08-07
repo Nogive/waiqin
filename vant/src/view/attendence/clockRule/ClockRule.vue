@@ -10,66 +10,54 @@
     </van-nav-bar>
     <div class="rule-body">
       <van-row class="one-rule" v-for="(item,index) in rules" :key="index">
-        <router-link :to="{name:'writeRule',params:{index:index}}">
+        <router-link :to="{name:'writeRule',params:{id:item.id}}">
           <van-col span="24">{{item.name}}</van-col>
-          <van-col span="24" class="show-one-line">日期：{{item.date}}</van-col>
-          <van-col span="24" class="show-one-line">时间：{{item.time}}</van-col>
-          <van-col span="24" class="show-one-line">位置：{{item.location}}</van-col>
+          <van-col span="24" class="show-one-line">日期：{{item.clockDate.name}}</van-col>
+          <van-col span="24" class="show-one-line">时间：{{item.clockTime|clockTimeFormat}}</van-col>
+          <van-col span="24" class="show-one-line">位置：{{item.clockPosition.address}}</van-col>
         </router-link>
       </van-row>
     </div>
   </div>
 </template>
 <script>
-const rules=[
-  {
-    id:1,
-    name: "每周2次打卡",
-    staff: "麦芒",
-    date: "周一至周日",
-    time: "09:00-18:00",
-    location: "乾坤大厦"
-  },
-  {
-    id:2,
-    name: "每周4次考勤",
-    staff: "麦芒",
-    date: "周一至周五",
-    time: "09:00-18:00",
-    location: "钦汇园"
-  }
-];
-const defaultRule = {
-  name: "每周2次打卡",
-  staff: "麦芒",
-  date: "周一至周五",
-  time: "09:00-18:00",
-  location: "无限制"
-};
 import { mapGetters, mapActions } from "vuex";
 export default {
   name:'attendence',
   data(){
     return {
-      rules:rules
+      rules:[],
+      defaultRule:{}
     }
   },
   created(){
-  },
-  beforeRouteLeave(to, from, next){
-    let index=to.params.index;
-    if(index==undefined){
-      this.$setSession('rule',defaultRule);
-    }else{
-      this.$setSession('rule',this.rules[index]);
-    }
-    next();
+    this.getInitData();
   },
   methods:{
     ...mapActions(["changeRuleState"]),
     createRule(){
       this.$store.commit("changeRuleState",'create');
-      this.$router.push('/writeRule');
+      this.$router.push({name:'writeRule',params:{id:'d'}});
+    },
+    getInitData(){
+      let vm=this;
+      this.$axios.get('/api/rule').then(res=>{
+        if(res.code==vm.CommonConstants.API_CODE.OK){
+          vm.rules=res.data.data;
+          vm.defaultRule=res.data.default;
+          vm.saveToSession(res.data);
+        }
+        console.log(res);
+      },err=>{
+        vm.$netError(err.response);
+      })
+    },
+    saveToSession(data){
+      this.$setSession('rd',data.default);
+      data.data.forEach(e=>{
+        let key="r"+e.id;
+        this.$setSession(key,e);
+      })
     }
   }
 }

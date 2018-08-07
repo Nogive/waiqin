@@ -10,16 +10,16 @@
     <div class="write-rule-body">
       <van-cell-group>
         <van-cell title="规则名称" to="/setRuleName" is-link :value="ruleName" />
-        <van-cell title="打卡人员" to="/setClockPerson" is-link :value="clockPerson" />
+        <van-cell title="打卡人员" to="/setClockPerson" is-link :value="staffs" />
       </van-cell-group>
       <van-cell-group>
         <van-cell title="打卡日期" is-link to="/setClockDate" :value="clockDate" />
-        <van-cell title="打卡时间" is-link to="/setClockTime" :value="clockTime" />
+        <van-cell title="打卡时间" is-link to="/setClockTime" :value="clockTime|clockTimeFormat" />
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="打卡位置" is-link to="/setLocation" :value="location" />
+        <van-cell title="打卡位置" is-link to="/setLocation" :value="clockPosition" />
       </van-cell-group>
-      <van-button size="large" class="large-btn" v-show="showDelete">删除规则</van-button>
+      <van-button size="large" class="large-btn" v-if="deleteBtn">删除规则</van-button>
     </div>
   </div>
 </template>

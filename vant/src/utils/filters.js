@@ -45,9 +45,17 @@ const timeFormat = (value, format) => {
   }
   return result;
 };
+const clockTimeFormat = function(value) {
+  let result = "";
+  value.forEach(e => {
+    result += e.onWork + "-" + e.afterWork + " ";
+  });
+  return result;
+};
 export default {
   fillZero,
   currency,
   capitalize,
-  timeFormat
+  timeFormat,
+  clockTimeFormat
 };

@@ -39,5 +39,129 @@
       "100001@1533283255000@E26CA3E0-F4F5-42DE-9E6C-9F4D564E0D65.jpg",
       "100001@1533283255000@E26CA3E0-F4F5-42DE-9E6C-9F4D564E0D65.jpg"
     ]
-  }
+  },
+  "rule":{
+    "default":{
+      "name":"每日2次打卡",
+      "staffs":{
+        "name":"xxx",
+        "ids":["001"]
+      },
+      "clockDate":{
+        "name":"周一至周五",
+        "dates":["1","2","3","4","5"]
+      },
+      "clockTime":[
+        {
+          "id":1,
+          "onWork":"09:00",
+          "afterWork":"18:00"
+        }
+      ],
+      "clockPosition":{
+        "address":"无限制",
+        "lng":121.473658,
+        "lat":31.230378
+      }
+    },
+    "data":[
+      {
+        "id":1,
+        "name":"每日2次打卡",
+        "staffs":{
+          "name":"xxx",
+          "ids":["001"]
+        },
+        "clockDate":{
+          "name":"周一至周五",
+          "dates":["1","2","3","4","5"]
+        },
+        "clockTime":[
+          {
+            "onWork":"09:00",
+            "afterWork":"18:00"
+          }
+        ],
+        "clockPosition":{
+          "address":"钦汇园",
+          "lng":121.406051,
+          "lat":31.179695
+        }
+      },
+      {
+        "id":2,
+        "name":"每日4次考勤",
+        "staffs":{
+          "name":"xxx",
+          "ids":["001"]
+        },
+        "clockDate":{
+          "name":"周一至周日",
+          "dates":["1","2","3","4","5","6","7"]
+        },
+        "clockTime":[
+          {
+            "onWork":"09:00",
+            "afterWork":"12:00"
+          },
+          {
+            "onWork":"13:00",
+            "afterWork":"18:00"
+          }
+        ],
+        "clockPosition":{
+          "address":"钦汇园",
+          "lng":121.406051,
+          "lat":31.179695
+        }
+      }
+    ]
+  },
+  "staffs":[
+    {
+      "id": "001",
+      "name": "xxx",
+      "children": [
+        {
+          "id": "002",
+          "name": "Tom",
+          "headImg": "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+        },
+        {
+          "id": "003",
+          "name": "Jerry",
+          "headImg": "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+        },
+        {
+          "id": "006",
+          "name": "业务部",
+          "children": [
+            {
+              "id": "007",
+              "name": "小明",
+              "headImg":
+                "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+            },
+            {
+              "id": "008",
+              "name": "小话",
+              "headImg":
+                "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+            },
+            {
+              "id": "009",
+              "name": "小王",
+              "headImg":
+                "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+            }
+          ]
+        },
+        {
+          "id": "010",
+          "name": "test",
+          "headImg": "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
+        }
+      ]
+    }
+  ]
 }

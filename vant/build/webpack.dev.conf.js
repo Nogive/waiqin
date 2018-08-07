@@ -16,6 +16,8 @@ const app = express();
 const appData = require("../data.json"); // 加载本地json文件
 const clock = appData.clock; // 获取对应本地数据
 const clockDetail = appData.clockDetail;
+const rule = appData.rule;
+const staffs = appData.staffs;
 const apiRoutes = express.Router();
 app.use("/api", apiRoutes);
 
@@ -70,6 +72,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           code: 0,
           data: clockDetail
+        });
+      });
+      app.get("/api/rule", (reg, res) => {
+        res.json({
+          code: 0,
+          data: rule
+        });
+      });
+      app.get("/api/staffs", (reg, res) => {
+        res.json({
+          code: 0,
+          data: staffs
         });
       });
     }
