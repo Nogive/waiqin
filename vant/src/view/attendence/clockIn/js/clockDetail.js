@@ -138,7 +138,14 @@ export default {
       this.center = [data.lng, data.lat];
       this.showMarker = true;
       this.note = data.note;
-      this.photos = data.photos;
+      let temp = [];
+      data.photos.forEach(e => {
+        temp.push({
+          id: e,
+          url: this.imgPrefix + e
+        });
+      });
+      this.photos = temp;
     },
     //获取定位信息
     onLocation() {

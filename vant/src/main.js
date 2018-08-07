@@ -116,7 +116,7 @@ import { CommonConstants } from "./assets/js/CommonConstants";
 Vue.prototype.CommonConstants = CommonConstants;
 
 //照片地址前缀
-Vue.prototype.imgPrefix = "http://xfield.oss-cn-hangzhou.aliyuncs.com";
+Vue.prototype.imgPrefix = "http://xfield.oss-cn-hangzhou.aliyuncs.com/";
 
 Vue.config.productionTip = false;
 var mmApp = new Vue({
