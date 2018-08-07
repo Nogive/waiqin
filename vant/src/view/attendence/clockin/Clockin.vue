@@ -11,6 +11,63 @@
     <van-tabs v-model="tabIndex">
       <van-tab title="上下班">
         <div class="work-box">
+          <div class="content" v-for="(item,index) in workRules" :key="index">
+            <van-row class="work-body" :class="{'disable-color':item.clockOnWork}" gutter="20">
+              <a href="javascript:;" @click="punchCard(type.SIGNINDETAIL,item)">
+                <van-col span="4" class="work-icon">
+                  <van-icon name="sun"></van-icon>
+                </van-col>
+                <van-col span="20" class="work-r"> 
+                  <van-col span="16">
+                    <h4>上班</h4>
+                    <p>{{item.rule.onWork}}</p>
+                  </van-col>
+                  <van-col span="8" class="work-btn">
+                    <van-button v-if="!item.clockOnWork" size="small" type="danger" @click.stop="punchCard(type.SIGNIN,item)">签到</van-button>
+                    <p class="sign-in" v-else>
+                      <van-icon name="itemLine"></van-icon>已签到 {{item.clockOnWork|timeFormat("hh:mm")}}
+                    </p>
+                  </van-col>
+                </van-col>
+              </a>
+            </van-row>
+            <van-row class="work-body" :class="{'disable-color':!item.clockOnWork}" gutter="20">
+              <a href="javascript:;" @click="punchCard(type.SIGNOUTDETAIL,item)">
+                <van-col span="4" class="work-icon">
+                  <van-icon name="moon"></van-icon>
+                </van-col>
+                <van-col span="20" class="work-r">
+                  <van-col span="16">
+                    <h4>下班</h4>
+                    <p>{{item.rule.afterWork}}</p>
+                  </van-col>
+                  <van-col span="8" class="work-btn">
+                    <van-button 
+                      v-show="!item.clockOnWork"
+                      size="small" 
+                      class="before-start" 
+                      disabled>未开始</van-button>
+                    <van-button 
+                      v-show="item.clockOnWork&&!item.clockAfterWork" 
+                      size="small" 
+                      type="danger" 
+                      class="before-start" 
+                      @click.stop="punchCard(type.SIGNOUT,item)">签退</van-button>
+
+                    <p class="sign-in" v-show="item.clockAfterWork">
+                      <van-icon name="itemLine"></van-icon>已签退 {{item.clockAfterWork|timeFormat("hh:mm")}}
+                    </p>
+                    <a v-show="item.clockAfterWork" href="javascript:;" class="blue" @click.stop="punchCard(type.UPDATE,item)">更新</a>
+                  </van-col>
+                </van-col>
+              </a>
+            </van-row>
+          </div>
+        </div>
+
+        <hr>
+        <!--
+        <div class="work-box">
           <van-row class="work-body" :class="{'disable-color':!showOnWork}" gutter="20">
             <a href="javascript:;" @click="punchCard(type.SIGNINDETAIL)">
               <van-col span="4" class="work-icon">
@@ -63,6 +120,7 @@
             </a>
           </van-row>
         </div>
+        -->
       </van-tab>
       <van-tab title="外出">
         <div class="work-box out-box">
@@ -82,13 +140,13 @@
           </van-row>
           <div class="record-box">
             <van-row class="one-record" v-for="(item,index) in outerRecords" :key="index">
-              <router-link :to="{name:'clockDetail',params:{source:type.GOOUTDETAIL}}">
+              <router-link :to="{name:'clockDetail',params:{source:type.GOOUTDETAIL,id:item.id}}">
               <van-col span="18">
                 <p class="out-title">第{{index+1}}次打卡</p>
               </van-col>
               <van-col span="6" class="blue text-right padd5">{{item.time}}</van-col>
               <van-col span="24" class="show-one-line">地点：{{item.address}}</van-col>
-              <van-col span="24" class="show-one-line">备注：{{item.message}}</van-col>
+              <van-col span="24" class="show-one-line">备注：{{item.note}}</van-col>
               </router-link>
             </van-row>
           </div>

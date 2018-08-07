@@ -8,28 +8,18 @@ export default {
       type: type,
       time: 1529892675000,
       tabIndex: 0, //tabIndex
+      workRules: [], //当前用户打卡规则
+      outerRecords: [], //外出记录
+
       showOnWork: true, //签到按钮
       showAfterWork: false, //已经签退
       punchTime: "", //上班打卡时间
       punchOutTime: "", //下班打卡时间
-      punchOutBtnText: "未开始", //签退按钮文字
-      outerRecords: [] //外出记录
+      punchOutBtnText: "未开始" //签退按钮文字
     };
   },
   mounted: function() {
-    this.initRender();
     this.fetchInitData();
-  },
-  computed: {
-    showSignOut() {
-      let tag = true;
-      if (this.showOnWork) {
-        tag = false;
-      } else if (this.showAfterWork) {
-        tag = false;
-      }
-      return tag;
-    }
   },
   beforeRouteEnter: (to, from, next) => {
     let vm = this;
@@ -44,21 +34,35 @@ export default {
   },
   methods: {
     //enter detail page
-    punchCard(key) {
+    punchCard(key, item) {
       if (key == type.SIGNINDETAIL) {
-        if (this.showOnWork) {
-          Toast("暂无上班打卡详情");
+        if (item.clockOnWork) {
+          this.$router.push({
+            name: "clockDetail",
+            params: { source: key, id: item.id }
+          });
         } else {
-          this.$router.push({ name: "clockDetail", params: { source: key } });
+          Toast("暂无上班打卡详情");
         }
       } else if (key == type.SIGNOUTDETAIL) {
-        if (this.showAfterWork) {
-          this.$router.push({ name: "clockDetail", params: { source: key } });
+        if (item.clockAfterWork) {
+          this.$router.push({
+            name: "clockDetail",
+            params: { source: key, id: item.id }
+          });
         } else {
           Toast("暂无下班打卡详情");
         }
+      } else if (key == type.ADDGOOUT) {
+        this.$router.push({
+          name: "clockDetail",
+          params: { source: key }
+        });
       } else {
-        this.$router.push({ name: "clockDetail", params: { source: key } });
+        this.$router.push({
+          name: "clockDetail",
+          params: { source: key, id: item.id }
+        });
       }
     },
     fetchInitData() {
@@ -66,35 +70,13 @@ export default {
       this.$axios.get("/api/clock").then(
         res => {
           console.log(res);
+          vm.workRules = res.data.normal;
+          vm.outerRecords = res.data.outer;
         },
         err => {
           vm.$netError(err.response);
         }
       );
-    },
-    initRender() {
-      let params = this.$route.params;
-      if (JSON.stringify(params) != "{}") {
-        if (params.source == type.SIGNIN) {
-          this.showOnWork = false;
-          this.punchTime = "09:03";
-        }
-        if (params.source == type.SIGNOUT) {
-          this.showOnWork = false;
-          this.punchTime = "09:03";
-          this.showAfterWork = true;
-          this.punchOutTime = "18:08";
-        }
-        if (params.source == type.UPDATE) {
-          this.showOnWork = false;
-          this.punchTime = "09:03";
-          this.showAfterWork = true;
-          this.punchOutTime = "18:18";
-        }
-        if (params.source == type.ADDGOOUT) {
-          this.outerRecords.push(outers);
-        }
-      }
     }
   }
 };

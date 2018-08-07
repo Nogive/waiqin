@@ -12,14 +12,17 @@ export default {
     let vm = this;
     return {
       source: null,
+      id: null, //当前规则id
       title: "打卡详情",
-      deleteBth: true, //是否可编辑
-      currentTime: Date.parse(new Date()), //打卡时间
+      clockTime: Date.parse(new Date()), //打卡时间
       shotAddress: "", //打卡地点
       address: "", //打卡详细位置
       photos: [], //图片数组
-      message: "", //备注
-      showPhoto: false, //是否放大图片
+      note: "", //备注
+      isEdit: true, //编辑页 or 详情页
+      showMarker: false, //是否显示marker
+      takePhotoBtn: true, //拍照按钮
+      showPhoto: false, //放大图片弹框
       largeImg: {}, //被放大的图片
       currentIndex: 0, //被放大图片的index
       map: null,
@@ -32,15 +35,13 @@ export default {
         }
       },
       location: null, //定位信息
-      showMarker: false, //定位所在marker
-      showSubBtn: false, //确认按钮
-      showCamera: true,
       timeFrom: "",
       cameraTime: ""
     };
   },
   created: function() {
     this.source = this.$route.params.source;
+    this.id = this.$route.params.id;
     switch (this.source) {
       case type.SIGNIN:
         this.title = "签到";
@@ -55,39 +56,43 @@ export default {
         this.title = "外出打卡";
         break;
       case type.SIGNINDETAIL:
-        this.deleteBth = false;
+        this.isEdit = false;
+        break;
+      case type.SIGNOUTDETAIL:
+        this.isEdit = false;
         break;
       case type.GOOUTDETAIL:
-        this.deleteBth = false;
+        this.isEdit = false;
         break;
     }
     let vm = this;
-    setInterval(function() {
-      getTimeFromServer().then(res => {
-        vm.currentTime = res.date;
-      });
-    }, 10000);
     definedBackbehavior(function() {
       vm.showPhoto = false;
     });
-    restoreBackButton();
+    //restoreBackButton();
   },
   watch: {
-    //自动获取时间+地点
     map: function() {
-      if (
-        this.map != null &&
-        this.source != type.SIGNINDETAIL &&
-        this.source != type.GOOUTDETAIL
-      ) {
-        this.onLocation();
+      if (this.map) {
+        if (
+          this.source == type.SIGNINDETAIL ||
+          this.source == type.GOOUTDETAIL ||
+          this.source == type.SIGNOUTDETAIL
+        ) {
+          this.getDetailById();
+        } else {
+          console.log("自动定位");
+          //this.onLocation();
+          //this.getTimeInterval();
+        }
       }
     },
+    //最多允许拍8张
     photos() {
       if (this.photos.length >= 8) {
-        this.showCamera = false;
+        this.takePhotoBtn = false;
       } else {
-        this.showCamera = true;
+        this.takePhotoBtn = true;
       }
     },
     showPhoto() {
@@ -109,19 +114,31 @@ export default {
     ...mapGetters(["appState"])
   },
   methods: {
-    //预览图片
-    photoPreview(item, index) {
-      this.currentIndex = index;
-      this.largeImg = item;
-      this.showPhoto = true;
-      definedBackbehavior(function() {
-        this.showPhoto = false;
-      });
+    //通过id 获取详情并展示
+    getDetailById() {
+      let vm = this;
+      this.$axios.get("/api/clockDetail", { id: vm.id }).then(
+        res => {
+          if (res.code == vm.CommonConstants.API_CODE.OK) {
+            vm.renderPage(res.data);
+          } else {
+            vm.$codeError(res);
+          }
+        },
+        err => {
+          vm.$netError(err.response);
+        }
+      );
     },
-    //删除图片
-    deletePhoto() {
-      this.photos.splice(this.currentIndex, 1);
-      this.showPhoto = false;
+    //渲染页面
+    renderPage(data) {
+      this.clockTime = data.clockTime;
+      this.shotAddress = data.address;
+      this.address = data.address;
+      this.center = [data.lng, data.lat];
+      this.showMarker = true;
+      this.note = data.note;
+      this.photos = data.photos;
     },
     //获取定位信息
     onLocation() {
@@ -129,8 +146,10 @@ export default {
       startLocate(
         data => {
           vm.location = data;
-          vm.renderPage();
-          vm.showSubBtn = true;
+          vm.address = data.adr;
+          vm.shotAddress = data.sdr;
+          vm.center = [data.lng, data.lat];
+          vm.showMarker = true;
         },
         err => {
           vm.autoLocationError(err);
@@ -153,14 +172,16 @@ export default {
           console.log("取消");
         });
     },
-    renderPage() {
-      let result = this.location;
-      this.shotAddress = result.adr;
-      this.address = result.adr;
-      this.center = [result.lng, result.lat];
-      this.showMarker = true;
+    //每个10s获取时间
+    getTimeInterval() {
+      let vm = this;
+      setInterval(function() {
+        getTimeFromServer().then(res => {
+          vm.clockTime = res.date;
+        });
+      }, 10000);
     },
-    //拍照上传
+    //拍照
     evokeCamera() {
       getTimeFromServer().then(res => {
         let [waterTime, timestamp] = [];
@@ -184,14 +205,29 @@ export default {
         );
       });
     },
+    //预览图片
+    photoPreview(item, index) {
+      this.currentIndex = index;
+      this.largeImg = item;
+      this.showPhoto = true;
+      definedBackbehavior(function() {
+        this.showPhoto = false;
+      });
+    },
+    //删除图片
+    deletePhoto() {
+      this.photos.splice(this.currentIndex, 1);
+      this.showPhoto = false;
+    },
     //确认打卡
     confirmTheClock() {
       let vm = this;
       let params = {
-        clockTime: this.currentTime,
+        clockTime: this.clockTime,
         address: this.address,
         photos: this.photos,
-        message: this.message
+        note: this.note,
+        location: this.location
       };
       this.$axios.post("url", params).then(
         res => {

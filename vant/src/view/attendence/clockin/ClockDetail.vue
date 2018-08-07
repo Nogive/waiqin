@@ -11,7 +11,7 @@
     <div class="clock-detail-box">
       <van-row>
         <van-col span="6">打卡时间</van-col>
-        <van-col span="18" class="red">{{currentTime|timeFormat('hh:mm')}}</van-col>
+        <van-col span="18" class="red">{{clockTime|timeFormat('hh:mm')}}</van-col>
       </van-row>
       <van-row>
         <van-col span="6">打卡地点</van-col>
@@ -28,7 +28,7 @@
               :center="center">
               <el-amap-marker :position="center" v-if="showMarker"></el-amap-marker>
             </el-amap>
-            <van-icon name="locate" class="locate-btn" @click="onLocation"></van-icon>
+            <van-icon v-if="isEdit" name="locate" class="locate-btn" @click="onLocation"></van-icon>
           </div>
         </van-col>
       </van-row>
@@ -36,14 +36,14 @@
         <van-col span="6">备注</van-col>
         <van-col span="18">
           <van-field 
-            v-model="message"
+            v-model="note"
             type="textarea"
             placeholder="请输入备注"
             rows="1"
             autosize
           />
           <van-row gutter="15" class="photo-box">
-            <van-col span="6" v-if="showCamera">
+            <van-col span="6" v-if="isEdit&&takePhotoBtn">
               <a href="javascript:;" @click="evokeCamera"></a>
             </van-col>
             <van-col span="6" v-for="(item,index) in photos" :key="index">
@@ -54,14 +54,14 @@
       </van-row>
     </div>
     <van-button 
-      v-show="showSubBtn" 
+      v-show="isEdit&&showMarker" 
       class="large-btn" 
       size="large" 
       @click="confirmTheClock">确认打卡</van-button>
 
     <van-popup v-model="showPhoto" class="modal-box">
       <van-icon 
-        v-show="deleteBth" 
+        v-show="isEdit" 
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
       <img :src="largeImg.url" @click.self="showPhoto = false" />

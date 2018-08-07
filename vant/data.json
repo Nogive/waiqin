@@ -1,33 +1,43 @@
 
 {
   "clock":{
-    "normal":{
-      "rule":[
-        {
-          "id":1,
-          "onWorkTime":"09:00",
-          "afterWorkTime":"12:00"
+    "normal":[
+      {
+        "id":1,
+        "rule":{
+          "onWork":"09:00",
+          "afterWork":"12:00"
         },
-        {
-          "id":2,
-          "onWorkTime":"13:00",
-          "afterWorkTime":"18:00"
+        "clockOnWork":1533540512000
+      },
+      {
+        "id":2,
+        "rule":{
+          "onWork":"03:00",
+          "afterWork":"18:00"
         }
-      ],
-      "data":{
-        "onWorkTime":1533540512000,
-        "afterWorkTime":1533550140000
       }
-    },
-    "outer":{
-      "records":[
-        {
-          "id":1,
-          "clockTime":1533540512000,
-          "address":"上海市新华路128号",
-          "note":"外出拜访客户"
-        }
-      ]
-    }
+    ],
+    "outer":[
+      {
+        "id":1,
+        "clockTime":1533540512000,
+        "address":"上海市新华路128号",
+        "note":"外出拜访客户"
+      }
+    ]
+  },
+  "clockDetail":{
+    "id":1,
+    "clockTime":1533620828000,
+    "address":"上海市徐汇区钦汇园",
+    "lng":121.406051,
+    "lat":31.179695,
+    "note":"",
+    "photos":[
+      "100001@1533283255000@E26CA3E0-F4F5-42DE-9E6C-9F4D564E0D65.jpg",
+      "100001@1533283255000@E26CA3E0-F4F5-42DE-9E6C-9F4D564E0D65.jpg",
+      "100001@1533283255000@E26CA3E0-F4F5-42DE-9E6C-9F4D564E0D65.jpg"
+    ]
   }
 }

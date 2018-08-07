@@ -15,6 +15,7 @@ const express = require("express");
 const app = express();
 const appData = require("../data.json"); // 加载本地json文件
 const clock = appData.clock; // 获取对应本地数据
+const clockDetail = appData.clockDetail;
 const apiRoutes = express.Router();
 app.use("/api", apiRoutes);
 
@@ -64,6 +65,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           code: 0,
           data: clock
         }); // 接口返回json数据，上面配置的数据seller就复制给data请求后调用
+      });
+      app.get("/api/clockDetail", (reg, res) => {
+        res.json({
+          code: 0,
+          data: clockDetail
+        });
       });
     }
   },
