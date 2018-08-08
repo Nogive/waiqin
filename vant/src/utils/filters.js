@@ -52,10 +52,18 @@ const clockTimeFormat = function(value) {
   });
   return result;
 };
+const clockPositionFormat = function(value) {
+  let result = "";
+  value.forEach(e => {
+    result += e.address + " ";
+  });
+  return result;
+};
 export default {
   fillZero,
   currency,
   capitalize,
   timeFormat,
-  clockTimeFormat
+  clockTimeFormat,
+  clockPositionFormat
 };

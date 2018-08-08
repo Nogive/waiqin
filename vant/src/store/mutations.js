@@ -35,6 +35,9 @@ const mutations = {
   },
   [types.CHANGEAPPSTATE](state, params) {
     state.appState = params;
+  },
+  [types.RECORDRULEID](state, params) {
+    state.ruleId = params;
   }
 };
 export default mutations;

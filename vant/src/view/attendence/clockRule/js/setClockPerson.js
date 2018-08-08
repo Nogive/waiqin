@@ -1,65 +1,20 @@
-const personArr = [
-  {
-    id: "001",
-    name: "maimang",
-    children: [
-      {
-        id: "002",
-        name: "Tom",
-        headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-      },
-      {
-        id: "003",
-        name: "Jerry",
-        headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-      },
-      {
-        id: "006",
-        name: "业务部",
-        children: [
-          {
-            id: "007",
-            name: "小明",
-            headImg:
-              "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-          },
-          {
-            id: "008",
-            name: "小话",
-            headImg:
-              "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-          },
-          {
-            id: "009",
-            name: "小王",
-            headImg:
-              "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-          }
-        ]
-      },
-      {
-        id: "010",
-        name: "test",
-        headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
-      }
-    ]
-  }
-];
-
 export default {
   name: "attendence",
   data() {
     return {
+      ruleId: "",
+      currentRule: {},
       allPerson: null, //获取的全部员工数据
-      persons: [],
-      total: 5,
+      persons: [], //页面显示
+      total: 0,
       result: [], //勾选人员结果数组
       headImg: "https://avatars1.githubusercontent.com/u/24405319?s=460&v=4"
     };
   },
   created() {
-    this.allPerson = personArr;
-    this.persons = personArr;
+    this.ruleId = this.$getSession("ruleId");
+    this.currentRule = this.$getSession("r" + this.ruleId);
+    this.getStaffs();
   },
   watch: {
     $route() {
@@ -72,8 +27,23 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log(this.result);
+    getStaffs() {
+      let vm = this;
+      this.$axios.get("/api/staffs").then(
+        res => {
+          if (res.code == vm.CommonConstants.API_CODE.OK) {
+            vm.allPerson = res.data.data;
+            vm.persons = res.data.data;
+            vm.total = res.data.total;
+          } else {
+            vm.$codeError(res, "请求人员数据");
+          }
+          console.log(res);
+        },
+        err => {
+          vm.$netError(res.response);
+        }
+      );
     },
     enterPart(item, ev) {
       if (ev.srcElement.nodeName != "I" && item.children != undefined) {
@@ -86,6 +56,18 @@ export default {
     deleteThisDepart(item) {
       let idx = this.result.indexOf(item);
       this.result.splice(idx, 1);
+    },
+    onSubmit() {
+      let name = "";
+      let temArr = [];
+      this.result.forEach(e => {
+        name += e.name + " ";
+        temArr.push(name.id);
+      });
+      this.currentRule.staffs.name = name;
+      this.currentRule.staffs.ids = temArr;
+      this.$setSession("r" + this.ruleId, this.currentRule);
+      this.$router.replace("/writeRule");
     }
   }
 };

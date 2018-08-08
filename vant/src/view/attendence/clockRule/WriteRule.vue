@@ -17,7 +17,7 @@
         <van-cell title="打卡时间" is-link to="/setClockTime" :value="clockTime|clockTimeFormat" />
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="打卡位置" is-link to="/setLocation" :value="clockPosition" />
+        <van-cell title="打卡位置" is-link to="/setLocation" :value="clockPosition|clockPositionFormat" />
       </van-cell-group>
       <van-button size="large" class="large-btn" v-if="deleteBtn">删除规则</van-button>
     </div>

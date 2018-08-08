@@ -27,6 +27,9 @@ const actions = {
   },
   [types.CHANGEAPPSTATE]: ({ commit }, params) => {
     commit(types.CHANGEAPPSTATE, params);
+  },
+  [types.RECORDRULEID]: ({ commit }, params) => {
+    commit(types.RECORDRULEID, params);
   }
 };
 export default actions;

@@ -12,6 +12,8 @@ const state = {
   //当前路由的fullpath
   fullpath: "/",
   //app pause or resume
-  appState: ""
+  appState: "",
+  //当前规则id
+  ruleId: "d"
 };
 export default state;

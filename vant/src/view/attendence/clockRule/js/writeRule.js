@@ -4,7 +4,7 @@ export default {
   data() {
     return {
       source: "", //新建 or 编辑
-      id: "", //规则模板id
+      ruleId: "", //规则模板id
       title: "编辑规则",
       ruleName: "每日2次打卡", //规则名
       staffs: "麦芒", //打卡人员
@@ -19,7 +19,7 @@ export default {
   },
   created() {
     this.source = this.rule_state;
-    this.id = this.$route.params.id;
+    this.ruleId = this.$getSession("ruleId");
     this.setTitle();
     this.getInitDataFromCache();
   },
@@ -33,13 +33,12 @@ export default {
       }
     },
     getInitDataFromCache() {
-      let v = this.$getSession("r" + this.id);
-      console.log(v);
+      let v = this.$getSession("r" + this.ruleId);
       this.ruleName = v.name;
       this.staffs = v.staffs.name;
       this.clockDate = v.clockDate.name;
       this.clockTime = v.clockTime;
-      this.clockPosition = v.clockPosition.address;
+      this.clockPosition = v.clockPosition;
     }
   }
 };

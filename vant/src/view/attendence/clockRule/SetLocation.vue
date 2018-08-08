@@ -7,25 +7,25 @@
       @click-left="$router.back()"
     />
     <div class="rule-body">
-      <div class="one-rule">
-        <router-link to="/setClockPlace">
+      <div class="one-rule" v-for="(item,index) in locatios" :key="index">
+        <router-link :to="{name:'setClockPlace',params:{id:item.id}}">
           <van-row>
             <van-col span="3">地点</van-col>
-            <van-col span="21">宾阳路60号临</van-col>
+            <van-col span="21">{{item.address}}</van-col>
           </van-row>
           <van-row>
             <van-col span="3">地址</van-col>
-            <van-col span="21">上海市上海市徐汇区宾阳路60号临徐汇区宾阳路60号临</van-col>
+            <van-col span="21">{{item.address}}</van-col>
           </van-row>
           <van-row>
             <van-col span="3">范围</van-col>
-            <van-col span="21">300米</van-col>
+            <van-col span="21">{{item.range}}米</van-col>
           </van-row>
         </router-link>
       </div>
     </div>
     <van-cell-group> 
-      <van-cell title="添加位置" icon="add" class="blue" to="/setClockPlace" />
+      <van-cell title="添加位置" icon="add" class="blue" :to="{path:'/setClockPlace'}" />
     </van-cell-group>
   </div>
 </template>
@@ -34,9 +34,15 @@ export default {
   name:'attendence',
   data(){
     return {
+      ruleId:'',
+      currentRule:{},
+      locatios:[],
     }
   },
   created(){
+    this.ruleId=this.$getSession('ruleId');
+    this.currentRule=this.$getSession('r'+this.ruleId);
+    this.locatios=this.currentRule.clockPosition;
   },
   methods:{
   }

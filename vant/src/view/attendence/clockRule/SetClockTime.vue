@@ -9,11 +9,11 @@
       @click-right="submit"
     />
     <van-cell-group>
-      <van-cell title="一天内上下班次数" is-link :value="`${workNum}次`" @click="workTimesPopup=true" />
+      <van-cell title="一天内上下班次数" is-link :value="`${clockNum}次`" @click="workTimesPopup=true" />
     </van-cell-group> 
     <van-cell-group v-for="(item,index) in timeArr" :key="index">
-      <van-cell title="上班" is-link :value="item.onTime" @click="checkOnWorkTime(item,'on')" />
-      <van-cell title="下班" is-link :value="item.afterTime" @click="checkOnWorkTime(item,'after')"  />
+      <van-cell title="上班" is-link :value="item.onWork" @click="checkOnWorkTime(item,'on')" />
+      <van-cell title="下班" is-link :value="item.afterWork" @click="checkOnWorkTime(item,'after')"  />
     </van-cell-group>
 
     <!-- 上下班次数 -->
@@ -42,13 +42,14 @@ export default {
   name:'attendence',
   data(){
     return {
-      workNum: 1, //一天内上下班次数
+      ruleId:'',
+      currentRule:{},
+      clockNum: 1, //一天内上下班次数
       workTimesPopup: false, //选择一天上下班次数弹框
       timeArr: [
         {
-          num: 1,
-          onTime: "09:00",
-          afterTime: "18:00"
+          onWork: "09:00",
+          afterWork: "18:00"
         }
       ], //上下班次数时间设置
       showTimePanel: false, //选择时间面板
@@ -58,62 +59,48 @@ export default {
     }
   },
   created(){
+    this.ruleId=this.$getSession('ruleId');
+    this.currentRule=this.$getSession('r'+this.ruleId);
+    this.timeArr=this.currentRule.clockTime;
+    this.clockNum=this.currentRule.clockTime.length;
   },
   methods:{
    //选择上下班次数
     checkWorkTime(n) {
-      this.workNum = n;
-      if (n == 2) {
-        this.timeArr = [
-          {
-            num: 1,
-            onTime: "09:00",
-            afterTime: "12:00"
-          },
-          {
-            num: 2,
-            onTime: "13:00",
-            afterTime: "18:00"
-          }
-        ];
+      this.clockNum = n;
+      let arr=[];
+      for(let i=0;i<n;i++){
+        arr.push({
+          onWork:'09:00',
+          afterWork:'18:00'
+        })
       }
-      if (n == 3) {
-        this.timeArr = [
-          {
-            num: 1,
-            onTime: "09:00",
-            afterTime: "12:00"
-          },
-          {
-            num: 2,
-            onTime: "13:00",
-            afterTime: "15:00"
-          },
-          {
-            num: 3,
-            onTime: "16:00",
-            afterTime: "18:00"
-          }
-        ];
-      }
+      this.timeArr=arr;
       this.workTimesPopup = false;
     },
     //设置上下班打卡时间
     checkOnWorkTime(item, tag) {
       this.currentTag = tag;
       this.current = item;
+      if(tag=="on"){
+        this.currentTime=item.onWork;
+      }else{
+        this.currentTime=item.afterWork;
+      }
       this.showTimePanel = true;
     },
     pickerTime() {
       let idx = this.timeArr.indexOf(this.current);
       if (this.currentTag == "on") {
-        this.timeArr[idx].onTime = this.currentTime;
+        this.timeArr[idx].onWork = this.currentTime;
       } else {
-        this.timeArr[idx].afterTime = this.currentTime;
+        this.timeArr[idx].afterWork = this.currentTime;
       }
     },
     submit(){
-      console.log(this.timeArr);
+      this.currentRule.clockTime=this.timeArr;
+      this.$setSession('r'+this.ruleId,this.currentRule);
+      this.$router.back();
     }
   }
 }

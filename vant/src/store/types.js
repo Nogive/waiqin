@@ -16,3 +16,6 @@ export const CHANGEFULLPATH = "changeFullPath";
 
 //记录 pause  or resume
 export const CHANGEAPPSTATE = "changeAppState";
+
+//记录当前规则的ID
+export const RECORDRULEID = "recordRuleId";

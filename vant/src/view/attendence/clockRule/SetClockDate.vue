@@ -45,6 +45,8 @@ export default {
   name:'attendence',
   data(){
     return {
+      ruleId:'',
+      currentRule:{},
       checkedDate: ["1"], //选中的打卡日期
       holiday: true, //法定节假日不用打卡
       nonWorkday: true, //非工作日允许打卡
@@ -58,17 +60,26 @@ export default {
     },
   },
   created(){
+    this.ruleId=this.$getSession('ruleId');
+    this.currentRule=this.$getSession('r'+this.ruleId);
+    this.checkedDate=this.currentRule.clockDate.dates;
+    this.holiday=this.currentRule.clockDate.holiday;
+    this.nonWorkday=this.currentRule.clockDate.nonWorkday;
   },
   methods:{
    submit(){
-      console.log(this.checkedDate);
-      console.log(this.holiday);
-      console.log(this.nonWorkday);
+    this.currentRule.clockDate={
+      name:this.clockDate,
+      dates:this.checkedDate,
+      holiday:this.holiday,
+      nonWorkday:this.nonWorkday
+    };
+    this.$setSession('r'+this.ruleId,this.currentRule);
+    this.$router.back();
    }
   }
 }
 function getDateRange(arr){
-  console.log(arr);
   let reg_6_1=/1,2,3,4,5,6/;//周一至周六
   let reg_6_2=/2,3,4,5,6,7/;//周二至周六
   let reg_5_1=/1,2,3,4,5/;//周一至周五

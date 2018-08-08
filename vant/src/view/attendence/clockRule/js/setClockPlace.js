@@ -7,9 +7,13 @@ export default {
   data() {
     let vm = this;
     return {
+      ruleId: "",
+      currentRule: {},
+      id: "",
+      currentPosition: {}, //当前打卡位置
       posH: 400, //附近的点容器最大高度
-      locateArr: [],
-      locateLength: 0,
+      locateArr: [], //定位数据
+      locateLength: 0, //几组定位数据
       zoom: 15,
       center: [121.473658, 31.230378],
       range: 100, //打卡范围
@@ -32,13 +36,19 @@ export default {
           vm.showCircle = false;
           vm.updatePois = true;
         }
-      }
+      },
+      checkedPois: {} //选中的附近的点
     };
   },
   watch: {
     map: function() {
       if (this.map != null) {
-        this.startDrag();
+        if (this.id) {
+          this.showPosition();
+          this.startDrag();
+        } else {
+          this.startDrag();
+        }
       }
     },
     locateLength() {
@@ -54,8 +64,20 @@ export default {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
     this.posH = h - 390;
+    this.ruleId = this.$getSession("ruleId");
+    this.currentRule = this.$getSession("r" + this.ruleId);
+    this.id = this.$route.params.id;
+    this.currentRule.clockPosition.forEach(e => {
+      if (e.id == this.id) {
+        this.currentPosition = e;
+      }
+    });
   },
   methods: {
+    showPosition() {
+      this.range = this.currentPosition.range;
+      this.center = [this.currentPosition.lng, this.currentPosition.lat];
+    },
     //选择打卡范围
     checkClockRange(range) {
       this.range = range;
@@ -104,6 +126,7 @@ export default {
           });
           if (vm.updatePois) {
             vm.poisArr = results;
+            vm.checkPoint(results[0]);
           }
         });
         positionPicker.on("fail", function(failResult) {
@@ -113,6 +136,7 @@ export default {
         positionPicker.start();
       });
     },
+    //搜索
     startSearch() {
       let vm = this;
       let map = this.amapManager.getMap();
@@ -153,6 +177,7 @@ export default {
     },
     //选择某个地点
     checkPoint(item) {
+      this.checkedPois = item;
       let idx = this.poisArr.indexOf(item);
       this.poisArr.forEach((e, i) => {
         if (i == idx) {
@@ -173,8 +198,21 @@ export default {
       this.updatePois = true;
     },
     onSubmit() {
-      console.log(this.center);
-      console.log(this.range);
+      let result = {
+        id: this.id,
+        address: this.checkedPois.name,
+        lat: this.checkedPois.location.lat,
+        lng: this.checkedPois.location.lng,
+        range: this.range
+      };
+      if (this.id) {
+        let idx = this.currentRule.clockPosition.indexOf(this.currentPosition);
+        this.currentRule.clockPosition[idx] = result;
+      } else {
+        this.currentRule.clockPosition.push(result);
+      }
+      this.$setSession("r" + this.ruleId, this.currentRule);
+      this.$router.back();
     }
   }
 };

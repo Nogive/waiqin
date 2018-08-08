@@ -14,7 +14,7 @@
           <van-col span="24">{{item.name}}</van-col>
           <van-col span="24" class="show-one-line">日期：{{item.clockDate.name}}</van-col>
           <van-col span="24" class="show-one-line">时间：{{item.clockTime|clockTimeFormat}}</van-col>
-          <van-col span="24" class="show-one-line">位置：{{item.clockPosition.address}}</van-col>
+          <van-col span="24" class="show-one-line">位置：{{item.clockPosition|clockPositionFormat}}</van-col>
         </router-link>
       </van-row>
     </div>
@@ -32,6 +32,11 @@ export default {
   },
   created(){
     this.getInitData();
+  },
+  beforeRouteLeave (to, from, next) {
+    let id=to.params.id;
+    this.$setSession('ruleId',id);
+    next();
   },
   methods:{
     ...mapActions(["changeRuleState"]),

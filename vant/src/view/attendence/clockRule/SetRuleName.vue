@@ -1,7 +1,7 @@
 <template>
   <div class="rule-box">
     <van-nav-bar
-      title="编辑名称"
+      title="规则名称"
       left-arrow
       left-text="返回"
       right-text="确定"
@@ -28,21 +28,25 @@ export default {
     return {
       ruleName:'',
       showError:false,
+      ruleId:'',
+      currentRule:{},//当前规则
     }
   },
   computed:{
     ...mapGetters(['rule_state'])
   },
   created(){
+    this.ruleId=this.$getSession('ruleId');
+    this.currentRule=this.$getSession('r'+this.ruleId);
+    this.ruleName=this.currentRule.name;
   },
   methods:{
     setName() {
       if (this.ruleName == "") {
         this.showError = true;
       } else {
-        let rule=this.$getSession('rule');
-        rule.name=this.ruleName;
-        this.$setSession('rule',rule);
+        this.currentRule.name=this.ruleName;
+        this.$setSession('r'+this.ruleId,this.currentRule);
         this.$router.back();
       }
     }

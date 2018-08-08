@@ -23,6 +23,9 @@ const getters = {
   },
   appState: state => {
     return state.appState;
+  },
+  ruleId: state => {
+    return state.ruleId;
   }
 };
 export default getters;
