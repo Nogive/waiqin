@@ -64,9 +64,7 @@ export default {
       stopLocate();
     },
     onTest() {
-      getTimeFromServer().then(res => {
-        console.log(res);
-      });
+      this.$router.push("/testPerson");
     }
   }
 };

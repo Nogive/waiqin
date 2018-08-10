@@ -56,6 +56,9 @@ import setLocation from "@/view/attendence/clockRule/SetLocation.vue";
 //设置打卡地点
 import setClockPlace from "@/view/attendence/clockRule/SetClockPlace.vue";
 
+//测试打卡人员
+import testPerson from "@/view/attendence/clockRule/TestPerson.vue";
+
 const routes = [
   {
     path: "/",
@@ -167,6 +170,11 @@ const routes = [
     path: "/monthClockPerson",
     name: "monthClockPerson",
     component: monthClockPerson
+  },
+  {
+    path: "/testPerson",
+    name: "testPerson",
+    component: testPerson
   },
   {
     path: "*",
