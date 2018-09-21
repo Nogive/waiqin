@@ -74,6 +74,7 @@ export default {
           vm.outerRecords = res.data.outer;
         },
         err => {
+          console.log(err);
           vm.$netError(err.response);
         }
       );

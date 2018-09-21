@@ -1,6 +1,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { getTimeFromServer } from "@/assets/js/commonFunc";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
+import { XFieldApi, accountApi } from "@/assets/js/api";
 import { Dialog } from "vant";
 export default {
   name: "home",
@@ -64,7 +65,16 @@ export default {
       stopLocate();
     },
     onTest() {
-      this.$router.push("/testPerson");
+      let body = new XFieldApi.Register();
+      console.log(body);
+      accountApi.register(body, function(error, data, response) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(response);
+          console.log("seccess!");
+        }
+      });
     }
   }
 };

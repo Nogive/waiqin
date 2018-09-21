@@ -1,3 +1,4 @@
+//常量
 //统一
 export const CREATE = "add"; //新建
 export const EDIT = "edit"; //编辑
