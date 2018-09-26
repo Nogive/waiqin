@@ -65,16 +65,20 @@ export default {
       stopLocate();
     },
     onTest() {
-      let body = new XFieldApi.Register();
-      console.log(body);
-      accountApi.register(body, function(error, data, response) {
+      var body = new XFieldApi.Authentication();
+      body.account = "2100005";
+      body.passowrd =
+        "VoGxBT1WMNUNX2P+Jym0hcw4ZzthiKDr+soHXsxtkBT0KCuV3ioKl80OCCXcMJqrA4hJVcJG3ljw+U12Bg0HmQ==";
+      let callback = function(error, data, response) {
+        console.log(data);
         if (error) {
           console.error(error);
         } else {
           console.log(response);
-          console.log("seccess!");
+          console.log("API called successfully.");
         }
-      });
+      };
+      accountApi.login(body, callback);
     }
   }
 };
