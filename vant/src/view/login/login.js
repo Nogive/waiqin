@@ -55,6 +55,7 @@ export default {
           [vm.CommonConstants.JSON_KEY.CLIENT_VERSION]: cv,
           [vm.CommonConstants.JSON_KEY.API_VERSION]: av
         };
+        console.log(params);
         vm.$axios
           .post("http://x.waiqin.co/api/login", params)
           .then(res => {

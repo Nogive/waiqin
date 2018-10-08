@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@ncform/ncform": "^0.1.10",
+    "@ncform/ncform-common": "^0.1.10",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "element-ui": "^2.4.1",
@@ -53,6 +55,8 @@
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

@@ -64,6 +64,9 @@ export default {
       );
       stopLocate();
     },
+    testNcform() {
+      this.$router.push("/ncform");
+    },
     onTest() {
       var body = new XFieldApi.Authentication();
       body.account = "2100005";

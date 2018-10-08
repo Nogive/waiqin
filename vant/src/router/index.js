@@ -59,6 +59,9 @@ import setClockPlace from "@/view/attendence/clockRule/SetClockPlace.vue";
 //测试打卡人员
 import testPerson from "@/view/attendence/clockRule/TestPerson.vue";
 
+//测试ncform
+import ncform from "@/components/ncform.vue";
+
 const routes = [
   {
     path: "/",
@@ -175,6 +178,11 @@ const routes = [
     path: "/testPerson",
     name: "testPerson",
     component: testPerson
+  },
+  {
+    path: "/ncform",
+    name: "ncform",
+    component: ncform
   },
   {
     path: "*",

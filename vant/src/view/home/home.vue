@@ -104,6 +104,7 @@
     </van-tabbar>
     <button @click="testPhoto">测试拍照</button>
     <button @click="testLocate">测试定位</button>
+    <button @click="testNcform">测试ncform</button>
     <button @click="onTest">其他测试</button>
   </div>
 </template>
