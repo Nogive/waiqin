@@ -1,5 +1,5 @@
 <template>
-  <div class="set-place-box">
+  <div class="map-box">
     <van-nav-bar
       title="设置打卡地点"
       left-arrow
@@ -7,137 +7,124 @@
       @click-left="$router.back()"
     >
       <div slot="right">
-        <van-icon name="search" @click="startSearch"></van-icon>
+        <van-icon name="search" @click="onSearch"></van-icon>
         <van-button size="small" class="bg-blue" @click="onSubmit">确定</van-button>
       </div>
     </van-nav-bar>
 
-    <div class="amap-page-container">
-      <div class="search-box" v-if="showSearch">
-        <input type="search" id="searchPlace" v-model="searchKey">
-        <button @click="searchByHand">搜索</button>
-        <div class="out-box" id="searchTip"></div>
+    <div class="map-content" id="container">
+      <van-icon name="location" class="icon" @click.stop.prevent="onLocation"></van-icon>
+      <div class="search-bar" v-show="startSearch">
+        <input class="search-input" id="searchInput" placeholder="输入关键字搜素"/>
+        <van-icon name="search" class="search"></van-icon>
       </div>
-      <el-amap 
-        vid="amap" 
-        :zoom="zoom"
-        class="amap-demo" 
-        :center="center"
-        :amapManager="amapManager"
-        :events="events"
-        >
-        <el-amap-circle 
-          vid="circle"
-          :center="center" 
-          :radius="range*2" 
-          fill-opacity="0.2"
-          strokeColor="#38f"
-          strokeOpacity="0.8"
-          strokeWeight="1"
-          fillColor="#38f"
-          v-if="showCircle"
-          >
-        </el-amap-circle>
-      </el-amap>
-      <van-icon name="location" class="position-btn" @click.stop="onLocate"></van-icon>
+      <div v-show="startSearch" class="result-wrapper" id="searchResults"></div>
     </div>
-
-    <van-cell-group class="pois-box" :style="{maxHeight:posH+'px'}">
-      <van-cell v-for="(item,index) in poisArr" :key="index" class="one-place" @click="checkPoint(item)">
+    <van-cell-group class="near-points" id="pointsWrapper" :style="{maxHeight:posH+'px'}">
+      <van-cell v-for="(item,index) in nearlyPoints" :key="index" class="point-item" @click="checkPoint(item,index)">
         <template slot="title">
-          <span class="van-cell-text">{{item.name}}</span>
-          <span>{{item.address}}</span>
+          <span class="name">{{item.name}}</span>
+          <span class="address">{{item.address}}</span>
         </template>
-        <van-icon v-if="item.checked" slot="right-icon" name="success" class="van-cell__right-icon blue" />
+        <van-icon v-if="index===selectedIndex" slot="right-icon" name="success" class="icon" />
       </van-cell>
     </van-cell-group>
 
-    <van-cell-group class="range-box"> 
+    <van-cell-group id="rangeWrapper" class="range-column"> 
       <van-cell title="打卡范围" :value="`${range}米`" is-link @click="showRange=true"/>
     </van-cell-group>
-    <van-popup class="w60" v-model="showRange">
+    <van-popup class="range-content" v-model="showRange">
       <van-cell-group>
         <van-cell title="打卡范围" />
-        <van-cell title="100米" @click="checkClockRange(100)" />
-        <van-cell title="200米" @click="checkClockRange(200)" />
-        <van-cell title="300米" @click="checkClockRange(300)" />
+        <van-cell title="100米" @click="checkClockRange(100)">
+          <van-icon v-show="range==100" slot="right-icon" name="success" class="icon" />
+        </van-cell>
+        <van-cell title="200米" @click="checkClockRange(200)">
+          <van-icon v-show="range==200" slot="right-icon" name="success" class="icon" />
+        </van-cell>
+        <van-cell title="300米" @click="checkClockRange(300)">
+          <van-icon v-show="range==300" slot="right-icon" name="success" class="icon" />
+        </van-cell>
       </van-cell-group> 
     </van-popup>
   </div>
 </template>
 
-<style scoped>
-  .amap-page-container{
-    height: 300px;
-    position: relative;
-  }
-  .search-box{
-    position: absolute;
-    width: 90%;
-    height: 30px;
-    top:10px;
-    left:5%;
-    z-index: 99;
-  }
-  .search-box input{
-    float: left;
-    width: 80%;
-    height: 100%;
-    border: 1px solid rgba(51,136,255,.4);
-    border-radius: 5px 0 0 5px;
-    padding: 0 5px;
-    font-size: 0.8rem;
-  }
-  .search-box button{
-    float: left;
-    width: 20%;
-    height: 100%;
-    border: 1px solid #38f;
-    background-color: #38f;
-    font-size: 0.8rem;
-    color: #fff;
-    border-radius: 0 5px 5px 0;
-  }
-  .out-box{
-    width: 100%;
-    max-height: 260px;
-    position: absolute;
-    top:30px;
-    overflow-y: auto;
-    background-color: #fff;
-  }
-  .range-box{
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-  }
-  .w60{
-    width: 60%;
-  }
-  .van-cell{
-    line-height:initial;
-  }
-  .one-place span{
-    display: block;
-  }
-  .one-place span:last-child{
-    color: #a7a4a4;
-    font-size: 0.6rem;
-  }
-  .one-place .van-icon{
-    font-size: 1.2rem;
-    margin-top: 0.3rem;
-  }
-  .pois-box{
-    max-height: 350px;
-    overflow: scroll;
-  }
-  .position-btn{
-    color: #38f;
-    position: absolute;
-    left: 1rem;
-    bottom: 1rem;
-    font-size: 2rem;
-  }
+<style lang="stylus">
+.map-box
+  .map-content
+    width 100%
+    height 300px
+    position relative
+    .icon
+      position absolute
+      z-index 2
+      font-size 20px
+      color rgb(0,160,220)
+      right 8px
+      bottom 8px
+    .search-bar
+      position absolute
+      z-index 2
+      width 100%
+      height 35px
+      background-color #ffffff
+      .amap-ui-poi-picker-sugg
+        min-height 265px
+        overflow-y scroll
+      .search-input
+        width 90%
+        height 100%
+        padding 0 8px
+        border none
+      .search
+        font-size 20px
+        position absolute
+        right 8px
+        top 5px
+    .result-wrapper
+      position absolute
+      width 100%
+      max-height 265px
+      overflow-y scroll
+      top 35px
+      left 0
+      z-index 2        
+  .near-points
+    max-height 280px
+    overflow-y scroll
+    .point-item
+      padding 5px 25px 8px 15px
+      .name
+        display block
+      .address
+        display block
+        font-size 12px
+        color rgb(147,153,159)
+        line-height 14px
+      .icon
+        position absolute
+        font-size 16px
+        color rgb(0,160,220)
+        right 8px
+        top 25px
+  .range-column
+    width 100%
+    position fixed
+    left 0
+    bottom 0
+  .range-content
+    width 80%
+  .loading-wrapper
+    max-width 80%
+    .loading-content
+      text-align center
+      padding 10px
+      .loading-img
+        .van-loading
+          margin 0 auto
+      .text
+        font-size 12px
+        margin-bottom 0
 </style>
 <script src="./js/setClockPlace.js"></script>

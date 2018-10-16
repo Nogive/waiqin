@@ -1,218 +1,154 @@
-import { startLocate, stopLocate } from "@/utils/native";
-import { AMapManager } from "vue-amap";
-import { Toast } from "vant";
-let amapManager = new AMapManager();
+import AMap from "AMap";
+import AMapUI from "AMapUI";
+var map;
+var circle;
 export default {
-  name: "setClockPlace",
   data() {
-    let vm = this;
+    let _this = this;
     return {
-      ruleId: "",
-      currentRule: {},
-      id: "",
-      currentPosition: {}, //当前打卡位置
-      posH: 400, //附近的点容器最大高度
-      locateArr: [], //定位数据
-      locateLength: 0, //几组定位数据
-      zoom: 15,
-      center: [121.473658, 31.230378],
-      range: 100, //打卡范围
-      showRange: false, //打卡范围弹框
-      checked: false, //勾选附近点
-      poisArr: [], //附近的点
-      showCircle: false, //显示打卡范围
-      showSearch: false, //显示搜索框
-      updatePois: true, //更新附近的点
-      positionPicker: null, //拖拽对象
-      searchKey: "",
-      poiPicker: null,
-      amapManager,
-      map: null,
-      events: {
-        init(o) {
-          vm.map = o;
-        },
-        touchstart() {
-          vm.showCircle = false;
-          vm.updatePois = true;
-        }
-      },
-      checkedPois: {} //选中的附近的点
+      posH: 200,
+      close: false,
+      showRange: false,
+      range: 100,
+      drag: true,
+      address: "",
+      center: [121.47519, 31.228833],
+      changeNearlyPoints: true,
+      nearlyPoints: [],
+      selectedIndex: 0,
+      startSearch: false
     };
   },
-  watch: {
-    map: function() {
-      if (this.map != null) {
-        if (this.id) {
-          this.showPosition();
-          this.startDrag();
-        } else {
-          this.startDrag();
-        }
-      }
-    },
-    locateLength() {
-      if (this.locateLength >= 5) {
-        stopLocate();
-        this.showLocateData();
-      }
-    }
-  },
   mounted() {
-    let h =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight;
-    this.posH = h - 390;
-    this.ruleId = this.$getSession("ruleId");
-    this.currentRule = this.$getSession("r" + this.ruleId);
-    this.id = this.$route.params.id;
-    this.currentRule.clockPosition.forEach(e => {
-      if (e.id == this.id) {
-        this.currentPosition = e;
-      }
-    });
+    this._initMap();
+    this.initPointsHeight();
   },
   methods: {
-    showPosition() {
-      this.range = this.currentPosition.range;
-      this.center = [this.currentPosition.lng, this.currentPosition.lat];
+    initPointsHeight() {
+      let aH = window.screen.availHeight;
+      let t = document.getElementById("pointsWrapper").offsetTop;
+      let fH = document.getElementById("rangeWrapper").offsetHeight;
+      this.posH = aH - t - fH;
     },
-    //选择打卡范围
-    checkClockRange(range) {
-      this.range = range;
-      this.showRange = false;
-    },
-    onLocate() {
-      let vm = this;
-      vm.locateLength = 0;
-      vm.locateArr = [];
-      startLocate(
-        data => {
-          vm.locateLength++;
-          vm.locateArr.push(data);
-        },
-        err => {
-          if (vm.locateLength == 0) {
-            Toast(
-              "定位失败，请确保设备联网且开启GPS定位权限。错误原因：" + err
-            );
-          } else {
-            stopLocate();
-            vm.showLocateData();
-          }
-        }
-      );
-    },
-    //拖拽地图选点
-    startDrag() {
-      let vm = this;
-      let map = this.amapManager.getMap();
+    _initMap() {
+      let _this = this;
+      map = new AMap.Map("container", {
+        zoom: 16,
+        center: this.center,
+        dragEnable: _this.drag
+      });
+      this.createCircle();
+      map.on("dragstart", function(e) {
+        _this.changeNearlyPoints = true;
+        _this.selectedIndex = 0;
+      });
+      //定位插件
+      AMap.plugin("AMap.Geolocation", function() {
+        var geolocation = new AMap.Geolocation({
+          showButton: false, //是否显示定位按钮
+          enableHighAccuracy: true, //是否使用高精度定位，默认:true
+          timeout: 10000, //超过10秒后停止定位，默认：5s
+          showMarker: false,
+          extensions: "all"
+        });
+        map.addControl(geolocation);
+        _this.geolocation = geolocation;
+      });
+      //拖拽插件
       AMapUI.loadUI(["misc/PositionPicker"], function(PositionPicker) {
         var positionPicker = new PositionPicker({
-          mode: "dragMap",
+          mode: "dragMap", //拖拽地图模式
           map: map
         });
-        //drag
         positionPicker.on("success", function(positionResult) {
-          vm.center = [
+          _this.address = positionResult.address;
+          _this.center = [
             positionResult.position.lng,
             positionResult.position.lat
           ];
-          vm.showCircle = true;
-          let results = positionResult.regeocode.pois;
-          results.forEach(e => {
-            e.checked = false;
-          });
-          if (vm.updatePois) {
-            vm.poisArr = results;
-            vm.checkPoint(results[0]);
+          if (_this.changeNearlyPoints) {
+            _this.nearlyPoints = positionResult.regeocode.pois;
           }
+          _this.updateCircle();
         });
-        positionPicker.on("fail", function(failResult) {
-          console.log(failResult);
+        positionPicker.on("fail", function(positionResult) {
+          Toast("地图加载出现问题，请保证网络环境，稍后重试~");
         });
-        vm.positionPicker = positionPicker;
         positionPicker.start();
+        _this.positionPicker = positionPicker;
       });
     },
-    //搜索
-    startSearch() {
-      let vm = this;
-      let map = this.amapManager.getMap();
-      this.showSearch = true;
-      AMapUI.loadUI(["misc/PoiPicker"], function(PoiPicker) {
-        var poiPicker = new PoiPicker({
-          input: "searchPlace", //输入框id
-          placeSearchOption: {
-            map: map
-          },
-          suggestContainer: "searchTip",
-          searchResultsContainer: "searchTip"
-        });
-        vm.poiPicker = poiPicker;
-        //监听poi选中信息
-        poiPicker.on("poiPicked", function(poiResult) {
-          let source = poiResult.source;
-          let poi = poiResult.item;
-          if (source !== "search") {
-            poiPicker.searchByKeyword(poi.name);
-          } else {
-            //用户选中的poi点信息
-            vm.center = [
-              poiResult.item.location.lng,
-              poiResult.item.location.lat
-            ];
-            poiPicker.clearSearchResults();
-            vm.searchKey = "";
-            vm.showSearch = false;
-          }
-        });
-      });
-    },
-    searchByHand() {
-      if (this.searchKey != "") {
-        this.poiPicker.searchByKeyword(this.searchKey);
-      }
-    },
-    //选择某个地点
-    checkPoint(item) {
-      this.checkedPois = item;
-      let idx = this.poisArr.indexOf(item);
-      this.poisArr.forEach((e, i) => {
-        if (i == idx) {
-          e.checked = true;
+    onLocation() {
+      var _this = this;
+      this.geolocation.getCurrentPosition(function(status, result) {
+        if (status == "complete") {
+          _this.updateMap(result.position, true);
         } else {
-          e.checked = false;
+          Toast("定位失败，请稍后再试~");
         }
       });
-      this.updatePois = false;
-      this.center = [item.location.lng, item.location.lat];
     },
-    //显示定位数据
-    showLocateData() {
-      this.locateArr.sort((a, b) => {
-        return b.acr - a.acr;
-      });
-      this.center = [this.locateArr[0].lng, this.locateArr[0].lat];
-      this.updatePois = true;
-    },
-    onSubmit() {
-      let result = {
-        id: this.id,
-        address: this.checkedPois.name,
-        lat: this.checkedPois.location.lat,
-        lng: this.checkedPois.location.lng,
-        range: this.range
-      };
-      if (this.id) {
-        let idx = this.currentRule.clockPosition.indexOf(this.currentPosition);
-        this.currentRule.clockPosition[idx] = result;
-      } else {
-        this.currentRule.clockPosition.push(result);
+    updateMap(location, updatepios) {
+      if (updatepios) {
+        this.selectedIndex = 0;
       }
-      this.$setSession("r" + this.ruleId, this.currentRule);
-      this.$router.back();
-    }
+      this.center = [location.lng, location.lat];
+      this.changeNearlyPoints = updatepios;
+      this.positionPicker.start(this.center);
+    },
+    createCircle() {
+      let _this = this;
+      circle = new AMap.Circle({
+        center: _this.center,
+        radius: _this.range, //半径
+        strokeColor: "rgb(0,160,220)", //线颜色
+        strokeOpacity: 1, //线透明度
+        strokeWeight: 1, //线粗细度
+        fillColor: "rgb(0,160,220)", //填充颜色
+        fillOpacity: 0.35 //填充透明度
+      });
+      map.add(circle);
+    },
+    updateCircle() {
+      if (circle) {
+        map.remove(circle);
+      }
+      this.createCircle();
+    },
+    checkPoint(item, index) {
+      console.log(item.name);
+      this.selectedIndex = index;
+      this.updateMap(item.location, false);
+    },
+    checkClockRange(range) {
+      this.showRange = false;
+      this.range = range;
+      this.updateCircle();
+    },
+    onSearch() {
+      let _this = this;
+      this.startSearch = true;
+      AMap.plugin("AMap.Autocomplete", function() {
+        var auto = new AMap.Autocomplete({
+          input: "searchInput",
+          output: "searchResults"
+        });
+        auto.on("select", function(data) {
+          AMap.service(["AMap.PlaceSearch"], function() {
+            //构造地点查询类
+            var placeSearch = new AMap.PlaceSearch({
+              panel: "searchResults" // 结果列表将在此容器中进行展示。
+            });
+            //关键字查询
+            placeSearch.search(data.poi.name);
+            placeSearch.on("listElementClick", function(selected) {
+              _this.startSearch = false;
+              _this.updateMap(selected.data.location, true);
+            });
+          });
+        });
+      });
+    },
+    onSubmit() {}
   }
 };

@@ -27,7 +27,8 @@ import {
   Stepper,
   Radio,
   Switch,
-  RadioGroup
+  RadioGroup,
+  Loading
 } from "vant";
 
 Vue.use(Button);
@@ -51,10 +52,4 @@ Vue.use(Stepper);
 Vue.use(Radio);
 Vue.use(Switch);
 Vue.use(RadioGroup);
-
-import { Loading, Input, Form, FormItem, Select, Option } from "element-ui";
 Vue.use(Loading);
-Vue.use(Input)
-  .use(Select)
-  .use(Option);
-Vue.use(Form).use(FormItem);

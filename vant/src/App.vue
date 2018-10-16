@@ -1,8 +1,14 @@
 <template>
-  <div id="app" v-loading.fullscreen.lock="loading" :element-loading-text="loadingText"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.7)">
+  <div id="app">
     <router-view></router-view>
+    <van-popup class="loading-wrapper" v-model="loading" :close-on-click-overlay="close">
+      <div class="loading-content">
+        <div class="loading-img">
+          <van-loading type="spinner" color="black" />
+        </div>
+        <p class="text">{{loadingText}}</p>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -10,6 +16,11 @@
 import {mapGetters} from 'vuex'
 export default {
   name: 'App',
+  data(){
+    return {
+      close:false
+    }
+  },
   computed:{
     ...mapGetters(['loading','loadingText'])
   },
