@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <van-popup class="loading-wrapper" v-model="loading" :close-on-click-overlay="close">
+    <van-popup class="loading-wrapper" v-model="loading.loading" :close-on-click-overlay="close">
       <div class="loading-content">
         <div class="loading-img">
           <van-loading type="spinner" color="black" />

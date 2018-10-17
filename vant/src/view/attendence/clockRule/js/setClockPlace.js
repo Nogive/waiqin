@@ -1,27 +1,42 @@
 import AMap from "AMap";
 import AMapUI from "AMapUI";
+import { startLocate, stopLocate } from "@/utils/native";
 var map;
 var circle;
 export default {
   data() {
     let _this = this;
     return {
-      posH: 200,
-      close: false,
-      showRange: false,
-      range: 100,
-      drag: true,
-      address: "",
-      center: [121.47519, 31.228833],
-      changeNearlyPoints: true,
-      nearlyPoints: [],
-      selectedIndex: 0,
-      startSearch: false
+      posH: 200, //附近的点的容器的最大高度
+      showRange: false, //打卡范围弹窗
+      range: 100, //打卡范围
+      drag: true, //地图是否可拖拽
+      address: "", //当前地址
+      center: [121.47519, 31.228833], //地图中心点
+      changeNearlyPoints: true, //是否更新附近的点
+      nearlyPoints: [], //附近的点数据
+      selectedIndex: 0, //选中附近的点的索引
+      startSearch: false, //开启搜索框
+      locateArr: [], //定位数据
+      locateLength: 0, //几组定位数据
+      ruleId: "",
+      currentRule: {},
+      id: "",
+      currentPosition: {} //当前打卡位置
     };
   },
   mounted() {
     this._initMap();
     this.initPointsHeight();
+    this.initRuleData();
+  },
+  watch: {
+    locateLength() {
+      if (this.locateLength >= 5) {
+        stopLocate();
+        this.showLocateData();
+      }
+    }
   },
   methods: {
     initPointsHeight() {
@@ -41,18 +56,6 @@ export default {
       map.on("dragstart", function(e) {
         _this.changeNearlyPoints = true;
         _this.selectedIndex = 0;
-      });
-      //定位插件
-      AMap.plugin("AMap.Geolocation", function() {
-        var geolocation = new AMap.Geolocation({
-          showButton: false, //是否显示定位按钮
-          enableHighAccuracy: true, //是否使用高精度定位，默认:true
-          timeout: 10000, //超过10秒后停止定位，默认：5s
-          showMarker: false,
-          extensions: "all"
-        });
-        map.addControl(geolocation);
-        _this.geolocation = geolocation;
       });
       //拖拽插件
       AMapUI.loadUI(["misc/PositionPicker"], function(PositionPicker) {
@@ -78,15 +81,42 @@ export default {
         _this.positionPicker = positionPicker;
       });
     },
-    onLocation() {
-      var _this = this;
-      this.geolocation.getCurrentPosition(function(status, result) {
-        if (status == "complete") {
-          _this.updateMap(result.position, true);
-        } else {
-          Toast("定位失败，请稍后再试~");
+    initRuleData() {
+      this.ruleId = this.$getSession("ruleId");
+      this.currentRule = this.$getSession("r" + this.ruleId);
+      this.id = this.$route.params.id;
+      this.currentRule.clockPosition.forEach(e => {
+        if (e.id == this.id) {
+          this.currentPosition = e;
         }
       });
+    },
+    onLocation() {
+      let vm = this;
+      vm.locateLength = 0;
+      vm.locateArr = [];
+      startLocate(
+        data => {
+          vm.locateLength++;
+          vm.locateArr.push(data);
+        },
+        err => {
+          if (vm.locateLength == 0) {
+            Toast(
+              "定位失败，请确保设备联网且开启GPS定位权限。错误原因：" + err
+            );
+          } else {
+            stopLocate();
+            vm.showLocateData();
+          }
+        }
+      );
+    },
+    showLocateData() {
+      this.locateArr.sort((a, b) => {
+        return b.acr - a.acr;
+      });
+      this.updateMap(this.locateArr[0], true);
     },
     updateMap(location, updatepios) {
       if (updatepios) {
@@ -149,6 +179,22 @@ export default {
         });
       });
     },
-    onSubmit() {}
+    onSubmit() {
+      let result = {
+        id: this.id,
+        address: this.address,
+        lat: this.center[1],
+        lng: this.center[0],
+        range: this.range
+      };
+      if (this.id) {
+        let idx = this.currentRule.clockPosition.indexOf(this.currentPosition);
+        this.currentRule.clockPosition[idx] = result;
+      } else {
+        this.currentRule.clockPosition.push(result);
+      }
+      this.$setSession("r" + this.ruleId, this.currentRule);
+      this.$router.back();
+    }
   }
 };
