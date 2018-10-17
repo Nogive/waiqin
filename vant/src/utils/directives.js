@@ -1,3 +1,6 @@
+/**
+ * ##自定义指令
+ */
 //focus
 const focus = {
   inserted: function(el, binding) {

@@ -1,9 +1,13 @@
+/**
+ * ##自定义过滤器
+ *
+ */
+
 //补零
 const fillZero = num => {
   return num < 10 ? "0" + num : num;
 };
-//带参数
-//货币形式
+//货币形式（unit:单位;decimal:保留小数位数）
 const currency = (value, unit, decimal) => {
   let reg = /^[0-9]+.?[0-9]*$/;
   if (!reg.test(value)) return "";

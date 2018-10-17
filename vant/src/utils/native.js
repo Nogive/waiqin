@@ -1,3 +1,12 @@
+/**
+ * ## native sdk 结合cordova
+ * 拍照
+ * 定位
+ * 返回按钮表现行为
+ * 版本号
+ * 上传照片
+ */
+
 //拍照
 function takePhoto(onSuccess, onFail, option) {
   if (!navigator.camera) {
@@ -25,7 +34,6 @@ function takePhoto(onSuccess, onFail, option) {
   };
   navigator.camera.getPicture(successCallback, errorCallback, options);
 }
-
 //开始定位
 function startLocate(successCallback, errorCallback, option) {
   if (option) {
@@ -50,7 +58,6 @@ function restoreBackButton() {
 function definedBackbehavior(fn) {
   document.addEventListener("backbutton", fn);
 }
-
 //client version
 function getClientVersion() {
   return new Promise(function(resolve, reject) {
@@ -83,7 +90,6 @@ function getApiVersion() {
     );
   });
 }
-
 //save photo
 function savePhoto(options) {
   return new Promise(function(resolve, reject) {

@@ -1,3 +1,6 @@
+/**
+ * ## rem 适配
+ */
 (function(d, w) {
   const doc = d.documentElement;
   function rem() {
