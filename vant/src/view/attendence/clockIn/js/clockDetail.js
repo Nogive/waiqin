@@ -1,11 +1,12 @@
-import { Toast, Dialog } from "vant";
+import AMap from "AMap";
+import AMapUI from "AMapUI";
 import * as type from "@/assets/js/typeVariable";
 import { mapGetters, mapActions } from "vuex";
 import { takePhoto, startLocate, stopLocate, savePhoto } from "@/utils/native";
 import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
-import { AMapManager } from "vue-amap";
-let amapManage = new AMapManager();
 const userId = "100001";
+var map;
+var marker;
 export default {
   name: "attendenceDetail",
   data() {
@@ -20,26 +21,18 @@ export default {
       photos: [], //图片数组
       note: "", //备注
       isEdit: true, //编辑页 or 详情页
-      showMarker: false, //是否显示marker
+      showMarker: false,
       takePhotoBtn: true, //拍照按钮
       showPhoto: false, //放大图片弹框
       largeImg: {}, //被放大的图片
       currentIndex: 0, //被放大图片的index
-      map: null,
-      zoom: 15, //地图放大级别
       center: [121.59996, 31.197646], //地图默认中心点
-      amapManage,
-      events: {
-        init(o) {
-          vm.map = o;
-        }
-      },
       location: null, //定位信息
       timeFrom: "",
       cameraTime: ""
     };
   },
-  created: function() {
+  mounted: function() {
     this.source = this.$route.params.source;
     this.id = this.$route.params.id;
     switch (this.source) {
@@ -70,23 +63,9 @@ export default {
       vm.showPhoto = false;
     });
     //restoreBackButton();
+    this._initMap();
   },
   watch: {
-    map: function() {
-      if (this.map) {
-        if (
-          this.source == type.SIGNINDETAIL ||
-          this.source == type.GOOUTDETAIL ||
-          this.source == type.SIGNOUTDETAIL
-        ) {
-          this.getDetailById();
-        } else {
-          console.log("自动定位");
-          //this.onLocation();
-          //this.getTimeInterval();
-        }
-      }
-    },
     //最多允许拍8张
     photos() {
       if (this.photos.length >= 8) {
@@ -114,6 +93,37 @@ export default {
     ...mapGetters(["appState"])
   },
   methods: {
+    _initMap() {
+      map = new AMap.Map("mapContent", {
+        zoom: 14,
+        center: this.center
+      });
+      this.createMarker();
+    },
+    createMarker() {
+      let _this = this;
+      AMapUI.loadUI(["overlay/SimpleMarker"], function(SimpleMarker) {
+        marker = new SimpleMarker({
+          showPositionPoint: false,
+          position: _this.center,
+          iconStyle: {
+            src:
+              "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+            style: {
+              width: "20px",
+              height: "30px"
+            }
+          }
+        });
+        map.add(marker);
+      });
+    },
+    updateMarker() {
+      if (marker) {
+        map.remove(marker);
+      }
+      this.createMarker();
+    },
     //通过id 获取详情并展示
     getDetailById() {
       let vm = this;

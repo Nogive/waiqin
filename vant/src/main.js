@@ -10,25 +10,6 @@ import "vant/lib/vant-css/icon-local.css";
 import "./assets/fonts/mm-font.css";
 import "./assets/css/common.css";
 import store from "./store/";
-
-//map
-import VueAMap from "vue-amap";
-Vue.use(VueAMap);
-VueAMap.initAMapApiLoader({
-  key: "e1dedc6bdd765d46693986ff7ff969f4",
-  plugin: [
-    "AMap.Autocomplete",
-    "AMap.PlaceSearch",
-    "AMap.Scale",
-    "AMap.OverView",
-    "AMap.ToolBar",
-    "AMap.MapType",
-    "AMap.PolyEditor",
-    "AMap.CircleEditor",
-    "AMap.Geolocation"
-  ],
-  uiVersion: "1.0"
-});
 //cordova init
 var app = {
   initialize: function() {

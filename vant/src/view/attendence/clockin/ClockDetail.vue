@@ -18,16 +18,7 @@
         <van-col span="18" class="address-body">
           <p>{{shotAddress}}</p>
           <p class="specific-addr">{{address}}</p>
-          <div class="amap-page-container">
-            <el-amap 
-              vid="clockMap" 
-              :zoom="zoom" 
-              :amap-manager="amapManage"
-              :events="events" 
-              class="amap-img" 
-              :center="center">
-              <el-amap-marker :position="center" v-if="showMarker"></el-amap-marker>
-            </el-amap>
+          <div class="amap-page-container" id="mapContent">
             <van-icon v-if="isEdit" name="locate" class="locate-btn" @click="onLocation"></van-icon>
           </div>
         </van-col>
@@ -65,11 +56,6 @@
         name="delete" 
         @click.stop="deletePhoto"></van-icon>
       <img :src="largeImg.url" @click.self="showPhoto = false" />
-      <!-- <van-swipe :initial-swipe="currentIndex">
-        <van-swipe-item v-for="(img, index) in photos" :key="index">
-          <img :src="img.url" @click.self="showPhoto = false" />
-        </van-swipe-item>
-      </van-swipe> -->
     </van-popup>
 
   </div>
@@ -90,11 +76,9 @@
   .van-row:last-child{
     border-bottom: none;
   }
-  .address-body img{
-    width: 100%;
-  }
   .amap-page-container{
     width: 100%;
+    height: 200px;
     position: relative;
   }
   .locate-btn{
@@ -102,9 +86,7 @@
     font-size: 1.6rem;
     bottom: 0.5rem;
     right: 0.5rem;
-  }
-  .amap-img{
-    height: 10rem;
+    z-index: 2;
   }
   .specific-addr{
     font-size: 0.75rem;
