@@ -1,5 +1,9 @@
+/**
+ * 实施挂载
+ * 将一些项目需要经常用的的方法  全局过滤器 全局指令等进行挂载
+ */
+
 import store from "@/store/";
-//axios
 import axios from "axios";
 import qs from "qs";
 axios.interceptors.request.use(

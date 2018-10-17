@@ -1,4 +1,10 @@
-//##挂载到VUE原型上的变量与方法
+/**##挂载到VUE原型上的变量与方法
+ *cookie
+ *sessionStorage
+ *localStorage
+ *quest response
+ */
+
 import store from "@/store/";
 const showLoading = params => {
   store.dispatch("showLoading", params);
@@ -6,10 +12,8 @@ const showLoading = params => {
 const hideLoading = () => {
   store.dispatch("hideLoading");
 };
-/*
- * expires:天
- * path:生效路径
- */
+
+//set cookie (expires:天,path:生效路径)
 const setCookie = (key, value, expires, path, domain, secure) => {
   var cookieText = "";
   expires = expires * 1000 * 60 * 60 * 24;

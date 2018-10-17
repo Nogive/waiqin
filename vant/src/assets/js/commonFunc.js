@@ -1,16 +1,23 @@
-//##公用变量与函数
+/**
+ * ##公用变量与函数
+ *constants
+ *function
+ */
 import axios from "axios";
-/****************************************************************************************/
-// 高德地图 key
-export const mapKey = "e1dedc6bdd765d46693986ff7ff969f4";
+
+/*------------------------------------constants-------------------------------------------------*/
+// 密码加密公钥
+export const publicKey =
+  "MFswDQYJKoZIhvcNAQEBBQADSgAwRwJAb6sVJ1LaIIpRR3U20ZbQPDvMkGy7A4ac7rAFz9QWW8pamYzGyfloIDER7OYj5C5S/YkMqXLMBTfc6SeTK9142QIDAQAB";
 //照片路径前缀
 export const imgUrlPrefix = "http://xfield.oss-cn-hangzhou.aliyuncs.com";
-/****************************************************************************************/
+
+/*------------------------------------function-------------------------------------------------*/
 //filter space
 export function trim(str) {
   return str.replace(/(^\s*)|(\s*$)/g, "");
 }
-//uuid
+//generate uuid
 export function getUuid(len, radix) {
   var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split(
     ""
