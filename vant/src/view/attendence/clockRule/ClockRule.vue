@@ -11,10 +11,10 @@
     <div class="rule-body">
       <van-row class="one-rule" v-for="(item,index) in rules" :key="index">
         <router-link :to="{name:'writeRule',params:{id:item.id}}">
-          <van-col span="24">{{item.name}}</van-col>
-          <van-col span="24" class="show-one-line">日期：{{item.clockDate.name}}</van-col>
-          <van-col span="24" class="show-one-line">时间：{{item.clockTime|clockTimeFormat}}</van-col>
-          <van-col span="24" class="show-one-line">位置：{{item.clockPosition|clockPositionFormat}}</van-col>
+          <van-col span="24" class="title">{{item.name}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">日期：{{item.clockDate.name}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">时间：{{item.clockTime|clockTimeFormat}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">位置：{{item.clockPosition|clockPositionFormat}}</van-col>
         </router-link>
       </van-row>
     </div>
@@ -82,14 +82,14 @@ export default {
   .one-rule:last-child{
     border-bottom: none;
   }
-  .one-rule .van-col-24:first-child{
+  .one-rule .title{
     font-weight: bold;
     margin-top: 0;
-    font-size: 0.9rem;
+    font-size: 16px;
   }
-  .one-rule .van-col-24{
+  .one-rule .fontstyle{
     margin-top: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 14px;
   }
   
 </style>

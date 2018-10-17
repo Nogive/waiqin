@@ -10,11 +10,11 @@
     />
     <div class="clock-detail-box">
       <van-row>
-        <van-col span="6">打卡时间</van-col>
+        <van-col span="6" class="font16">打卡时间</van-col>
         <van-col span="18" class="red">{{clockTime|timeFormat('hh:mm')}}</van-col>
       </van-row>
       <van-row>
-        <van-col span="6">打卡地点</van-col>
+        <van-col span="6" class="font16">打卡地点</van-col>
         <van-col span="18" class="address-body">
           <p>{{shotAddress}}</p>
           <p class="specific-addr">{{address}}</p>
@@ -24,7 +24,7 @@
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="6">备注</van-col>
+        <van-col span="6" class="font16">备注</van-col>
         <van-col span="18">
           <van-field 
             v-model="note"
@@ -129,5 +129,8 @@
   }
   .modal-box img{
     width: 100%;
+  }
+  .font16{
+    font-size: 16px;
   }
 </style>

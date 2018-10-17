@@ -87,7 +87,8 @@ export default {
   padding: 0.5rem 0.7rem;
 }
 .count-panel .van-col{
-  font-size: 0.8rem;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 .count-panel .van-col-24{
   color: #6d6c6c

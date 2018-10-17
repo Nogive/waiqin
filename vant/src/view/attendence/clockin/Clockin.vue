@@ -141,12 +141,12 @@
           <div class="record-box">
             <van-row class="one-record" v-for="(item,index) in outerRecords" :key="index">
               <router-link :to="{name:'clockDetail',params:{source:type.GOOUTDETAIL,id:item.id}}">
-              <van-col span="18">
-                <p class="out-title">第{{index+1}}次打卡</p>
-              </van-col>
-              <van-col span="6" class="blue text-right padd5">{{item.time}}</van-col>
-              <van-col span="24" class="show-one-line">地点：{{item.address}}</van-col>
-              <van-col span="24" class="show-one-line">备注：{{item.note}}</van-col>
+                <van-col span="18">
+                  <p class="fontstyle">第{{index+1}}次打卡</p>
+                </van-col>
+                <van-col span="6" class="blue text-right padd5">{{item.time}}</van-col>
+                <van-col span="24" class="show-one-line fontstyle">地点：{{item.address}}</van-col>
+                <van-col span="24" class="show-one-line fontstyle">备注：{{item.note}}</van-col>
               </router-link>
             </van-row>
           </div>
@@ -244,11 +244,14 @@
     padding: 0.3rem;
     margin: 0.8rem 0;
   }
-  .one-record .van-col-24{
-    margin-bottom: 0.5rem;
+  .one-record .van-col--24{
+    margin-bottom: 6px;
   }
   .padd5{
     padding-top: 0.5rem;
+  }
+  .fontstyle{
+    font-size: 0.85rem;
   }
   
 </style>
