@@ -1,6 +1,4 @@
-import { Toast } from "vant";
 import * as type from "@/assets/js/typeVariable";
-
 export default {
   name: "clockIn",
   data() {

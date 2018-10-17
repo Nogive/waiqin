@@ -1,4 +1,3 @@
-import Vue from "vue";
 import store from "@/store/";
 //axios
 import axios from "axios";

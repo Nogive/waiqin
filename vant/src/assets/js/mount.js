@@ -1,6 +1,4 @@
 //##挂载到VUE原型上的变量与方法
-
-import { Toast } from "vant";
 import store from "@/store/";
 const showLoading = params => {
   store.dispatch("showLoading", params);

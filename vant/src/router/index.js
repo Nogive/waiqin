@@ -1,6 +1,4 @@
-import Vue from "vue";
 import Router from "vue-router";
-import { Toast } from "vant";
 Vue.use(Router);
 
 //home

@@ -89,6 +89,7 @@ module.exports = {
     child_process: "empty"
   },
   externals: {
+    Vue: "vue",
     AMap: "window.AMap",
     AMapUI: "AMapUI"
   }

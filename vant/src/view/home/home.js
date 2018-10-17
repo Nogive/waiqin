@@ -2,7 +2,6 @@ import { mapGetters, mapActions } from "vuex";
 import { getTimeFromServer } from "@/assets/js/commonFunc";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
 import { XFieldApi, accountApi } from "@/assets/js/api";
-import { Dialog } from "vant";
 export default {
   name: "home",
   computed: {
