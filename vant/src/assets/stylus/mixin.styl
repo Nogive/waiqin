@@ -1,0 +1,35 @@
+border-1px($color)
+  position relative
+  &:after
+    display block
+    position absolute 
+    left 0
+    bottom 0
+    width 100%
+    border-top 1px solid $color
+    content " "
+
+border-none()
+  &:after
+    display none
+
+bg-color($color)
+  background-color $color
+
+font-color($color)
+  color $color
+
+text-align($dir)
+  text-align $dir
+
+mt($n)
+  margin-top $n
+
+mb($n)
+  margin-bottom $n
+
+pt($n)
+  padding-top $n
+
+pb($n)
+  padding-bottom $n
