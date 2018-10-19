@@ -18,18 +18,6 @@ const mutations = {
   [types.CHANGE_RULE_STATE](state, params) {
     state.rule_state = params;
   },
-  [types.SHOWLOADING](state, params) {
-    console.log("show");
-    if (params) {
-      state.loadingText = params;
-    }
-    state.loading = true;
-  },
-  [types.HIDELOADING](state) {
-    console.log("hide");
-    state.loading = false;
-    state.loadingText = "拼命加载中";
-  },
   [types.CHANGEFULLPATH](state, params) {
     state.fullpath = params;
   },

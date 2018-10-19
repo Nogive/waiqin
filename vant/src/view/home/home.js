@@ -64,9 +64,11 @@ export default {
       stopLocate();
     },
     testNcform() {
-      this.$router.push("/ncform");
+      this.$hideLoading();
+      //this.$router.push("/ncform");
     },
     onTest() {
+      this.$showLoading("正在请求，请稍后");
       var body = new XFieldApi.Authentication();
       body.account = "2100005";
       body.passowrd =

@@ -7,10 +7,6 @@ export const CHANGE_DEPART_DAY = "changeDepartDay";
 //修改规则新建OR编辑状态
 export const CHANGE_RULE_STATE = "changeRuleState";
 
-//显示，隐藏loading
-export const SHOWLOADING = "showLoading";
-export const HIDELOADING = "hideLoading";
-
 //更改fullpath
 export const CHANGEFULLPATH = "changeFullPath";
 

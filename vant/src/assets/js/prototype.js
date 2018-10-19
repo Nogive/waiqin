@@ -3,13 +3,13 @@
  * 将一些项目需要经常用的的方法  全局过滤器 全局指令等进行挂载
  */
 
-import store from "@/store/";
 import axios from "axios";
 import qs from "qs";
+var vm = new Vue();
 axios.interceptors.request.use(
   function(config) {
     if (config.url != "http://m.tmall.com") {
-      store.dispatch("showLoading"); //通过VUEX管理是否显示loading
+      vm.$showLoading();
     }
     return config;
   },
@@ -20,13 +20,13 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function(response) {
     if (response.config.url != "http://m.tmall.com") {
-      store.dispatch("hideLoading");
+      vm.$hideLoading();
       response = response.data;
     }
     return response;
   },
   function(error) {
-    store.dispatch("hideLoading");
+    vm.$hideLoading();
     return Promise.reject(error);
   }
 );

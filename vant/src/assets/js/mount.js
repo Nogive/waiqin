@@ -4,15 +4,21 @@
  *localStorage
  *quest response
  */
-
-import store from "@/store/";
-const showLoading = params => {
-  store.dispatch("showLoading", params);
+const vm = new Vue();
+var toast = null;
+const showLoading = param => {
+  let msg = param ? param : "正在加载中...";
+  toast = vm.$toast.loading({
+    mask: true,
+    duration: 0,
+    forbidClick: true,
+    message: msg,
+    loadingType: "spinner"
+  });
 };
 const hideLoading = () => {
-  store.dispatch("hideLoading");
+  toast.clear();
 };
-
 //set cookie (expires:天,path:生效路径)
 const setCookie = (key, value, expires, path, domain, secure) => {
   var cookieText = "";

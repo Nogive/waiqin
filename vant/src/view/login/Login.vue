@@ -1,15 +1,13 @@
 <template>
   <div class="login-box" id="loginPage">
-    <!-- <img src="../../assets/images/logo.jpg" class="logo"> -->
     <p class="title"><b>外勤专家</b>，欢迎登录~</p>
-    <el-form :model="loginForm" status-icon :rules="loginRule" ref="loginForm" class="register-main">
-      <el-form-item label="账号" prop="account">
-        <el-input v-model="loginForm.account" auto-complete="off" placeholder="请输入账号"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" auto-complete="off"></el-input>
-      </el-form-item>
-    </el-form>
+    <img src="../../assets/images/logo.png" class="logo">
+    <div class="login-main">
+      <van-cell-group>
+        <van-field clearable label="账号" v-model="telphone" placeholder="请输入账号" />
+        <van-field clearable label="密码" v-model="telphone" placeholder="请输入密码" />
+      </van-cell-group>
+    </div>
     <div class="btns">
       <van-button @click="resetForm('loginForm')">重置</van-button>
       <van-button class="bg-blue" @click="submitForm('loginForm')">登录</van-button>
@@ -29,7 +27,7 @@
 <style scoped>
 .logo{
   width: 50%;
-  border-radius: 50%;
+  margin-top: 1.5rem;
 }
 h1, h2 {
   font-weight: normal;
@@ -41,6 +39,9 @@ h1, h2 {
   padding-bottom: 2rem;
   height: 100%;
   overflow-y: auto;
+}
+.login-main{
+  margin-top: 2rem;
 }
 .title{
   font-size: 1rem;
