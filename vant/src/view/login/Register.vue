@@ -54,6 +54,7 @@
 </style>
 <script>
 const imsPre='data:image/jpg;base64,';
+import { XFieldApi,accountApi,errorCode } from "@/assets/js/api";
 var formdata={
   mobile:{
     value:'',
@@ -118,6 +119,11 @@ export default {
   methods: {
     loadImgCode(){
       console.log('获取图片验证码');
+      accountApi.getCaptchaImage((error,data,Response)=>{
+        console.log(error);
+        console.log(data);
+        console.log(Response);
+      })
     },
     //发送验证码
     sendSms(){
@@ -130,7 +136,10 @@ export default {
     //提交注册请求
     submitForm() {
       if(this.validateForm()){
-        console.log(this.collectedData());
+        let mockbody=this.collectedData();
+        console.log(mockbody);
+        let body=new XFieldApi.Register.constructFromObject(mockbody);
+        console.log(body);
       }
     },
     //验证必填
