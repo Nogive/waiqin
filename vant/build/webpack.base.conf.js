@@ -91,6 +91,6 @@ module.exports = {
   externals: {
     Vue: "vue",
     AMap: "window.AMap",
-    AMapUI: "AMapUI"
+    AMapUI: "window.AMapUI"
   }
 };
