@@ -3,7 +3,7 @@ import AMapUI from "AMapUI";
 import * as type from "@/assets/js/typeVariable";
 import { mapGetters, mapActions } from "vuex";
 import { takePhoto, startLocate, stopLocate, savePhoto } from "@/utils/native";
-import { getUuid, getTimeFromServer } from "@/assets/js/commonFunc";
+import { getUuid, getTimeFromServer } from "@/assets/js/common";
 const userId = "100001";
 var map;
 var marker;

@@ -1,5 +1,5 @@
 import { mapGetters, mapActions } from "vuex";
-import { getTimeFromServer } from "@/assets/js/commonFunc";
+import { getTimeFromServer } from "@/assets/js/common";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
 import { XFieldApi, accountApi } from "@/assets/js/api";
 export default {

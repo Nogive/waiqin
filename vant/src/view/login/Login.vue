@@ -4,13 +4,12 @@
     <img src="../../assets/images/logo.png" class="logo">
     <div class="login-main">
       <van-cell-group>
-        <van-field clearable label="账号" v-model="telphone" placeholder="请输入账号" />
-        <van-field clearable label="密码" v-model="telphone" placeholder="请输入密码" />
+        <van-field clearable label="账号" v-model="loginData.account.value" placeholder="请输入账号" :error-message="loginData.account.errMsg" @focus="onFocus('account')" />
+        <van-field clearable label="密码" v-model="loginData.password.value" placeholder="请输入密码" :error-message="loginData.password.errMsg" @focus="onFocus('password')" />
       </van-cell-group>
     </div>
     <div class="btns">
-      <van-button @click="resetForm('loginForm')">重置</van-button>
-      <van-button class="bg-blue" @click="submitForm('loginForm')">登录</van-button>
+      <van-button class="bg-blue" @click="onLogin()">登录</van-button>
       <van-row class="register-find">
         <van-col :span="12" class="text-left">
           <p>没有账号？<a href="javascript:;" @click="goRegister" class="blue">前往注册</a></p>
@@ -22,7 +21,102 @@
     </div>
   </div>
 </template>
-<script src="./login.js"></script>
+<script>
+var loginData={
+  account:{
+    value:'',
+    type:'string',
+    submit:true,
+    valid:true,
+    errMsg:'',
+  },
+  password:{
+    value:'',
+    type:'string',
+    submit:false,
+    errMsg:'',
+  }
+}
+import { getClientVersion, getApiVersion } from "@/utils/native";
+import { publicKey } from "@/assets/js/common";
+import JSEncrypt from "jsencrypt";
+export default {
+  name: "login",
+  data() {
+    return {
+      loginData:loginData,
+    }
+  },
+  created(){
+  },
+  methods:{
+    encryptPassword(){
+      let encrypt = new JSEncrypt();
+      encrypt.setPublicKey(publicKey);
+      let encrypted = encrypt.encrypt(this.loginData.password.value);
+      return encrypted;
+    },
+    onLogin(){
+      let _this=this;
+      let params;
+      if(this.validateForm()){
+        Promise.all([getClientVersion(), getApiVersion()]).then(function([cv,]){
+          params={
+            account:_this.loginData.account.value,
+            password:_this.encryptPassword(),
+            deviceType:_this.getDeviceType(),
+            imei:device.uuid,
+            deviceInfo:device.manufacturer + "-" + device.model + "-" + device.version,
+            clientVersion:cv,
+            apiVersion:av
+          }
+          console.log(params);
+        })
+      }
+    },
+    //验证必填
+    validateForm(){
+      let res=true;
+      for(let obj in this.loginData){
+        let v=this.loginData[obj];
+        if(v.value==""){
+          res=false;
+          if(obj=="account"){
+            v.errMsg="账号不能为空"
+          }else{
+            v.errMsg="密码不能为空"
+          }
+        }
+      }
+      return res;
+    },
+    onFocus(str){
+      this.loginData[str].errMsg="";
+    },
+    //获取设备类型
+    getDeviceType() {
+      let type;
+      let platform = device.platform;
+      if (platform == "Android") {
+        type = this.CommonConstants.DEVICE_TYPE.ANDROID;
+      } else if (platform == "iOS") {
+        type = this.CommonConstants.DEVICE_TYPE.IOS;
+      } else {
+        type = this.CommonConstants.DEVICE_TYPE.WEB;
+      }
+      return type;
+    },
+    goRegister(){
+      this.$router.push("/register");
+    },
+    findPassword(){
+      console.log('找回密码');
+    }
+  }
+}
+</script>
+
+<!-- <script src="./login.js"></script>-->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .logo{
