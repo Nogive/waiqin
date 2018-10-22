@@ -114,10 +114,10 @@ export default {
     next();
   },
   methods:{
-    ...mapActions(["changeRuleState"]),
+    ...mapActions(["changeCurrentRuleId"]),
     createRule(){
-      this.$store.commit("changeRuleState",'create');
-      this.$router.push({name:'writeRule',params:{id:'d'}});
+      //this.$store.commit("changeCurrentRuleId",id);
+      this.$router.push({name:'writeRule'});
     },
     saveToSession(data){
       this.$setSession('rd',data.default);
