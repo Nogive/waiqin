@@ -7,24 +7,26 @@ const mutations = {
   [types.DECREMENT](state) {
     state.count--;
   },
-  //记录并修改状态
-  [types.CHANGE_STATISTICS](state, params) {
-    state.statistics = params;
-  },
-  [types.CHANGE_DEPART_DAY](state, params) {
-    state.depart_day = params;
-  },
-  [types.CHANGE_RULE_STATE](state, params) {
-    state.rule_state = params;
-  },
-  [types.CHANGEFULLPATH](state, params) {
+  /*------------------------native------------------------------------------------- */
+  [types.change_full_path](state, params) {
     state.fullpath = params;
   },
-  [types.CHANGEAPPSTATE](state, params) {
+  [types.change_app_state](state, params) {
     state.appState = params;
   },
-  [types.RECORDRULEID](state, params) {
-    state.ruleId = params;
+
+  /*------------------------rule------------------------------------------------- */
+  [types.change_current_ruleId](state, params) {
+    state.currentRuleId = params;
+  },
+
+  /*------------------------统计------------------------------------------------- */
+  //记录并修改状态
+  [types.change_statistics](state, params) {
+    state.statistics = params;
+  },
+  [types.change_depart_day](state, params) {
+    state.depart_day = params;
   }
 };
 export default mutations;

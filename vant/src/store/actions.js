@@ -6,24 +6,26 @@ const actions = {
   [types.DECREMENT]: ({ commit }) => {
     commit(types.DECREMENT);
   },
+  /*------------------------native------------------------------------------------- */
+  [types.change_full_path]: ({ commit }, params) => {
+    commit(types.change_full_path, params);
+  },
+  [types.change_app_state]: ({ commit }, params) => {
+    commit(types.change_app_state, params);
+  },
+
+  /*------------------------rule------------------------------------------------- */
+  [types.change_current_ruleId]: ({ commit }, params) => {
+    commit(types.change_current_ruleId, params);
+  },
+
+  /*------------------------统计------------------------------------------------- */
   //方法带参数
-  [types.CHANGE_STATISTICS]: ({ commit }, params) => {
-    commit(types.CHANGE_STATISTICS, params);
+  [types.change_statistics]: ({ commit }, params) => {
+    commit(types.change_statistics, params);
   },
-  [types.CHANGE_DEPART_DAY]: ({ commit }, params) => {
-    commit(types.CHANGE_DEPART_DAY, params);
-  },
-  [types.CHANGE_RULE_STATE]: ({ commit }, params) => {
-    commit(types.CHANGE_RULE_STATE, params);
-  },
-  [types.CHANGEFULLPATH]: ({ commit }, params) => {
-    commit(types.CHANGEFULLPATH, params);
-  },
-  [types.CHANGEAPPSTATE]: ({ commit }, params) => {
-    commit(types.CHANGEAPPSTATE, params);
-  },
-  [types.RECORDRULEID]: ({ commit }, params) => {
-    commit(types.RECORDRULEID, params);
+  [types.change_depart_day]: ({ commit }, params) => {
+    commit(types.change_depart_day, params);
   }
 };
 export default actions;

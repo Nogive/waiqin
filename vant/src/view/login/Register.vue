@@ -118,12 +118,13 @@ export default {
   },
   methods: {
     loadImgCode(){
-      console.log('获取图片验证码');
-      accountApi.getCaptchaImage((error,data,Response)=>{
+      console.log(accountApi);
+      let callback=function(error,data,Response){
         console.log(error);
         console.log(data);
         console.log(Response);
-      })
+      }
+      accountApi.getCaptchaImage(callback)
     },
     //发送验证码
     sendSms(){
