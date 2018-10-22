@@ -1,6 +1,5 @@
 import * as types from "./types";
 import state from "./state";
-import { ECONNABORTED } from "constants";
 const mutations = {
   [types.INCREMENT](state) {
     state.count++;

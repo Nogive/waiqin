@@ -33,18 +33,13 @@ axios.interceptors.response.use(
 Vue.prototype.$axios = axios;
 Vue.prototype.$qs = qs;
 
-//filters
-import filters from "@/utils/filters";
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key]);
-});
-
-//directives
-import directives from "@/utils/directives";
+//filters directives
+import directives from "@/utils/filterAndDirectives";
 Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key]);
 });
 
+//全局方法
 //request response  cookie session loading
 import custom from "@/assets/js/mount";
 Object.keys(custom).forEach(key => {

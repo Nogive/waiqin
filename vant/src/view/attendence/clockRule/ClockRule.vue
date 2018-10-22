@@ -12,30 +12,105 @@
       <van-row class="one-rule" v-for="(item,index) in rules" :key="index">
         <router-link :to="{name:'writeRule',params:{id:item.id}}">
           <van-col span="24" class="title">{{item.name}}</van-col>
-          <van-col span="24" class="show-one-line fontstyle">日期：{{item.clockDate.name}}</van-col>
-          <van-col span="24" class="show-one-line fontstyle">时间：{{item.clockTime|clockTimeFormat}}</van-col>
-          <van-col span="24" class="show-one-line fontstyle">位置：{{item.clockPosition|clockPositionFormat}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">日期：{{item.workday.weeks | transferWeek2Chinese}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">时间：{{item.shift | calculateShift}}</van-col>
+          <van-col span="24" class="show-one-line fontstyle">位置：{{item.position | calculatePosition}}</van-col>
         </router-link>
       </van-row>
     </div>
   </div>
 </template>
 <script>
+const rule=[
+  {
+    id:1,
+    name:'每日2次打卡',
+    personnel:{
+      departments:[
+        {
+          id:1,
+          name:'开发部',
+          subDepartment:[
+            {
+              id:3,
+              name:'XX项目部',
+              employees:[
+                {
+                  id:4,
+                  name:'李四'
+                },
+                {
+                  id:4,
+                  name:'王五'
+                }
+              ]
+            }
+          ],
+          employees:[
+            {
+              id:1-1,
+              name:'张三'
+            }
+          ]
+        }
+      ],
+      employees:[
+        {
+          id:2,
+          name:'Rio'
+        }
+      ]
+    },
+    workday:{
+      weeks:[1,2,3,4,5],
+      festivalOff:true,
+    },
+    shift:[
+      {
+        id:1,
+        beforeWorkTime:'09:00',
+        afterWorkTime:'12:00'
+      },
+      {
+        id:2,
+        beforeWorkTime:'13:00',
+        afterWorkTime:'18:00'
+      }
+    ],
+    position:[
+      {
+        id:1,
+        shortAddress:"钦汇园",
+        address:'上海市徐汇区钦州北路1066号',
+        range:100,
+        location:[121.406051,31.179695 ]
+      },
+      {
+        id:2,
+        address:'上海市徐汇区徐家汇',
+        range:100,
+        location:[121.406051,31.179695 ]
+      }
+    ]
+  }
+];
 import { mapGetters, mapActions } from "vuex";
+import { transferWeek2Chinese,calculateShift,calculatePosition } from "@/utils/localFilter";
 export default {
   name:'attendence',
   data(){
     return {
-      rules:[],
-      defaultRule:{}
+      rules:rule,
     }
   },
-  created(){
-    this.getInitData();
+  filters:{
+    transferWeek2Chinese:transferWeek2Chinese,
+    calculateShift:calculateShift,
+    calculatePosition:calculatePosition
   },
   beforeRouteLeave (to, from, next) {
     let id=to.params.id;
-    this.$setSession('ruleId',id);
+    console.log(id);
     next();
   },
   methods:{
@@ -43,19 +118,6 @@ export default {
     createRule(){
       this.$store.commit("changeRuleState",'create');
       this.$router.push({name:'writeRule',params:{id:'d'}});
-    },
-    getInitData(){
-      let vm=this;
-      this.$axios.get('/api/rule').then(res=>{
-        if(res.code==vm.CommonConstants.API_CODE.OK){
-          vm.rules=res.data.data;
-          vm.defaultRule=res.data.default;
-          vm.saveToSession(res.data);
-        }
-        console.log(res);
-      },err=>{
-        vm.$netError(err.response);
-      })
     },
     saveToSession(data){
       this.$setSession('rd',data.default);
