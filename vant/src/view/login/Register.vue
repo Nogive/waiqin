@@ -118,13 +118,11 @@ export default {
   },
   methods: {
     loadImgCode(){
-      console.log(accountApi);
-      let callback=function(error,data,Response){
-        console.log(error);
-        console.log(data);
-        console.log(Response);
-      }
-      accountApi.getCaptchaImage(callback)
+      let _this=this;
+      accountApi.getCaptchaImage(function(error,data,res){
+        console.log(res.body);
+        _this.imsSrc=imsPre+res.body.data.data;
+      })
     },
     //发送验证码
     sendSms(){
