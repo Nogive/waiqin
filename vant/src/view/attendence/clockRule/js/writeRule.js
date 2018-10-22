@@ -14,11 +14,8 @@ export default {
       deleteBtn: true
     };
   },
-  computed: {
-    ...mapGetters(["rule_state"])
-  },
+  computed: {},
   created() {
-    this.source = this.rule_state;
     this.ruleId = this.$getSession("ruleId");
     this.setTitle();
     this.getInitDataFromCache();

@@ -117,10 +117,11 @@ export default {
     ...mapActions(["changeCurrentRuleId"]),
     createRule(){
       //this.$store.commit("changeCurrentRuleId",id);
+      let rc={};
+      this.$setSession('rc',rc);
       this.$router.push({name:'writeRule'});
     },
     saveToSession(data){
-      this.$setSession('rd',data.default);
       data.data.forEach(e=>{
         let key="r"+e.id;
         this.$setSession(key,e);
