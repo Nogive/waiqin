@@ -1,5 +1,5 @@
 import { mapGetters, mapActions } from "vuex";
-import { getTimeFromServer } from "@/assets/js/common";
+import { getTimeFromServer, createScript } from "@/assets/js/common";
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
 import { XFieldApi, accountApi } from "@/assets/js/api";
 export default {
@@ -83,6 +83,14 @@ export default {
         }
       };
       accountApi.login(body, callback);
+    },
+    creatScript() {
+      let url =
+        "http://maimang-public.oss-cn-hangzhou.aliyuncs.com/vconsole.min.js";
+      createScript(url, function() {
+        var vConsole = new VConsole();
+        console.log("aaaaa");
+      });
     }
   }
 };

@@ -106,6 +106,7 @@
     <button @click="testLocate">测试定位</button>
     <button @click="testNcform">测试ncform</button>
     <button @click="onTest">其他测试</button>
+    <button @click="creatScript">creatScript</button>
   </div>
 </template>
 <script src="./home.js"></script>
