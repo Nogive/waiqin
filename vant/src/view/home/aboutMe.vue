@@ -1,17 +1,36 @@
-import { mapGetters, mapActions } from "vuex";
-import { getTimeFromServer, createScript } from "@/assets/js/common";
+<template>
+  <div class="pb65">
+    <van-cell-group>
+      <van-cell title="用户名" value="xxx" />
+      <van-cell title="版本信息" value="1.1.0" label="当前为测试版本。" />
+      <van-cell title="是否开启调试模式">
+        <template slot="right-icon">
+          <van-button v-if="bugOn" type="primary" plain size="small" @click="creatScript">开启</van-button>
+          <van-button v-else type="primary" plain size="small" @click="creatScript">关闭</van-button>
+        </template>
+      </van-cell>
+    </van-cell-group>
+
+    <van-collapse v-model="activeNames" accordion>
+      <van-collapse-item title="测试按钮" name="testBtns">
+        <van-button type="primary" plain size="large" @click="testPhoto">测试拍照</van-button>
+        <van-button type="primary" plain size="large" @click="testLocate">测试定位</van-button>
+        <van-button type="primary" plain size="large" @click="testNcform">测试ncform</van-button>
+        <van-button type="primary" plain size="large" @click="onTest">其他测试</van-button>
+      </van-collapse-item>
+    </van-collapse>
+  </div>
+</template>
+<script>
 import { startLocate, stopLocate, takePhoto } from "@/utils/native";
+import { createScript } from "@/assets/js/common";
 import { XFieldApi, accountApi } from "@/assets/js/api";
 export default {
-  name: "home",
-  computed: {
-    ...mapGetters(["count"])
-  },
-  data() {
+  name:'aboutMe',
+  data(){
     return {
-      active: 1,
-      dialog: 8,
-      showPhoto: false,
+      activeNames:'testBtns',
+      bugOn:true,
       arr: [
         {
           id: 1,
@@ -22,20 +41,9 @@ export default {
           url: "https://avatars1.githubusercontent.com/u/24405319?s=460&amp;v=4"
         }
       ]
-    };
-  },
-  mounted() {
-    if (!this.$checkCookie("token")) {
-      //this.$router.push("/login");
-    } else {
-      console.log("mounted");
     }
   },
-  methods: {
-    ...mapActions(["increment"]),
-    logOut() {
-      this.$router.replace("/login");
-    },
+  methods:{
     testPhoto() {
       takePhoto(
         url => {
@@ -64,8 +72,7 @@ export default {
       stopLocate();
     },
     testNcform() {
-      this.$hideLoading();
-      //this.$router.push("/ncform");
+      this.$router.push("/ncform");
     },
     onTest() {
       this.$showLoading("正在请求，请稍后");
@@ -93,4 +100,12 @@ export default {
       });
     }
   }
-};
+}
+</script>
+
+
+<style scoped>
+.van-button{
+  margin-bottom: 10px;
+}
+</style>
