@@ -84,6 +84,15 @@ const getSession = key => {
   let value = window.sessionStorage.getItem(key);
   return JSON.parse(value);
 };
+//checkSession
+const checkSession = key => {
+  var value = getSession(key);
+  if (value == "" || value == null) {
+    return false;
+  } else {
+    return true;
+  }
+};
 //clear one local && clear on session
 const clearLocal = key => {
   window.localStorage.removeItem(key);
@@ -101,30 +110,31 @@ const clearAllSession = () => {
 /****************************************************************************************/
 //no data
 const noData = () => {
-  Toast("无法从服务器获取数据，请联系管理员");
+  vm.$toast("无法从服务器获取数据，请联系管理员");
 };
-//code！=0
-const codeError = (data, text) => {
-  var msg = text + "发生错误，错误码为：" + data.code;
-  Toast(msg);
-};
-//quest error
-const netError = xhr => {
-  if (xhr.status) {
-    Toast("发生网络错误，错误码为：" + xhr.status);
+const error = (code, text) => {
+  if (code == 0) {
+    var msg = "未知网络错误, 请确保设备处在联网状态";
   } else {
-    Toast("未知网络错误, 请确保设备处在联网状态");
+    var msg = text + "发生错误，错误码为：" + code;
   }
+  vm.$toast(msg);
+};
+const isEmpty = obj => {
+  for (let key in obj) {
+    return false;
+  }
+  return true;
 };
 export default {
   setCookie,
   getCookie,
-  checkCookie,
   setSession,
   getSession,
+  checkSession,
   noData,
-  codeError,
-  netError,
+  isEmpty,
+  error,
   showLoading,
   hideLoading
 };

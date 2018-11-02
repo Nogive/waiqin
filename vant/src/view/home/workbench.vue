@@ -157,8 +157,8 @@ export default {
     };
   },
   mounted() {
-    if (!this.$checkCookie("token")) {
-      //this.$router.push("/login");
+    if (!this.$checkSession("user")) {
+      this.$router.replace("/login");
     } else {
       console.log("mounted");
     }

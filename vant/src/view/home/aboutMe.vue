@@ -75,21 +75,7 @@ export default {
       this.$router.push("/ncform");
     },
     onTest() {
-      this.$showLoading("正在请求，请稍后");
-      var body = new XFieldApi.Authentication();
-      body.account = "2100005";
-      body.passowrd =
-        "VoGxBT1WMNUNX2P+Jym0hcw4ZzthiKDr+soHXsxtkBT0KCuV3ioKl80OCCXcMJqrA4hJVcJG3ljw+U12Bg0HmQ==";
-      let callback = function(error, data, response) {
-        console.log(data);
-        if (error) {
-          console.error(error);
-        } else {
-          console.log(response);
-          console.log("API called successfully.");
-        }
-      };
-      accountApi.login(body, callback);
+     console.log('other');
     },
     openVconsole() {
       let _this=this;

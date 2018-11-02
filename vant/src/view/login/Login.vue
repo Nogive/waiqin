@@ -40,6 +40,8 @@ var loginData={
 import { getClientVersion, getApiVersion } from "@/utils/native";
 import { publicKey } from "@/assets/js/common";
 import JSEncrypt from "jsencrypt";
+import { XFieldApi,accountApi,errorCode } from "@/assets/js/api";
+import { code } from "@/assets/js/constants";
 export default {
   name: "login",
   data() {
@@ -48,6 +50,7 @@ export default {
     }
   },
   created(){
+    console.log(this.$getSession('user'));
   },
   methods:{
     encryptPassword(){
@@ -60,6 +63,30 @@ export default {
       let _this=this;
       let params;
       if(this.validateForm()){
+        //手动登录
+        params={
+          account:_this.loginData.account.value,
+          password:_this.encryptPassword(),
+          deviceType:"ANDROID",
+          imei:"123",
+          deviceInfo:"android",
+          clientVersion:"1.1.0",
+          apiVersion:1
+        };
+        let body=new XFieldApi.Authentication.constructFromObject(params);
+        accountApi.login(body,(error,data,res)=>{
+          if(res.statusCode==code.OK){
+            if(_this.$isEmpty(data)){
+              _this.$nodata();
+            }else{
+              _this.$setSession('user',data)
+             _this.router.replace('/');
+            }
+          }else{
+            _this.$error(res.statusCode);
+          }
+        })
+        /*cordova 登录
         Promise.all([getClientVersion(), getApiVersion()]).then(function([cv,]){
           params={
             account:_this.loginData.account.value,
@@ -70,8 +97,18 @@ export default {
             clientVersion:cv,
             apiVersion:av
           }
-          console.log(params);
+            let body=new XFieldApi.Authentication.constructFromObject(params);
+            console.log(body);
+            accountApi.login(body,(error,data,res)=>{
+              if(res.statusCode==code.OK){
+                _this.$setSession('user',res.body)
+                _this.router.replace('/');
+              }else{
+                _this.$error(res.statusCode);
+              }
+            })
         })
+        */
       }
     },
     //验证必填
