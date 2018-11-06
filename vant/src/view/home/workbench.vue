@@ -158,7 +158,7 @@ export default {
   },
   mounted() {
     if (!this.$checkSession("user")) {
-      this.$router.replace("/login");
+      //this.$router.replace("/login");
     } else {
       console.log("mounted");
     }
