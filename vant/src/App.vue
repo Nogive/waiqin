@@ -5,12 +5,16 @@
 </template>
 
 <script>
+import {cordovaInitialize} from "@/utils/native"
 export default {
   name: 'App',
   data(){
     return {
       close:false
     }
+  },
+  created(){
+    this._initCordave();
   },
   mounted(){
     let bodyH = window.screen.availHeight;
@@ -19,6 +23,11 @@ export default {
   watch:{
     $route(){
       this.$store.dispatch('changeFullPath',this.$route.fullPath);
+    }
+  },
+  methods:{
+    _initCordave(){
+      cordovaInitialize(this);
     }
   }
 }
