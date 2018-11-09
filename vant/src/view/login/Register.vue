@@ -54,8 +54,7 @@
 </style>
 <script>
 const imsPre='data:image/jpg;base64,';
-import { XFieldApi,accountApi,errorCode } from "@/assets/js/api";
-import { code } from "@/assets/js/constants";
+import { accountApi,callApi,custom } from "@/assets/js/api";
 var formdata={
   mobile:{
     value:'',
@@ -121,17 +120,12 @@ export default {
   methods: {
     loadImgCode(){
       let _this=this;
-      accountApi.getCaptchaImage(function(error,data,res){
-        if(res.statusCode==code.OK){
-          if(_this.$isEmpty(data)){
-            _this.$noData();
-          }else{
-            _this.currentIms=data;
-            _this.imgSrc=imsPre+data.data;
-          }
-        }else{
-          _this.$error(res.statusCode);
-        }
+      callApi(accountApi,'getCaptchaImage').then(res=>{
+        console.log("getCaptchaImage:",res);
+        _this.currentIms=res;
+        _this.imgSrc=imsPre+res.data;
+      },err=>{
+        console.log(err);
       })
     },
     //发送验证码
@@ -147,13 +141,11 @@ export default {
           captchaId:this.currentIms.id,
           captchaAnswer:this.formdata.ims.value,
         }
-        let body=new XFieldApi.VerificationCodeRequest.constructFromObject(mockbody);
-        accountApi.getVerificationCode(body,(error,data,res)=>{
-          if(res.statusCode==code.OK){
-            _this.$toast("短信验证码已发送，请注意查收。");
-          }else{
-            console.log(res);
-          }
+        callApi(accountApi,'getVerificationCode',mockbody).then(res=>{
+          console.log('getVerificationCode',res);
+          _this.$toast("短信验证码已发送，请注意查收。");
+        },err=>{
+          console.log(err);
         })
       }
     },
@@ -161,24 +153,24 @@ export default {
     submitForm() {
       if(this.validateForm()){
         let mockbody=this.collectedData();
-        let body=new XFieldApi.Register.constructFromObject(mockbody);
-        accountApi.register(body,(erroe,data,res)=>{
-          console.log(res);
-          console.log(data);
+        mockbody.companyName=mockbody.name;
+        callApi(accountApi,'register',mockbody).then(res=>{
+          console.log("register",res);
+        },err=>{
+          console.log(err.body);
         })
       }
     },
     //验证必填
     validateForm(){
       let res=true;
-      let telReg=/0?(13|14|15|18)[0-9]{9}/;
       let passReg = /\s+/;//一个或多个空格
       for(let obj in this.formdata){
         let v=this.formdata[obj];
         if(v.value==""){
           v.errMsg="必填"
           res=false;
-        }else if(obj=="mobile" && !telReg.test(v.value)){
+        }else if(obj=="mobile" && v.value.length!=11){
           v.errMsg="电话号码格式不正确"
           res=false;
         }else if(obj=="password"){
