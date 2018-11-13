@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { startLocate, stopLocate, takePhoto } from "@/utils/native";
+import { onLocation, takePhoto } from "@/utils/native";
 import { createScript } from "@/assets/js/common";
 import { XFieldApi, accountApi } from "@/assets/js/api";
 export default {
@@ -45,31 +45,18 @@ export default {
   },
   methods:{
     testPhoto() {
-      takePhoto(
-        url => {
-          console.log("拍照成功");
-          this.arr.push({
-            id: 3,
-            url: url
-          });
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      takePhoto().then(res=>{
+        console.log('camera',res);
+      },err=>{
+        console.log(err);
+      })
     },
     testLocate() {
-      let vm = this;
-      startLocate(
-        data => {
-          console.log(data);
-        },
-        err => {
-          console.log(err);
-        },
-        5000
-      );
-      stopLocate();
+      onLocation().then(res=>{
+        console.log('locate',res);
+      },err=>{
+        console.log(err);
+      })
     },
     testNcform() {
       this.$router.push("/ncform");
